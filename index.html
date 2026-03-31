@@ -1510,8 +1510,8 @@ function switchTab(tab) {
 }
 
 // ─── SEASON DATA ─────────────────────────────────────────────────────────────
-// VRC 2025-26 Push Back season ID
-const CURRENT_SEASON_ID = 190;
+// Season ID — fetched dynamically from the loaded event so it's always correct
+let CURRENT_SEASON_ID = null;
 
 async function loadSeasonData(teamId) {
   const main = document.getElementById('tpSeasonMain');
@@ -1519,6 +1519,19 @@ async function loadSeasonData(teamId) {
   if (main) main.innerHTML = '<div class="empty" style="margin-top:60px;"><p>Loading season data…</p></div>';
 
   try {
+    // Get season ID from the currently loaded event — always accurate
+    if (!CURRENT_SEASON_ID && S.ev?.season?.id) {
+      CURRENT_SEASON_ID = S.ev.season.id;
+      console.log('Season ID from event:', CURRENT_SEASON_ID, S.ev.season.name);
+    }
+    if (!CURRENT_SEASON_ID) {
+      // Fallback: fetch from seasons API
+      const seasons = await rg('/seasons', { 'program[]': 1, active: true, per_page: 1 });
+      CURRENT_SEASON_ID = seasons.data?.[0]?.id;
+      console.log('Season ID from API:', CURRENT_SEASON_ID);
+    }
+    if (!CURRENT_SEASON_ID) throw new Error('Could not determine current season ID');
+
     // Fetch all matches this season across all events
     const [matchData, rankData, skillsData, eventsData] = await Promise.all([
       ra(`/teams/${teamId}/matches`, { 'season[]': CURRENT_SEASON_ID, per_page: 250 }),
