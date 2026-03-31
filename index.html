@@ -403,13 +403,13 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 </div>
 
 <script>
-const S={re:"",anth:'',gid:"",gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
+const S={re:"",anth:'',gid:"937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com",gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
 const ls=(k,v)=>{if(v!==undefined)localStorage.setItem(k,v);else return localStorage.getItem(k)||'';};
 const init=()=>{
   // Load keys from config.js (VADT_CONFIG global) with localStorage override for user-specific keys
   if(typeof VADT_CONFIG !== 'undefined'){
     S.re  = VADT_CONFIG.robotEventsToken  || '';
-    S.gid = VADT_CONFIG.googleClientId    || '';
+    S.gid = VADT_CONFIG.googleClientId    || "937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com";
   }
   // Anthropic key is always user-provided (never hardcoded) — load from localStorage
   S.anth = ls('vs_anth');
@@ -450,7 +450,7 @@ function showHelp(){showAnthPrompt();}
 // Only requires: Client ID + "https://kyriosroboticsdev.github.io" as Authorised JS Origin.
 // Also requires OAuth consent screen configured in Google Cloud Console.
 
-const getGoogleClientId = () => S.gid; // reads from config.js at call time
+const getGoogleClientId = () => S.gid || "937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com";
 let currentUser = null;
 
 function initGoogleAuth() {
