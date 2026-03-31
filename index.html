@@ -15,7 +15,6 @@
   --blue:#1a7ddf;--blue-d:rgba(26,125,223,0.15);
   --gold:#f5c542;--gold-d:rgba(245,197,66,0.12);
   --green:#22c55e;--green-d:rgba(34,197,94,0.12);
-  --purple:#a78bfa;--purple-d:rgba(167,139,250,0.12);
   --s0:#08080b;--s1:#0e0e13;--s2:#151519;--s3:#1c1c22;--s4:#24242c;--s5:#2e2e3a;
   --b1:rgba(255,255,255,0.055);--b2:rgba(255,255,255,0.1);--b3:rgba(255,255,255,0.17);
   --t1:#eeeef4;--t2:#8888a0;--t3:#48485a;
@@ -184,7 +183,6 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 /* ai */
 .ai{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;}
 .ai-t{font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.ai-ch{background:var(--purple-d);color:var(--purple);font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;letter-spacing:0.07em;}
 .ai-sc{display:flex;gap:12px;align-items:flex-end;margin-bottom:9px;}
 .ai-s{text-align:center;}
 .ai-sl{font-size:11px;color:var(--t3);margin-bottom:1px;}
@@ -288,24 +286,6 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 </head>
 <body>
 
-<!-- ANTHROPIC KEY PROMPT (shown only if no key saved) -->
-<div id="anthPrompt" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
-  <div style="background:var(--s2);border:1px solid var(--b2);border-radius:14px;width:440px;max-width:95vw;padding:28px 30px;box-shadow:0 20px 50px rgba(0,0,0,0.5);">
-    <div style="font-family:var(--fd);font-weight:900;font-size:22px;margin-bottom:6px;">Enable <span style="color:var(--purple);">AI Scouting Reports</span></div>
-    <div style="font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:18px;">
-      VADT can generate instant AI scouting reports for every team using Claude AI.<br><br>
-      To enable it, add a free Anthropic API key — this is optional, everything else works without it.<br><br>
-      <a href="https://console.anthropic.com" target="_blank" style="color:var(--gold);">Get a free key at console.anthropic.com →</a>
-    </div>
-    <input id="anthKeyInput" type="password" placeholder="sk-ant-api03-…"
-      style="width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fm);font-size:13px;padding:9px 12px;border-radius:var(--r);outline:none;margin-bottom:12px;"
-      oninput="this.style.borderColor=this.value.startsWith('sk-ant')?'var(--green)':'var(--b2)'" />
-    <div style="display:flex;gap:9px;justify-content:flex-end;">
-      <button onclick="dismissAnthPrompt()" style="background:transparent;border:1px solid var(--b2);color:var(--t2);font-family:var(--fb);font-size:13px;padding:7px 16px;border-radius:var(--r);cursor:pointer;">Skip for now</button>
-      <button onclick="saveAnthKey()" style="background:var(--gold);color:#1a1200;font-family:var(--fd);font-size:14px;font-weight:700;letter-spacing:0.06em;padding:7px 18px;border:none;border-radius:var(--r);cursor:pointer;">Save & Enable AI</button>
-    </div>
-  </div>
-</div>
 
 
 <!-- TOPBAR -->
@@ -403,7 +383,7 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 </div>
 
 <script>
-const S={re:"",anth:'',gid:"937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com",gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
+const S={re:"",gid:"937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com",gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
 const ls=(k,v)=>{if(v!==undefined)localStorage.setItem(k,v);else return localStorage.getItem(k)||'';};
 const init=()=>{
   // Load keys from config.js (VADT_CONFIG global) with localStorage override for user-specific keys
@@ -412,7 +392,6 @@ const init=()=>{
     S.gid = VADT_CONFIG.googleClientId    || "937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com";
   }
   // Anthropic key is always user-provided (never hardcoded) — load from localStorage
-  S.anth = ls('vs_anth');
   S.notesKey='vs_n';
   try{const n=ls(S.notesKey);if(n)Object.assign(S.notes,JSON.parse(n));}catch{}
 };
@@ -422,28 +401,8 @@ const gn=(m,t)=>S.notes[nk(m,t)]||null;
 const setN=(m,t,d)=>{S.notes[nk(m,t)]=d;sn2();};
 
 // ─── ONBOARDING ─────────────────────────────────────────────────────────────
-function showAnthPrompt() {
-  if (!S.anth) {
-    const el = document.getElementById('anthPrompt');
-    if (el) el.style.display = 'flex';
-  }
-}
-
-function dismissAnthPrompt() {
-  const el = document.getElementById('anthPrompt');
-  if (el) el.style.display = 'none';
-  ls('vs_anth_skip', '1');
-}
-
-function saveAnthKey() {
-  const val = document.getElementById('anthKeyInput').value.trim();
-  if (val) { S.anth = val; ls('vs_anth', val); }
-  dismissAnthPrompt();
-  setSt('AI ratings enabled', 'live');
-}
 
 
-function showHelp(){showAnthPrompt();}
 
 // ─── GOOGLE AUTH (OAuth2 implicit flow — works on any static host) ──────────
 // Uses the standard OAuth2 token endpoint — no Firebase, no redirect URIs needed.
@@ -552,70 +511,6 @@ const RE='https://www.robotevents.com/api/v2';
 // Anthropic API calls are blocked by CORS when made directly from a browser.
 // We route through corsproxy.io to bypass this. The proxy forwards the request
 // server-side so the API key and response travel safely.
-async function callClaude(prompt, maxTokens=600) {
-  if (!S.anth) throw new Error('No Anthropic API key set. Click the AI Key button.');
-
-  // Try direct browser call first (requires anthropic-dangerous-direct-browser-access header)
-  // If that fails with a network error, fall back through CORS proxies
-  const body = JSON.stringify({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: maxTokens,
-    messages: [{ role: 'user', content: prompt }]
-  });
-
-  const attempts = [
-    // 1. Direct with required browser header
-    async () => {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': S.anth,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
-        body
-      });
-      return res;
-    },
-    // 2. corsproxy.io
-    async () => fetch(`https://corsproxy.io/?url=${encodeURIComponent('https://api.anthropic.com/v1/messages')}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': S.anth, 'anthropic-version': '2023-06-01' },
-      body
-    }),
-    // 3. allorigins (wraps as GET with body — different path)
-    async () => fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://api.anthropic.com/v1/messages'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': S.anth, 'anthropic-version': '2023-06-01' },
-      body
-    }),
-  ];
-
-  let lastErr = 'Unknown error';
-  for (let i = 0; i < attempts.length; i++) {
-    try {
-      const res = await attempts[i]();
-      if (!res.ok) {
-        const errText = await res.text();
-        // 401 means bad API key, don't try more proxies
-        if (res.status === 401) throw new Error(`Invalid API key (401). Check your Anthropic key in the AI Key settings.`);
-        // 4xx client errors — no point retrying
-        if (res.status >= 400 && res.status < 500) throw new Error(`API error ${res.status}: ${errText.slice(0, 150)}`);
-        lastErr = `Attempt ${i+1} returned ${res.status}`;
-        continue;
-      }
-      const data = await res.json();
-      const raw = data.content?.[0]?.text || '{}';
-      return JSON.parse(raw.replace(/```json|```/g, '').trim());
-    } catch(e) {
-      if (e.message.includes('Invalid API key') || e.message.includes('API error')) throw e;
-      lastErr = e.message;
-      console.warn(`callClaude attempt ${i+1} failed:`, e.message);
-    }
-  }
-  throw new Error(`AI unavailable: ${lastErr}. This may be a network or CORS issue on your browser.`);
-}
 
 async function rg(path, p={}, retries=3) {
   const u = new URL(RE + path);
@@ -815,7 +710,7 @@ function mkForm(mid,tid,color){
     <div class="sr"><div class="sl">Consistency</div><select class="sels" id="${p}_cn"><option value="">— select —</option><option>Very consistent</option><option>Mostly consistent</option><option>Some errors</option><option>Frequent errors / penalties</option></select></div>
     <div style="margin-bottom:9px;"><div class="sl" style="margin-bottom:4px;">Observations</div><textarea class="txta" id="${p}_nt" placeholder="Strategy, robot type, weak points, standout moments…"></textarea></div>
     <div><div class="sl" style="margin-bottom:5px;">Your Rating</div><div class="mr"><span class="mrn" id="${p}_rl">5</span><input type="range" min="1" max="10" value="5" step="1" id="${p}_rv" oninput="document.getElementById('${p}_rl').textContent=this.value" /><span style="font-size:11px;color:var(--t3);">/ 10</span></div></div>
-    <div class="fa"><button class="btn-g" onclick="saveAI('${mid}','${tid}')">Save + AI Rating</button><button class="btn-o" onclick="saveOnly('${mid}','${tid}')">Save Only</button></div></div>`;
+    <div class="fa"><button class="btn-g" onclick="saveOnly('${mid}','${tid}')">Save Notes</button></div></div>`;
 }
 
 const mkS=g=>[1,2,3,4,5].map(n=>`<span class="star" onclick="setStar('${g}',${n})">★</span>`).join('');
@@ -846,44 +741,7 @@ function readForm(mid,tid){
 
 function saveOnly(mid,tid){const d=readForm(mid,tid);setN(mid,tid,{...gn(mid,tid)||{},...d});renderMList();setSt(`Saved notes for ${tn(tid)}`,'live');}
 
-async function saveAI(mid,tid){
-  saveOnly(mid,tid);
-  if(!S.anth){showAnthPrompt();return;}
-  const note=gn(mid,tid);
-  const rk=S.rankings.find(r=>r.team?.id===parseInt(tid));
-  const el=document.getElementById('aiCon');if(el)el.innerHTML='<div class="ai-ld">🤖 Generating AI analysis…</div>';
-  const prompt=`You are an expert VEX Robotics Competition scout. Write a scouting report for this team in a single match.
-Team: ${note.teamNum} | Rank: #${rk?.rank??'?'} | Record: ${rk?.wins??0}W-${rk?.losses??0}L-${rk?.ties??0}T | AP: ${rk?.ap??'?'} | SP: ${rk?.sp??'?'}
-Autonomous: ${note.auto}/5★ | Driver Skill: ${note.driver}/5★ | Alliance Coordination: ${note.coord}/5★
-Defense Observed: ${note.defense?'Yes':'No'} | Consistency: ${note.consistency||'not noted'}
-Scout Notes: "${note.notes||'none'}" | Human Scout Rating: ${note.myRating}/10
-Respond ONLY with a valid JSON object, no markdown:
-{"aiRating":7,"summary":"2-3 sentence summary","strengths":"key strengths","concerns":"concerns or weak points","allianceTip":"tip for alliance selection"}`;
-  try{
-    const parsed = await callClaude(prompt, 500);
-    setN(mid,tid,{...gn(mid,tid),aiRating:parsed.aiRating,aiReport:parsed});
-    renderAI(gn(mid,tid));
-  }catch(e){if(el)el.innerHTML=`<span style="color:#ff7b77;">AI error: ${e.message}</span>`;}
-}
 
-function renderAI(note){
-  const el=document.getElementById('aiCon');if(!el||!note?.aiReport)return;
-  const r=note.aiReport,avg=note.myRating&&note.aiRating?((note.myRating+note.aiRating)/2).toFixed(1):'—';
-  const delta=note.myRating&&note.aiRating?(note.myRating-note.aiRating):null;
-  el.innerHTML=`<div class="ai-sc">
-    <div class="ai-s"><div class="ai-sl">AI Rating</div><div class="ai-sn c-ai">${r.aiRating??'—'}</div></div>
-    <div class="ai-sep"></div>
-    <div class="ai-s"><div class="ai-sl">Your Rating</div><div class="ai-sn c-you">${note.myRating??'—'} <span style="font-size:12px;color:var(--t3);">${delta!==null?`(${delta>0?'+':''}${delta} vs AI)`:''}</span></div></div>
-    <div class="ai-sep"></div>
-    <div class="ai-s"><div class="ai-sl">Average</div><div class="ai-sn c-avg">${avg}</div></div>
-  </div>
-  <div class="ai-r">
-    <div><span style="color:var(--t1);font-weight:500;">Summary:</span>&nbsp;${r.summary||'—'}</div>
-    <div><span style="color:var(--green);font-weight:500;">Strengths:</span>&nbsp;${r.strengths||'—'}</div>
-    <div><span style="color:#ff7b77;font-weight:500;">Concerns:</span>&nbsp;${r.concerns||'—'}</div>
-    <div><span style="color:var(--gold);font-weight:500;">Alliance tip:</span>&nbsp;${r.allianceTip||'—'}</div>
-  </div>`;
-}
 
 // ─── WIN PROB ────────────────────────────────────────────────────────────────
 function wProb(rt,bt){
@@ -971,6 +829,9 @@ function toggleVid() {
   const wrap = document.getElementById('vidWrap');
   const btn = document.getElementById('vidToggle');
   vidCollapsed = !vidCollapsed;
+  // Clear any inline height set by the drag handler so CSS class can take over
+  wrap.style.height = '';
+  wrap.style.transition = '';
   wrap.classList.toggle('collapsed', vidCollapsed);
   btn.textContent = vidCollapsed ? '⌄' : '⌃';
   btn.title = vidCollapsed ? 'Show video' : 'Hide video';
@@ -1059,7 +920,13 @@ async function doSync(){
     dragging = false;
     document.body.style.userSelect = '';
     document.body.style.cursor = '';
-    document.getElementById('vidWrap').style.transition = '';
+    const wrap = document.getElementById('vidWrap');
+    wrap.style.transition = '';
+    // Sync vidCollapsed state with actual height after drag
+    const h = wrap.offsetHeight;
+    vidCollapsed = h < 40;
+    const btn = document.getElementById('vidToggle');
+    if (btn) btn.textContent = vidCollapsed ? '⌄' : '⌃';
   });
   // Touch support
   handle.addEventListener('touchstart', e => {
@@ -1362,7 +1229,8 @@ function renderTPMain(teamId, teamMatches, rank) {
     }
   };
 
-  // Score chart
+  // Charts need a frame to render after innerHTML is set
+  requestAnimationFrame(() => {
   const ctxS = document.getElementById('chartScores')?.getContext('2d');
   if (ctxS) {
     tpCharts.push(new Chart(ctxS, {
@@ -1404,6 +1272,7 @@ function renderTPMain(teamId, teamMatches, rank) {
       options: { ...chartDefaults, scales: { x: { ...chartDefaults.scales.x }, y: { ...chartDefaults.scales.y, beginAtZero: true } } }
     }));
   }
+  }); // end requestAnimationFrame
 }
 
 function renderTPSide(teamId, teamMatches, rank) {
@@ -1470,15 +1339,7 @@ function renderTPSide(teamId, teamMatches, rank) {
         </div>`).join('') : '<div class="empty" style="padding:10px;">No partner data yet</div>'}
     </div>
 
-    <!-- AI INSIGHT BOX -->
-    <div style="margin-bottom:14px;">
-      <div class="ph-t" style="margin-bottom:8px;">AI Scout Report</div>
-      <div class="tp-ai-box" id="tpAiReport">
-        <span style="color:var(--t3);">Click <strong>AI Analysis</strong> in the top bar to generate a full report for this team.</span>
-      </div>
-    </div>
-
-    <!-- MATCH HISTORY -->
+<!-- MATCH HISTORY -->
     <div>
       <div class="ph-t" style="margin-bottom:8px;">Match History <span style="color:var(--t3);font-weight:400;">${teamMatches.length} total · ${teamMatches.filter(tm=>tm.note).length} scouted</span></div>
       ${matchListHTML || '<div class="empty" style="padding:10px;">No scored matches</div>'}
@@ -1486,62 +1347,6 @@ function renderTPSide(teamId, teamMatches, rank) {
   `;
 }
 
-async function generateTeamAI() {
-  if (!currentTeamId) return;
-  if (!S.anth) { showAnthPrompt(); return; }
-  const team = S.teams[currentTeamId] || {};
-  const rank = S.rankings.find(r => r.team?.id === currentTeamId);
-  const teamMatches = getTeamMatches(currentTeamId);
-  const scoredMatches = getScoredMatches(currentTeamId);
-  const { mmr } = computeMMR(currentTeamId, scoredMatches);
-  const scores = scoredMatches.map(tm => tm.myScore);
-  const consistency = computeConsistency(scores);
-  const trend = computeTrend(scores);
-  const wins = scoredMatches.filter(tm => tm.result === 'W').length;
-  const losses = scoredMatches.filter(tm => tm.result === 'L').length;
-  const avgScore = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
-  // Pull notes from ALL matches including unscored ones
-  const notes = teamMatches.map(tm => tm.note?.notes).filter(Boolean).join('; ');
-  const ratings = teamMatches.filter(tm=>tm.note?.myRating).map(tm=>`${tm.lbl}: ${tm.note.myRating}/10`).join(', ');
-  const aiBox = document.getElementById('tpAiReport');
-  const btn = document.getElementById('tpAiBtn');
-
-  // Can still generate AI analysis even with 0 scored matches — uses ranking data
-  if (!rank && teamMatches.length === 0) {
-    if (aiBox) aiBox.innerHTML = '<span style="color:var(--t3);">No data available for this team yet — they need at least ranking data for AI analysis.</span>';
-    return;
-  }
-
-  if (aiBox) aiBox.innerHTML = '<span style="color:var(--t3);font-style:italic;">🤖 Generating team analysis…</span>';
-  if (btn) btn.disabled = true;
-
-  const prompt = `You are an expert VEX Robotics Competition analyst. Generate a comprehensive team scouting report.
-
-Team: ${team.number} (${team.organization})
-Event Rank: #${rank?.rank??'?'} | Record: ${wins}W-${losses}L | Avg Score: ${avgScore} | MMR: ${mmr}/1000+ | Consistency: ${consistency}/100
-Performance Trend: ${trend.label}
-Scout notes from matches: "${notes||'none'}"
-Your match ratings: "${ratings||'none'}"
-
-Respond ONLY with a valid JSON object, no markdown:
-{"summary":"2-3 sentence overview","strengths":"top 2 strengths as alliance partner","concerns":"top 2 concerns or risks","allianceVerdict":"should you pick them? why in 1 sentence","mmrInsight":"what the MMR rating tells us about this team","predictionForElims":"how will they likely perform in eliminations"}`;
-
-  try {
-    const r = await callClaude(prompt, 600);
-    if (aiBox) aiBox.innerHTML = `
-      <div style="display:grid;gap:7px;">
-        <div><strong>Overview:</strong> ${r.summary}</div>
-        <div><strong style="color:#22c55e;">Strengths:</strong> ${r.strengths}</div>
-        <div><strong style="color:#ff7b77;">Concerns:</strong> ${r.concerns}</div>
-        <div><strong style="color:var(--gold);">Alliance verdict:</strong> ${r.allianceVerdict}</div>
-        <div><strong style="color:var(--purple);">MMR insight:</strong> ${r.mmrInsight}</div>
-        <div><strong style="color:#6ab3ff;">Elims prediction:</strong> ${r.predictionForElims}</div>
-      </div>`;
-  } catch(e) {
-    if (aiBox) aiBox.innerHTML = `<span style="color:#ff7b77;">AI error: ${e.message}</span>`;
-  }
-  if (btn) btn.disabled = false;
-}
 
 function exportTeamData() {
   if (!currentTeamId) return;
@@ -1606,23 +1411,6 @@ function openSettings() {
   const statusEl = document.getElementById('settingsAnthStatus');
   const googleEl = document.getElementById('settingsGoogleStatus');
 
-  // Pre-fill with current key (masked)
-  if (keyInput) {
-    keyInput.value = S.anth || '';
-    keyInput.style.borderColor = S.anth ? 'var(--green)' : 'var(--b2)';
-  }
-
-  // Show current key status
-  if (statusEl) {
-    if (S.anth) {
-      statusEl.textContent = `Current key: ${S.anth.slice(0,18)}… (${S.anth.length} chars)`;
-      statusEl.style.color = 'var(--green)';
-    } else {
-      statusEl.textContent = 'No key set — AI features disabled';
-      statusEl.style.color = 'var(--t3)';
-    }
-  }
-
   // Show Google sign-in status
   if (googleEl) {
     googleEl.textContent = currentUser
@@ -1643,25 +1431,7 @@ function saveSettings() {
   const keyInput = document.getElementById('settingsAnthKey');
   const statusEl = document.getElementById('settingsAnthStatus');
 
-  if (keyInput) {
-    const newKey = keyInput.value.trim();
-    if (newKey && !newKey.startsWith('sk-ant')) {
-      if (statusEl) { statusEl.textContent = 'Key format looks wrong — Anthropic keys start with sk-ant'; statusEl.style.color = 'var(--red)'; }
-      return;
-    }
-    if (newKey) {
-      S.anth = newKey;
-      ls('vs_anth', newKey);
-      if (statusEl) { statusEl.textContent = 'Key saved!'; statusEl.style.color = 'var(--green)'; }
-    } else {
-      S.anth = '';
-      ls('vs_anth', '');
-      if (statusEl) { statusEl.textContent = 'Key cleared'; statusEl.style.color = 'var(--t3)'; }
-    }
-  }
-
-  // Small delay so user sees the "saved" confirmation before modal closes
-  setTimeout(closeSettings, 600);
+  setTimeout(closeSettings, 200);
   setSt('Settings saved', 'live');
 }
 
@@ -1684,9 +1454,7 @@ initGoogleAuth();
 // Check if we just returned from Google OAuth redirect
 checkAuthRedirect();
 // Show Anthropic key prompt once if not set and not previously skipped
-if (!S.anth && ls('vs_anth_skip') !== '1') {
-  setTimeout(showAnthPrompt, 800);
-}
+
 </script>
 
 <!-- ─── SCORE OVERLAY (inside vid-embed-wrap) ─── -->
@@ -1702,10 +1470,7 @@ if (!S.anth && ls('vs_anth_skip') !== '1') {
     </div>
     <div class="tp-team-org" id="tpTeamOrg"></div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-      <button class="btn-o" id="tpAiBtn" onclick="generateTeamAI()" style="display:flex;align-items:center;gap:5px;">
-        <span style="color:var(--purple);">✦</span> AI Analysis
-      </button>
-      <button class="btn-o" onclick="exportTeamData()">Export ↓</button>
+<button class="btn-o" onclick="exportTeamData()">Export ↓</button>
     </div>
   </div>
   <div class="tp-body">
@@ -1724,18 +1489,6 @@ if (!S.anth && ls('vs_anth_skip') !== '1') {
   <div style="background:var(--s2);border:1px solid var(--b2);border-radius:14px;width:460px;max-width:95vw;padding:26px 28px;box-shadow:0 20px 50px rgba(0,0,0,0.5);">
     <div style="font-family:var(--fd);font-weight:900;font-size:22px;margin-bottom:4px;">⚙ Settings</div>
     <div style="font-size:12px;color:var(--t3);margin-bottom:20px;">Keys are stored in your browser only and never sent anywhere except their respective APIs.</div>
-
-    <!-- Anthropic Key -->
-    <div style="margin-bottom:16px;">
-      <label style="font-size:12px;color:var(--t2);display:block;margin-bottom:5px;">
-        Anthropic API Key <span style="color:var(--t3);">(for AI scouting reports)</span>
-        <a href="https://console.anthropic.com/settings/api-keys" target="_blank" style="color:var(--gold);margin-left:6px;">Get key →</a>
-      </label>
-      <input id="settingsAnthKey" type="password" placeholder="sk-ant-api03-…"
-        style="width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fm);font-size:13px;padding:9px 11px;border-radius:var(--r);outline:none;margin-bottom:4px;"
-        oninput="this.style.borderColor=this.value.startsWith('sk-ant')?'var(--green)':'var(--b2)'" />
-      <div id="settingsAnthStatus" style="font-size:11px;color:var(--t3);"></div>
-    </div>
 
     <!-- RobotEvents Token (read-only info) -->
     <div style="margin-bottom:16px;">
