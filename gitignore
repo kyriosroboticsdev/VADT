@@ -1,0 +1,10 @@
+# VADT credentials — never commit this file
+config.js
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
