@@ -450,7 +450,7 @@ function showHelp(){showAnthPrompt();}
 // Only requires: Client ID + "https://kyriosroboticsdev.github.io" as Authorised JS Origin.
 // Also requires OAuth consent screen configured in Google Cloud Console.
 
-const GOOGLE_CLIENT_ID = S.gid; // loaded from config.js
+const getGoogleClientId = () => S.gid; // reads from config.js at call time
 let currentUser = null;
 
 function initGoogleAuth() {
@@ -463,8 +463,10 @@ function signInGoogle() {
   const sku = document.getElementById('evIn')?.value || '';
   if (sku) sessionStorage.setItem('vadt_restore_sku', sku);
 
+  const clientId = getGoogleClientId();
+  if (!clientId) { setSt('Google Client ID not loaded — check config.js', 'idle'); return; }
   const params = new URLSearchParams({
-    client_id: GOOGLE_CLIENT_ID,
+    client_id: clientId,
     redirect_uri: 'https://kyriosroboticsdev.github.io/VADT/',
     response_type: 'token',
     scope: 'openid email profile',
