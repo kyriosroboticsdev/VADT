@@ -181,16 +181,7 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .fa{display:flex;gap:7px;margin-top:11px;padding-top:10px;border-top:1px solid var(--b1);}
 
 /* ai */
-.ai{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;}
-.ai-t{font-family:var(--fd);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--t2);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
-.ai-sc{display:flex;gap:12px;align-items:flex-end;margin-bottom:9px;}
-.ai-s{text-align:center;}
-.ai-sl{font-size:11px;color:var(--t3);margin-bottom:1px;}
-.ai-sn{font-family:var(--fd);font-weight:900;font-size:28px;line-height:1;}
-.ai-sep{width:1px;height:36px;background:var(--b2);align-self:center;}
-.c-ai{color:var(--purple);}.c-you{color:var(--gold);}.c-avg{color:var(--green);}
-.ai-r{font-size:13px;color:var(--t2);line-height:1.65;display:grid;gap:5px;}
-.ai-ld{font-size:13px;color:var(--t3);font-style:italic;}
+
 
 /* right */
 .ev-hd{padding:11px 12px;border-bottom:1px solid var(--b1);flex-shrink:0;}
@@ -631,7 +622,7 @@ async function pfTeams(ids){
 const tn=id=>{
   if(S.teams[id]?.number) return S.teams[id].number;
   // Fall back to team name from rankings (rankings store number as 'name')
-  const rk=S.rankings.find(r=>r.team?.id===id);
+  const rk=S.rankings.find(r=>Number(r.team?.id)===Number(id));
   return rk?.team?.name||'?';
 };
 const to=id=>S.teams[id]?.organization||S.teams[id]?.team_name||'';
@@ -689,7 +680,7 @@ function renderScout(m){
     </div>
     <div class="tr">${[...rt.map(t=>({t,c:'red'})),...bt.map(t=>({t,c:'blue'}))].map(({t,c})=>mkTcard(t.team.id,c)).join('')}</div>
     ${[...rt.map(t=>({t,c:'red'})),...bt.map(t=>({t,c:'blue'}))].map(({t,c})=>mkForm(m.id,t.team.id,c)).join('')}
-    <div class="ai" id="aiBox"><div class="ai-t">AI Scout Analysis <span class="ai-ch">CLAUDE</span></div><div class="ai-ld" id="aiCon">Fill out a form above and click <strong>Save + AI Rating</strong> to generate a report.</div></div>`;
+`;
   [...rt,...bt].forEach(t=>restoreForm(m.id,t.team.id));
 }
 
@@ -725,7 +716,6 @@ function restoreForm(mid,tid){
   const nt=document.getElementById(`${p}_nt`);if(nt)nt.value=note.notes||'';
   const rv=document.getElementById(`${p}_rv`);const rl2=document.getElementById(`${p}_rl`);
   if(rv){rv.value=note.myRating||5;if(rl2)rl2.textContent=rv.value;}
-  if(note.aiReport)renderAI(note);
 }
 
 function readForm(mid,tid){
@@ -847,14 +837,14 @@ function exportXLSX(){
     (m.alliances||[]).forEach(a=>(a.teams||[]).forEach(t=>{
       const id=t.team.id,num=tn(id),note=gn(m.id,id),rk=S.rankings.find(r=>r.team?.id===id);
       const avg=note?.myRating&&note?.aiRating?((note.myRating+note.aiRating)/2).toFixed(1):'';
-      if(note)aR.push([lb,num,a.color,note.auto,note.driver,note.coord,note.defense?'Yes':'',note.consistency,note.myRating,note.aiRating||'',avg,note.aiReport?.summary||'',note.aiReport?.strengths||'',note.aiReport?.concerns||'',note.aiReport?.allianceTip||'',note.notes||'',note.savedAt||'']);
+      if(note)aR.push([lb,num,a.color,note.auto,note.driver,note.coord,note.defense?'Yes':'',note.consistency,note.myRating,note.notes||'',note.savedAt||'']);
       if(!tm[num])tm[num]=[];tm[num].push({lb,al:a.color,rk:rk?.rank,wlt:rk?`${rk.wins}-${rk.losses}-${rk.ties}`:'',note,avg});
     }));
   });
   const mws=XLSX.utils.aoa_to_sheet(aR);mws['!cols']=[8,9,9,7,7,7,8,22,10,10,8,40,30,30,35,40,20].map(w=>({wch:w}));
   XLSX.utils.book_append_sheet(wb,mws,'All Matches');
   Object.entries(tm).forEach(([num,rows])=>{
-    const h=['Match','Alliance','Rank','W/L/T','Auto★','Driver★','Coord★','Defense','Consistency','My Rating','AI Rating','Avg','Summary','Strengths','Concerns','Alliance Tip','Notes'];
+    const h=['Match','Alliance','Rank','W/L/T','Auto★','Driver★','Coord★','Defense','Consistency','My Rating','Notes'];
     const d=rows.map(r=>[r.lb,r.al,r.rk,r.wlt,r.note?.auto,r.note?.driver,r.note?.coord,r.note?.defense?'Yes':'',r.note?.consistency,r.note?.myRating,r.note?.aiRating||'',r.avg,r.note?.aiReport?.summary||'',r.note?.aiReport?.strengths||'',r.note?.aiReport?.concerns||'',r.note?.aiReport?.allianceTip||'',r.note?.notes||'']);
     const ws=XLSX.utils.aoa_to_sheet([h,...d]);ws['!cols']=[8,9,6,10,7,7,7,8,22,10,10,8,40,30,30,35,40].map(w=>({wch:w}));
     XLSX.utils.book_append_sheet(wb,ws,num.replace(/[\/\\?\*\[\]]/g,'_').substring(0,31));
@@ -1063,7 +1053,7 @@ function closeTeamPage() {
 
 function renderTeamPage(teamId) {
   const team = S.teams[teamId] || {};
-  const rank = S.rankings.find(r => r.team?.id === teamId);
+  const rank = S.rankings.find(r => Number(r.team?.id) === Number(teamId));
   const color = rank ? (S.rankings.indexOf(rank) < S.rankings.length / 2 ? '#6ab3ff' : '#ff6b65') : 'var(--gold)';
 
   document.getElementById('tpTeamNum').textContent = tn(teamId);
@@ -1079,17 +1069,17 @@ function renderTeamPage(teamId) {
 
 function getTeamMatches(teamId) {
   return S.matches
-    .filter(m => (m.alliances || []).some(a => (a.teams || []).some(t => t.team.id === teamId)))
+    .filter(m => (m.alliances || []).some(a => (a.teams || []).some(t => Number(t.team.id) === Number(teamId))))
     .map(m => {
-      const myAlliance = (m.alliances || []).find(a => (a.teams || []).some(t => t.team.id === teamId));
-      const oppAlliance = (m.alliances || []).find(a => !(a.teams || []).some(t => t.team.id === teamId));
+      const myAlliance = (m.alliances || []).find(a => (a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
+      const oppAlliance = (m.alliances || []).find(a => !(a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
       const myScore = myAlliance?.score ?? null;
       const oppScore = oppAlliance?.score ?? null;
       const scored = m.scored && myScore !== null;
       const result = !scored ? '—' : myScore > oppScore ? 'W' : myScore < oppScore ? 'L' : 'T';
-      const partner = (myAlliance?.teams || []).find(t => t.team.id !== teamId);
+      const partner = (myAlliance?.teams || []).find(t => Number(t.team.id) !== Number(teamId));
       const lbl = `${rl(m.round)}${m.matchnum}`;
-      const note = gn(m.id, teamId);
+      const note = gn(m.id, Number(teamId));
       return { m, lbl, myScore, oppScore, result, scored, myColor: myAlliance?.color, partner, note };
     });
 }
@@ -1310,9 +1300,7 @@ function renderTPSide(teamId, teamMatches, rank) {
         ${tm.note.auto ? `<span style="color:var(--gold);">Auto ★${tm.note.auto}</span> &nbsp;` : ''}
         ${tm.note.driver ? `<span style="color:var(--gold);">Driver ★${tm.note.driver}</span> &nbsp;` : ''}
         ${tm.note.myRating ? `<span style="color:var(--purple);">Your rating: ${tm.note.myRating}/10</span>` : ''}
-        ${tm.note.aiRating ? `<span style="color:var(--t3);"> · AI: ${tm.note.aiRating}/10</span>` : ''}
         ${tm.note.notes ? `<div style="margin-top:4px;color:var(--t1);">"${tm.note.notes}"</div>` : ''}
-        ${tm.note.aiReport?.summary ? `<div style="margin-top:3px;color:var(--t3);font-style:italic;">${tm.note.aiReport.summary}</div>` : ''}
       </div>` : ''}
     </div>`;
   }).join('');
@@ -1407,8 +1395,6 @@ function jumpToMatch(query) {
 // ─── SETTINGS MODAL ──────────────────────────────────────────────────────────
 function openSettings() {
   const modal = document.getElementById('settingsModal');
-  const keyInput = document.getElementById('settingsAnthKey');
-  const statusEl = document.getElementById('settingsAnthStatus');
   const googleEl = document.getElementById('settingsGoogleStatus');
 
   // Show Google sign-in status
@@ -1428,9 +1414,6 @@ function closeSettings() {
 }
 
 function saveSettings() {
-  const keyInput = document.getElementById('settingsAnthKey');
-  const statusEl = document.getElementById('settingsAnthStatus');
-
   setTimeout(closeSettings, 200);
   setSt('Settings saved', 'live');
 }
