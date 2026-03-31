@@ -1096,6 +1096,8 @@ function renderTeamPage(teamId) {
 
   renderTPMain(teamId, teamMatches, rank);
   renderTPSide(teamId, teamMatches, rank);
+  // Restore any previously imported CV data for this team
+  setTimeout(() => restoreCVData(teamId), 100);
 }
 
 function getTeamMatches(teamId) {
@@ -1773,6 +1775,129 @@ function renderSeasonSide(teamId, matches, rankings, skills, events) {
   `;
 }
 
+
+// ─── CV DATA IMPORT ──────────────────────────────────────────────────────────
+let cvData = null; // most recently imported CV analysis
+
+function importCVData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      // Validate it's a VADT CV export
+      if (!data.timeline || !data.robot_contributions) {
+        throw new Error('Not a valid VADT CV export file');
+      }
+      cvData = data;
+      // Store against current team
+      if (currentTeamId) {
+        S.notes[`cv_${currentTeamId}`] = data;
+        saveNotes();
+      }
+      renderCVSection(data);
+      setSt(`CV data imported: ${data.source}`, 'live');
+    } catch(err) {
+      setSt('CV import error: ' + err.message, 'idle');
+    }
+  };
+  reader.readAsText(file);
+  // Reset input so same file can be re-imported
+  event.target.value = '';
+}
+
+function renderCVSection(data) {
+  // Find or create the CV section in the event tab main area
+  let cvSection = document.getElementById('cvSection');
+  if (!cvSection) {
+    const main = document.getElementById('tpMain');
+    if (!main) return;
+    const div = document.createElement('div');
+    div.id = 'cvSection';
+    main.appendChild(div);
+    cvSection = div;
+  }
+
+  const winner = data.winner.toUpperCase();
+  const winColor = data.winner === 'red' ? '#ff6b65' : data.winner === 'blue' ? '#6ab3ff' : 'var(--t2)';
+  const autonColor = data.auton_winner === 'red' ? '#ff6b65' : data.auton_winner === 'blue' ? '#6ab3ff' : 'var(--t2)';
+
+  cvSection.innerHTML = `
+    <div class="tp-card" style="margin-top:12px;">
+      <div class="tp-card-title">
+        CV Analysis
+        <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">${data.source}</span>
+      </div>
+
+      <!-- Final score -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div class="tp-stat"><div class="tp-stat-lbl">Red Score</div><div class="tp-stat-val" style="color:#ff6b65;">${data.final_red_score}</div></div>
+        <div class="tp-stat"><div class="tp-stat-lbl">Blue Score</div><div class="tp-stat-val" style="color:#6ab3ff;">${data.final_blue_score}</div></div>
+        <div class="tp-stat"><div class="tp-stat-lbl">Winner</div><div class="tp-stat-val" style="color:${winColor};font-size:16px;">${winner}</div></div>
+        <div class="tp-stat"><div class="tp-stat-lbl">Auton</div><div class="tp-stat-val" style="color:${autonColor};font-size:16px;">${data.auton_winner.toUpperCase()}</div></div>
+      </div>
+
+      <!-- Robot contributions -->
+      <div style="margin-bottom:12px;">
+        <div style="font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;">Robot Contributions</div>
+        ${data.robot_contributions.map(r => {
+          const color = r.alliance === 'red' ? '#ff6b65' : '#6ab3ff';
+          const barColor = r.alliance === 'red' ? 'var(--red)' : 'var(--blue)';
+          return `<div style="margin-bottom:7px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+              <span style="font-family:var(--fm);font-size:12px;font-weight:600;color:${color};">${r.team_number}</span>
+              <span style="font-size:12px;color:var(--t2);">${r.blocks_scored} blocks · ${r.contribution_pct}%</span>
+            </div>
+            <div style="height:5px;background:var(--s4);border-radius:3px;overflow:hidden;">
+              <div style="width:${r.contribution_pct}%;height:100%;background:${barColor};border-radius:3px;"></div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <!-- Score timeline chart -->
+      <div style="font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;">Score Timeline</div>
+      <div style="position:relative;height:140px;"><canvas id="chartCV"></canvas></div>
+    </div>
+  `;
+
+  // Draw timeline chart
+  requestAnimationFrame(() => {
+    const ctx = document.getElementById('chartCV')?.getContext('2d');
+    if (!ctx || !window.Chart) return;
+    const labels = data.timeline.map(p => p.t + 's');
+    const step = Math.max(1, Math.floor(labels.length / 20)); // max 20 labels
+    tpCharts.push(new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.timeline.map((p,i) => i%step===0 ? p.t+'s' : ''),
+        datasets: [
+          { label: 'Red',  data: data.timeline.map(p=>p.red),  borderColor:'#ff6b65', backgroundColor:'rgba(232,48,42,0.08)', tension:0.3, pointRadius:0, fill:true },
+          { label: 'Blue', data: data.timeline.map(p=>p.blue), borderColor:'#6ab3ff', backgroundColor:'rgba(26,125,223,0.08)', tension:0.3, pointRadius:0, fill:true },
+        ]
+      },
+      options: {
+        responsive:true, maintainAspectRatio:false,
+        plugins:{ legend:{display:true,labels:{color:'#8888a0',font:{size:11}}}, tooltip:{backgroundColor:'#1c1c22',titleColor:'#eeeef4',bodyColor:'#8888a0'} },
+        scales:{
+          x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#48485a',font:{size:10},maxRotation:0}},
+          y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#48485a',font:{size:10}},beginAtZero:true}
+        }
+      }
+    }));
+  });
+}
+
+// Restore CV data when team page opens
+function restoreCVData(teamId) {
+  const saved = S.notes[`cv_${teamId}`];
+  if (saved) {
+    cvData = saved;
+    renderCVSection(saved);
+  }
+}
+
 // ─── INIT ────────────────────────────────────────────────────────────────────
 init();
 initGoogleAuth();
@@ -1799,7 +1924,9 @@ if (!S.re) {
     </div>
     <div class="tp-team-org" id="tpTeamOrg"></div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-<button class="btn-o" onclick="exportTeamData()">Export ↓</button>
+<button class="btn-o" onclick="document.getElementById('cvImportInput').click()" title="Import data from vadt_cv.py JSON export">📥 Import CV Data</button>
+      <input type="file" id="cvImportInput" accept=".json" style="display:none;" onchange="importCVData(event)" />
+      <button class="btn-o" onclick="exportTeamData()">Export ↓</button>
     </div>
   </div>
   <!-- TABS -->
