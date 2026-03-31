@@ -1213,18 +1213,23 @@ function renderTeamPage(teamId) {
 function getTeamMatches(teamId) {
   return S.matches
     .filter(m => (m.alliances || []).some(a => (a.teams || []).some(t => t.team.id === teamId)))
-    .filter(m => m.scored)
     .map(m => {
       const myAlliance = (m.alliances || []).find(a => (a.teams || []).some(t => t.team.id === teamId));
       const oppAlliance = (m.alliances || []).find(a => !(a.teams || []).some(t => t.team.id === teamId));
-      const myScore = myAlliance?.score ?? 0;
-      const oppScore = oppAlliance?.score ?? 0;
-      const result = myScore > oppScore ? 'W' : myScore < oppScore ? 'L' : 'T';
+      const myScore = myAlliance?.score ?? null;
+      const oppScore = oppAlliance?.score ?? null;
+      const scored = m.scored && myScore !== null;
+      const result = !scored ? '—' : myScore > oppScore ? 'W' : myScore < oppScore ? 'L' : 'T';
       const partner = (myAlliance?.teams || []).find(t => t.team.id !== teamId);
       const lbl = `${rl(m.round)}${m.matchnum}`;
       const note = gn(m.id, teamId);
-      return { m, lbl, myScore, oppScore, result, myColor: myAlliance?.color, partner, note };
+      return { m, lbl, myScore, oppScore, result, scored, myColor: myAlliance?.color, partner, note };
     });
+}
+
+// Only scored matches — used for charts/stats that need actual scores
+function getScoredMatches(teamId) {
+  return getTeamMatches(teamId).filter(tm => tm.scored);
 }
 
 function computeMMR(teamId, teamMatches) {
@@ -1266,23 +1271,27 @@ function renderTPMain(teamId, teamMatches, rank) {
   tpCharts.forEach(c => { try { c.destroy(); } catch {} });
   tpCharts = [];
 
+  const scoredMatches = getScoredMatches(teamId);
+  const hasNotes = teamMatches.some(tm => tm.note);
+
   if (!teamMatches.length) {
-    main.innerHTML = '<div class="empty" style="margin-top:60px;"><p>No scored matches yet for this team.</p></div>';
+    main.innerHTML = '<div class="empty" style="margin-top:60px;"><p>No matches found for this team.</p></div>';
     return;
   }
 
-  const scores = teamMatches.map(tm => tm.myScore);
-  const oppScores = teamMatches.map(tm => tm.oppScore);
-  const labels = teamMatches.map(tm => tm.lbl);
-  const wins = teamMatches.filter(tm => tm.result === 'W').length;
-  const losses = teamMatches.filter(tm => tm.result === 'L').length;
-  const ties = teamMatches.filter(tm => tm.result === 'T').length;
-  const avgScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
-  const peakScore = Math.max(...scores);
-  const peakMatch = teamMatches[scores.indexOf(peakScore)];
+  // Charts and stats use only scored matches
+  const scores = scoredMatches.map(tm => tm.myScore);
+  const oppScores = scoredMatches.map(tm => tm.oppScore);
+  const labels = scoredMatches.map(tm => tm.lbl);
+  const wins = scoredMatches.filter(tm => tm.result === 'W').length;
+  const losses = scoredMatches.filter(tm => tm.result === 'L').length;
+  const ties = scoredMatches.filter(tm => tm.result === 'T').length;
+  const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
+  const peakScore = scores.length ? Math.max(...scores) : 0;
+  const peakMatch = scoredMatches[scores.indexOf(peakScore)];
   const consistency = computeConsistency(scores);
   const trend = computeTrend(scores);
-  const { mmr } = computeMMR(teamId, teamMatches);
+  const { mmr } = computeMMR(teamId, scoredMatches);
   const trendColor = trend.dir > 0 ? '#22c55e' : trend.dir < 0 ? '#ff7b77' : 'var(--t2)';
 
   main.innerHTML = `
@@ -1398,6 +1407,7 @@ function renderTPMain(teamId, teamMatches, rank) {
 }
 
 function renderTPSide(teamId, teamMatches, rank) {
+  const scoredMatches = teamMatches.filter(tm => tm.scored);
   const side = document.getElementById('tpSide');
 
   // Alliance partner analysis
@@ -1413,13 +1423,30 @@ function renderTPSide(teamId, teamMatches, rank) {
   const partners = Object.values(partnerMap).sort((a, b) => b.wins - a.wins);
 
   // Match history list
-  const matchListHTML = teamMatches.map(tm => `
-    <div class="tp-match-row">
-      <span class="tp-match-lbl">${tm.lbl}</span>
-      <span class="tp-match-teams" style="color:${tm.myColor==='red'?'#ff7b77':'#6ab3ff'};">${tn(teamId)} + ${tn(tm.partner?.team?.id||0)}</span>
-      <span class="tp-match-score" style="color:${tm.result==='W'?'#22c55e':tm.result==='L'?'#ff7b77':'var(--t2)'};">${tm.myScore} – ${tm.oppScore}</span>
-      <span class="tp-match-result res-${tm.result.toLowerCase()}">${tm.result}</span>
-    </div>`).join('');
+  const matchListHTML = teamMatches.map(tm => {
+    const hasNote = tm.note && (tm.note.notes || tm.note.auto || tm.note.driver);
+    const scoreStr = tm.scored ? `${tm.myScore} – ${tm.oppScore}` : 'Upcoming';
+    const resultCls = tm.result === 'W' ? 'res-w' : tm.result === 'L' ? 'res-l' : 'res-t';
+    const scoreColor = tm.result === 'W' ? '#22c55e' : tm.result === 'L' ? '#ff7b77' : 'var(--t2)';
+    return `<div style="margin-bottom:6px;">
+      <div class="tp-match-row" style="cursor:pointer;" onclick="jumpToMatchFromTeam('${tm.lbl}')">
+        <span class="tp-match-lbl">${tm.lbl}</span>
+        <span class="tp-match-teams" style="color:${tm.myColor==='red'?'#ff7b77':'#6ab3ff'};">
+          ${tn(teamId)} + ${tn(tm.partner?.team?.id||0)}
+        </span>
+        <span class="tp-match-score" style="color:${scoreColor};">${scoreStr}</span>
+        <span class="tp-match-result ${resultCls}">${tm.result}</span>
+      </div>
+      ${hasNote ? `<div style="background:var(--s3);border-radius:var(--r);padding:7px 10px;margin-top:2px;font-size:12px;color:var(--t2);line-height:1.55;">
+        ${tm.note.auto ? `<span style="color:var(--gold);">Auto ★${tm.note.auto}</span> &nbsp;` : ''}
+        ${tm.note.driver ? `<span style="color:var(--gold);">Driver ★${tm.note.driver}</span> &nbsp;` : ''}
+        ${tm.note.myRating ? `<span style="color:var(--purple);">Your rating: ${tm.note.myRating}/10</span>` : ''}
+        ${tm.note.aiRating ? `<span style="color:var(--t3);"> · AI: ${tm.note.aiRating}/10</span>` : ''}
+        ${tm.note.notes ? `<div style="margin-top:4px;color:var(--t1);">"${tm.note.notes}"</div>` : ''}
+        ${tm.note.aiReport?.summary ? `<div style="margin-top:3px;color:var(--t3);font-style:italic;">${tm.note.aiReport.summary}</div>` : ''}
+      </div>` : ''}
+    </div>`;
+  }).join('');
 
   side.innerHTML = `
     <!-- RANKING INFO -->
@@ -1453,7 +1480,7 @@ function renderTPSide(teamId, teamMatches, rank) {
 
     <!-- MATCH HISTORY -->
     <div>
-      <div class="ph-t" style="margin-bottom:8px;">Match History (${teamMatches.length} scored)</div>
+      <div class="ph-t" style="margin-bottom:8px;">Match History <span style="color:var(--t3);font-weight:400;">${teamMatches.length} total · ${teamMatches.filter(tm=>tm.note).length} scouted</span></div>
       ${matchListHTML || '<div class="empty" style="padding:10px;">No scored matches</div>'}
     </div>
   `;
@@ -1465,14 +1492,17 @@ async function generateTeamAI() {
   const team = S.teams[currentTeamId] || {};
   const rank = S.rankings.find(r => r.team?.id === currentTeamId);
   const teamMatches = getTeamMatches(currentTeamId);
-  const { mmr } = computeMMR(currentTeamId, teamMatches);
-  const scores = teamMatches.map(tm => tm.myScore);
+  const scoredMatches = getScoredMatches(currentTeamId);
+  const { mmr } = computeMMR(currentTeamId, scoredMatches);
+  const scores = scoredMatches.map(tm => tm.myScore);
   const consistency = computeConsistency(scores);
   const trend = computeTrend(scores);
-  const wins = teamMatches.filter(tm => tm.result === 'W').length;
-  const losses = teamMatches.filter(tm => tm.result === 'L').length;
+  const wins = scoredMatches.filter(tm => tm.result === 'W').length;
+  const losses = scoredMatches.filter(tm => tm.result === 'L').length;
   const avgScore = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) : 0;
+  // Pull notes from ALL matches including unscored ones
   const notes = teamMatches.map(tm => tm.note?.notes).filter(Boolean).join('; ');
+  const ratings = teamMatches.filter(tm=>tm.note?.myRating).map(tm=>`${tm.lbl}: ${tm.note.myRating}/10`).join(', ');
   const aiBox = document.getElementById('tpAiReport');
   const btn = document.getElementById('tpAiBtn');
 
@@ -1491,6 +1521,7 @@ Team: ${team.number} (${team.organization})
 Event Rank: #${rank?.rank??'?'} | Record: ${wins}W-${losses}L | Avg Score: ${avgScore} | MMR: ${mmr}/1000+ | Consistency: ${consistency}/100
 Performance Trend: ${trend.label}
 Scout notes from matches: "${notes||'none'}"
+Your match ratings: "${ratings||'none'}"
 
 Respond ONLY with a valid JSON object, no markdown:
 {"summary":"2-3 sentence overview","strengths":"top 2 strengths as alliance partner","concerns":"top 2 concerns or risks","allianceVerdict":"should you pick them? why in 1 sentence","mmrInsight":"what the MMR rating tells us about this team","predictionForElims":"how will they likely perform in eliminations"}`;
@@ -1639,6 +1670,13 @@ document.addEventListener('click', e => {
   const modal = document.getElementById('settingsModal');
   if (modal && e.target === modal) closeSettings();
 });
+
+
+function jumpToMatchFromTeam(lbl) {
+  closeTeamPage();
+  // Small delay so page closes before jump
+  setTimeout(() => jumpToMatch(lbl), 150);
+}
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 init();
