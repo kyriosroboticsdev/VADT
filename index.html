@@ -257,21 +257,72 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .tp-ai-box{background:var(--s3);border-radius:var(--r);padding:10px 12px;font-size:13px;color:var(--t2);line-height:1.65;}
 .tp-ai-box strong{color:var(--t1);font-weight:500;}
 
-/* score overlay on video */
-.score-overlay{position:absolute;top:0;left:0;right:0;display:flex;align-items:stretch;pointer-events:none;z-index:10;background:linear-gradient(to bottom,rgba(0,0,0,0.8),transparent);}
-.so-red{background:rgba(232,48,42,0.25);border-bottom:2px solid var(--red);flex:1;padding:5px 10px;display:flex;align-items:center;gap:6px;}
-.so-blue{background:rgba(26,125,223,0.25);border-bottom:2px solid var(--blue);flex:1;padding:5px 10px;display:flex;align-items:center;gap:6px;justify-content:flex-end;}
-.so-mid{background:rgba(0,0,0,0.6);padding:4px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.so-score{font-family:var(--fd);font-weight:900;font-size:28px;line-height:1;display:flex;gap:8px;align-items:center;}
-.so-score .r{color:#ff6b65;}.so-score .b{color:#6ab3ff;}
-.so-score .sep{color:var(--t3);font-size:20px;}
-.so-team{font-family:var(--fd);font-size:13px;font-weight:700;}
-.so-team.r{color:#ff6b65;}.so-team.b{color:#6ab3ff;}
-.so-lbl{font-family:var(--fd);font-size:10px;letter-spacing:0.1em;color:var(--t3);}
-.score-input-row{display:flex;align-items:center;gap:6px;padding:5px 10px;background:var(--s2);border-top:1px solid var(--b1);pointer-events:all;}
-.score-input-row label{font-size:11px;color:var(--t3);white-space:nowrap;}
+/* ─── INTERACTIVE VIDEO OVERLAY ─── */
+/* Scoreboard HUD */
+.vo-hud{position:absolute;top:0;left:0;right:0;pointer-events:none;z-index:15;display:flex;align-items:stretch;background:linear-gradient(to bottom,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.3) 70%,transparent 100%);}
+.vo-hud-red{flex:1;padding:6px 12px;display:flex;flex-direction:column;justify-content:center;}
+.vo-hud-blue{flex:1;padding:6px 12px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;}
+.vo-hud-mid{padding:5px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;}
+.vo-hud-score{font-family:var(--fd);font-weight:900;font-size:30px;line-height:1;display:flex;align-items:center;gap:9px;}
+.vo-hud-score .r{color:#ff6b65;}.vo-hud-score .b{color:#6ab3ff;}
+.vo-hud-score .sep{color:rgba(255,255,255,0.3);font-size:20px;}
+.vo-hud-team{font-family:var(--fd);font-size:12px;font-weight:700;line-height:1.2;}
+.vo-hud-team.r{color:#ff9d9a;}.vo-hud-team.b{color:#90c4ff;}
+.vo-hud-org{font-size:10px;color:rgba(255,255,255,0.45);margin-top:1px;}
+.vo-hud-period{font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-bottom:2px;}
+.vo-hud-period.auton{background:rgba(34,197,94,0.35);color:#6ee7a0;}
+.vo-hud-period.driver{background:rgba(245,197,66,0.25);color:var(--gold);}
+.vo-hud-timer{font-family:var(--fd);font-weight:900;font-size:22px;color:#fff;line-height:1;}
+.vo-hud-timer.auton{color:#6ee7a0;}
+.vo-hud-timer.overtime{color:#ff7b77;animation:blink 0.5s step-start infinite;}
+
+/* Annotation toolbar */
+.vo-toolbar{position:absolute;bottom:0;left:0;right:0;pointer-events:all;z-index:15;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);padding:8px 10px 6px;display:flex;align-items:center;gap:6px;opacity:0;transition:opacity 0.2s;}
+.vid-embed-wrap:hover .vo-toolbar, .vid-embed-wrap.overlay-pinned .vo-toolbar{opacity:1;}
+.vo-ann-btn{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:11px;font-family:var(--fb);padding:4px 8px;border-radius:5px;cursor:pointer;transition:all 0.12s;white-space:nowrap;flex-shrink:0;}
+.vo-ann-btn:hover{background:rgba(255,255,255,0.22);}
+.vo-ann-btn .kbd{font-size:9px;background:rgba(0,0,0,0.4);padding:1px 4px;border-radius:3px;margin-left:2px;font-family:var(--fm);}
+.vo-ann-btn.ann-red{border-color:rgba(232,48,42,0.6);background:rgba(232,48,42,0.2);}
+.vo-ann-btn.ann-red:hover{background:rgba(232,48,42,0.4);}
+.vo-ann-btn.ann-blue{border-color:rgba(26,125,223,0.6);background:rgba(26,125,223,0.2);}
+.vo-ann-btn.ann-blue:hover{background:rgba(26,125,223,0.4);}
+.vo-ann-btn.ann-gold{border-color:rgba(245,197,66,0.6);background:rgba(245,197,66,0.15);}
+.vo-ann-btn.ann-gold:hover{background:rgba(245,197,66,0.3);}
+.vo-ann-btn.ann-green{border-color:rgba(34,197,94,0.6);background:rgba(34,197,94,0.15);}
+.vo-ann-btn.ann-green:hover{background:rgba(34,197,94,0.3);}
+.vo-toolbar-sep{width:1px;height:18px;background:rgba(255,255,255,0.15);flex-shrink:0;}
+
+/* Timer controls row */
+.vo-timer-row{display:flex;align-items:center;gap:7px;padding:5px 10px;background:var(--s2);border-top:1px solid var(--b1);pointer-events:all;}
+.vo-timer-row label{font-size:11px;color:var(--t3);white-space:nowrap;}
 .so-input{width:52px;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fd);font-size:18px;font-weight:700;padding:3px 6px;border-radius:var(--r);outline:none;text-align:center;}
 .so-input:focus{border-color:var(--gold);}
+.vo-timer-btn{background:var(--s3);border:1px solid var(--b2);color:var(--t2);font-size:12px;padding:4px 9px;border-radius:var(--r);cursor:pointer;transition:all 0.12s;font-family:var(--fb);}
+.vo-timer-btn:hover{background:var(--s4);color:var(--t1);}
+.vo-timer-btn.active{background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#22c55e;}
+
+/* Annotation timeline strip */
+.vo-timeline{padding:0 10px 6px;background:var(--s1);border-top:1px solid var(--b1);min-height:32px;position:relative;overflow:hidden;}
+.vo-tl-inner{position:relative;height:28px;width:100%;}
+.vo-tl-bar{position:absolute;top:12px;left:0;right:0;height:3px;background:var(--s4);border-radius:2px;}
+.vo-tl-progress{position:absolute;top:12px;left:0;height:3px;background:var(--gold);border-radius:2px;transition:width 0.5s linear;pointer-events:none;}
+.vo-tl-auton-zone{position:absolute;top:10px;left:0;height:7px;background:rgba(34,197,94,0.18);border-right:1px dashed rgba(34,197,94,0.4);border-radius:2px 0 0 2px;}
+.vo-tl-marker{position:absolute;top:4px;width:16px;height:16px;border-radius:50%;border:2px solid rgba(0,0,0,0.5);cursor:pointer;transform:translateX(-8px);transition:transform 0.08s;z-index:2;display:flex;align-items:center;justify-content:center;font-size:8px;}
+.vo-tl-marker:hover{transform:translateX(-8px) scale(1.4);z-index:3;}
+.vo-tl-tick{position:absolute;top:8px;width:1px;height:11px;background:rgba(255,255,255,0.1);}
+.vo-tl-tick-lbl{position:absolute;top:22px;font-size:8px;color:var(--t3);transform:translateX(-50%);white-space:nowrap;}
+
+/* Annotation log panel (right side of controls) */
+.vo-ann-log{display:flex;gap:6px;flex:1;overflow-x:auto;align-items:center;padding-right:4px;}
+.vo-ann-log::-webkit-scrollbar{height:2px;}
+.vo-ann-log::-webkit-scrollbar-thumb{background:var(--s5);}
+.vo-ann-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 7px;border-radius:10px;white-space:nowrap;cursor:pointer;flex-shrink:0;border:1px solid transparent;}
+.vo-ann-chip:hover{filter:brightness(1.2);}
+.vo-ann-chip .chip-t{font-family:var(--fm);font-size:10px;opacity:0.7;margin-left:2px;}
+
+/* Tooltip for markers */
+.vo-tooltip{position:absolute;bottom:26px;background:rgba(10,10,16,0.95);border:1px solid var(--b2);border-radius:6px;padding:5px 9px;font-size:11px;color:var(--t1);pointer-events:none;z-index:20;white-space:nowrap;transform:translateX(-50%);display:none;}
+.vo-tooltip.show{display:block;}
 
 
 /* ─── TEAM PAGE TABS ─── */
@@ -281,6 +332,8 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .tp-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .tp-tab-badge{background:var(--s4);color:var(--t3);font-size:10px;font-family:var(--fb);font-weight:600;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;}
 .tp-tab.active .tp-tab-badge{background:var(--gold-d);color:var(--gold);}
+
+@keyframes skelPulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
 
 /* season stats specifics */
 .season-event-row{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:11px 14px;margin-bottom:8px;}
@@ -343,39 +396,64 @@ input[type=range]{width:100%;accent-color:var(--gold);}
             <span>This video can't be embedded — the owner has disabled it.</span>
             <a id="vidExtLink" href="#" target="_blank" class="btn-o" style="margin-top:8px;font-size:12px;">Open in YouTube ↗</a>
           </div>
-          <!-- SCORE OVERLAY -->
-          <div class="score-overlay" id="scoreOverlay" style="display:none;">
-            <div class="so-red">
-              <div>
-                <div class="so-team r" id="soRedTeams">—</div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);">RED</div>
-              </div>
+          <!-- INTERACTIVE OVERLAY: HUD -->
+          <div class="vo-hud" id="voHud" style="display:none;">
+            <div class="vo-hud-red">
+              <div class="vo-hud-team r" id="voRedTeams">—</div>
+              <div class="vo-hud-org" id="voRedOrg"></div>
             </div>
-            <div class="so-mid">
-              <div class="so-lbl" id="soMatchLbl">Q0</div>
-              <div class="so-score">
-                <span class="r" id="soRedScore">0</span>
+            <div class="vo-hud-mid">
+              <div class="vo-hud-period auton" id="voPeriodBadge">AUTON</div>
+              <div class="vo-hud-score">
+                <span class="r" id="voRedScore">0</span>
                 <span class="sep">:</span>
-                <span class="b" id="soBlueScore">0</span>
+                <span class="b" id="voBlueScore">0</span>
               </div>
+              <div class="vo-hud-timer" id="voTimer">0:15</div>
             </div>
-            <div class="so-blue">
-              <div style="text-align:right;">
-                <div class="so-team b" id="soBlueTeams">—</div>
-                <div style="font-size:10px;color:rgba(255,255,255,0.4);">BLUE</div>
-              </div>
+            <div class="vo-hud-blue">
+              <div class="vo-hud-team b" id="voBlueTeams">—</div>
+              <div class="vo-hud-org" id="voBlueOrg"></div>
             </div>
           </div>
+
+          <!-- INTERACTIVE OVERLAY: ANNOTATION TOOLBAR (shown on hover) -->
+          <div class="vo-toolbar" id="voToolbar" style="display:none;">
+            <button class="vo-ann-btn ann-green" onclick="dropAnnotation('auton_start')" title="[A] Mark auton start">🟢 Auton Start<span class="kbd">A</span></button>
+            <button class="vo-ann-btn ann-gold"  onclick="dropAnnotation('score')"       title="[S] Mark a score">💛 Score<span class="kbd">S</span></button>
+            <button class="vo-ann-btn ann-red"   onclick="dropAnnotation('defense')"     title="[D] Mark defense played">🔴 Defense<span class="kbd">D</span></button>
+            <button class="vo-ann-btn ann-blue"  onclick="dropAnnotation('alliance')"    title="[L] Mark alliance coordination">🔵 Alliance Play<span class="kbd">L</span></button>
+            <button class="vo-ann-btn"           onclick="dropAnnotation('error')"       title="[E] Mark an error/penalty">⚠️ Error<span class="kbd">E</span></button>
+            <button class="vo-ann-btn"           onclick="dropAnnotation('note')"        title="[N] Add a generic note">📝 Note<span class="kbd">N</span></button>
+            <div class="vo-toolbar-sep"></div>
+            <button class="vo-ann-btn" onclick="clearAnnotations()" title="Clear all annotations" style="color:#ff9d9a;border-color:rgba(255,80,80,0.3);">✕ Clear</button>
+          </div>
         </div>
-        <!-- MANUAL SCORE INPUT ROW -->
-        <div class="score-input-row" id="scoreInputRow" style="display:none;">
-          <label>🔴 Red:</label>
+        <!-- TIMER + SCORE CONTROLS -->
+        <div class="vo-timer-row" id="voTimerRow" style="display:none;">
+          <label>🔴</label>
           <input class="so-input" id="inRedScore" type="number" min="0" max="999" value="0" oninput="updateOverlayScore()"/>
-          <label style="margin-left:8px;">🔵 Blue:</label>
+          <label style="margin-left:4px;">🔵</label>
           <input class="so-input" id="inBlueScore" type="number" min="0" max="999" value="0" oninput="updateOverlayScore()"/>
-          <label style="margin-left:8px;">Auton:</label>
-          <input class="so-input" id="inAutonWinner" type="text" placeholder="R/B/T" style="width:44px;" oninput="updateOverlayScore()"/>
-          <button class="btn-o" style="margin-left:auto;font-size:11px;padding:3px 8px;" onclick="toggleOverlay()">Hide Overlay</button>
+          <div style="width:1px;height:20px;background:var(--b2);margin:0 4px;flex-shrink:0;"></div>
+          <button class="vo-timer-btn" id="voStartBtn" onclick="toggleMatchTimer()" title="Start/pause the match timer (Spacebar)">▶ Start Timer</button>
+          <button class="vo-timer-btn" onclick="syncTimer(15)"  title="Jump to 15s (end of auton)">→ 0:15</button>
+          <button class="vo-timer-btn" onclick="syncTimer(0)"   title="Reset to match start">↺ Reset</button>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:5px;">
+            <span style="font-size:10px;color:var(--t3);">Annotations:</span>
+            <div class="vo-ann-log" id="voAnnLog"></div>
+          </div>
+        </div>
+        <!-- ANNOTATION TIMELINE STRIP -->
+        <div class="vo-timeline" id="voTimeline" style="display:none;">
+          <div class="vo-tl-inner" id="voTlInner">
+            <div class="vo-tl-bar"></div>
+            <div class="vo-tl-auton-zone" id="voAutonZone"></div>
+            <div class="vo-tl-progress" id="voTlProgress" style="width:0%;"></div>
+            <!-- tick marks injected by JS -->
+            <div id="voTlMarkers"></div>
+          </div>
+          <div class="vo-tooltip" id="voTooltip"></div>
         </div>
       </div>
       <div class="vid-resize-handle" id="vidResizeHandle"></div>
@@ -983,52 +1061,277 @@ function startPoll() {
 function setSt(msg,state){document.getElementById('stxt').textContent=msg;const d=document.getElementById('sd');d.className='sdot '+(state==='live'?'sdot-live':state==='load'?'sdot-load':'');}
 
 
-// ─── SCORE OVERLAY ───────────────────────────────────────────────────────────
-let overlayVisible = false;
+// ─── INTERACTIVE VIDEO OVERLAY ───────────────────────────────────────────────
+
+const MATCH_DURATION = 120; // seconds total
+const AUTON_DURATION  = 15;  // seconds
+
+// Overlay state
+const VO = {
+  running: false,
+  elapsed: 0,          // seconds elapsed since match start
+  rafId: null,
+  lastTs: null,
+  annotations: [],     // { id, type, t, label, color, emoji }
+  matchId: null,
+};
+
+const ANN_TYPES = {
+  auton_start: { label: 'Auton Start', emoji: '🟢', color: '#22c55e', chipBg: 'rgba(34,197,94,0.18)', chipBorder: 'rgba(34,197,94,0.5)' },
+  score:        { label: 'Score',       emoji: '💛', color: '#f5c542', chipBg: 'rgba(245,197,66,0.18)', chipBorder: 'rgba(245,197,66,0.5)' },
+  defense:      { label: 'Defense',     emoji: '🛡️',  color: '#ff6b65', chipBg: 'rgba(232,48,42,0.18)', chipBorder: 'rgba(232,48,42,0.5)' },
+  alliance:     { label: 'Alliance',    emoji: '🤝',  color: '#6ab3ff', chipBg: 'rgba(26,125,223,0.18)', chipBorder: 'rgba(26,125,223,0.5)' },
+  error:        { label: 'Error',       emoji: '⚠️',  color: '#f97316', chipBg: 'rgba(249,115,22,0.18)', chipBorder: 'rgba(249,115,22,0.5)' },
+  note:         { label: 'Note',        emoji: '📝',  color: '#a78bfa', chipBg: 'rgba(167,139,250,0.18)', chipBorder: 'rgba(167,139,250,0.5)' },
+};
+
+function fmtTime(s) {
+  const t = Math.max(0, Math.round(s));
+  return `${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`;
+}
 
 function updateOverlayScore() {
   const r = parseInt(document.getElementById('inRedScore')?.value || 0);
   const b = parseInt(document.getElementById('inBlueScore')?.value || 0);
-  const el_r = document.getElementById('soRedScore');
-  const el_b = document.getElementById('soBlueScore');
+  const el_r = document.getElementById('voRedScore');
+  const el_b = document.getElementById('voBlueScore');
   if (el_r) el_r.textContent = r;
   if (el_b) el_b.textContent = b;
 }
 
-function toggleOverlay() {
-  overlayVisible = !overlayVisible;
-  const ov = document.getElementById('scoreOverlay');
-  const btn = document.querySelector('.score-input-row button');
-  if (ov) ov.style.display = overlayVisible ? 'flex' : 'none';
-  if (btn) btn.textContent = overlayVisible ? 'Hide Overlay' : 'Show Overlay';
+function overlayTick(ts) {
+  if (!VO.running) return;
+  if (VO.lastTs !== null) {
+    const delta = (ts - VO.lastTs) / 1000;
+    VO.elapsed = Math.min(MATCH_DURATION, VO.elapsed + delta);
+  }
+  VO.lastTs = ts;
+  renderOverlayTimer();
+  if (VO.elapsed >= MATCH_DURATION) {
+    stopMatchTimer();
+    return;
+  }
+  VO.rafId = requestAnimationFrame(overlayTick);
+}
+
+function renderOverlayTimer() {
+  const remaining = Math.max(0, MATCH_DURATION - VO.elapsed);
+  const timerEl   = document.getElementById('voTimer');
+  const periodEl  = document.getElementById('voPeriodBadge');
+  const progEl    = document.getElementById('voTlProgress');
+
+  const isAuton = VO.elapsed < AUTON_DURATION;
+  const displayTime = isAuton ? AUTON_DURATION - VO.elapsed : MATCH_DURATION - VO.elapsed;
+
+  if (timerEl) {
+    timerEl.textContent = fmtTime(displayTime);
+    timerEl.className = 'vo-hud-timer' + (remaining < 10 ? ' overtime' : '');
+  }
+  if (periodEl) {
+    periodEl.textContent = isAuton ? 'AUTON' : 'DRIVER';
+    periodEl.className = 'vo-hud-period ' + (isAuton ? 'auton' : 'driver');
+  }
+  if (progEl) {
+    progEl.style.width = ((VO.elapsed / MATCH_DURATION) * 100).toFixed(2) + '%';
+  }
+}
+
+function toggleMatchTimer() {
+  if (VO.running) {
+    stopMatchTimer();
+  } else {
+    startMatchTimer();
+  }
+}
+
+function startMatchTimer() {
+  VO.running = true;
+  VO.lastTs = null;
+  VO.rafId = requestAnimationFrame(overlayTick);
+  const btn = document.getElementById('voStartBtn');
+  if (btn) { btn.textContent = '⏸ Pause'; btn.classList.add('active'); }
+}
+
+function stopMatchTimer() {
+  VO.running = false;
+  if (VO.rafId) cancelAnimationFrame(VO.rafId);
+  const btn = document.getElementById('voStartBtn');
+  if (btn) { btn.textContent = '▶ Start Timer'; btn.classList.remove('active'); }
+}
+
+function syncTimer(seconds) {
+  const wasRunning = VO.running;
+  stopMatchTimer();
+  VO.elapsed = Math.max(0, Math.min(MATCH_DURATION, seconds));
+  VO.lastTs = null;
+  renderOverlayTimer();
+  if (wasRunning) startMatchTimer();
+}
+
+// Keyboard shortcuts for annotation while video is focused
+document.addEventListener('keydown', e => {
+  const overlay = document.getElementById('voHud');
+  if (!overlay || overlay.style.display === 'none') return;
+  // Don't fire if typing in an input
+  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+  const map = { a:'auton_start', s:'score', d:'defense', l:'alliance', e:'error', n:'note' };
+  if (map[e.key.toLowerCase()]) { dropAnnotation(map[e.key.toLowerCase()]); e.preventDefault(); }
+  if (e.code === 'Space') { toggleMatchTimer(); e.preventDefault(); }
+});
+
+let annIdCounter = 0;
+function dropAnnotation(type) {
+  const def = ANN_TYPES[type];
+  if (!def) return;
+  const ann = {
+    id: ++annIdCounter,
+    type,
+    t: VO.elapsed,
+    tFmt: fmtTime(VO.elapsed),
+    label: def.label,
+    emoji: def.emoji,
+    color: def.color,
+    chipBg: def.chipBg,
+    chipBorder: def.chipBorder,
+  };
+  VO.annotations.push(ann);
+  // Save to notes if a match is selected
+  if (VO.matchId !== null) {
+    const existing = gn(VO.matchId, '__annotations') || [];
+    existing.push(ann);
+    setN(VO.matchId, '__annotations', existing);
+  }
+  renderAnnotations();
+
+  // Flash feedback
+  const wrap = document.getElementById('vidWrap');
+  if (wrap) {
+    wrap.style.outline = `2px solid ${def.color}`;
+    setTimeout(() => { if (wrap) wrap.style.outline = ''; }, 300);
+  }
+}
+
+function clearAnnotations() {
+  VO.annotations = [];
+  if (VO.matchId !== null) setN(VO.matchId, '__annotations', []);
+  renderAnnotations();
+}
+
+function renderAnnotations() {
+  // Chip log
+  const log = document.getElementById('voAnnLog');
+  if (log) {
+    log.innerHTML = VO.annotations.length
+      ? VO.annotations.map(a => `
+          <div class="vo-ann-chip" style="background:${a.chipBg};border-color:${a.chipBorder};color:${a.color};"
+               onclick="seekToAnnotation(${a.t})" title="Jump to ${a.tFmt} — ${a.label}">
+            ${a.emoji} ${a.label}<span class="chip-t">${a.tFmt}</span>
+          </div>`).join('')
+      : '<span style="font-size:11px;color:var(--t3);">Use buttons or keyboard shortcuts (A/S/D/L/E/N) to annotate</span>';
+    log.scrollLeft = log.scrollWidth;
+  }
+
+  // Timeline markers
+  const container = document.getElementById('voTlMarkers');
+  const tooltip   = document.getElementById('voTooltip');
+  if (!container) return;
+
+  // Render tick marks (every 15s)
+  const ticks = [];
+  for (let t = 0; t <= MATCH_DURATION; t += 15) {
+    const pct = (t / MATCH_DURATION * 100).toFixed(1);
+    ticks.push(`<div class="vo-tl-tick" style="left:${pct}%;"></div>`);
+    ticks.push(`<div class="vo-tl-tick-lbl" style="left:${pct}%;">${fmtTime(t)}</div>`);
+  }
+
+  const markers = VO.annotations.map(a => {
+    const pct = (Math.min(a.t, MATCH_DURATION) / MATCH_DURATION * 100).toFixed(2);
+    return `<div class="vo-tl-marker" style="left:${pct}%;background:${a.color};" 
+                 title="${a.emoji} ${a.label} @ ${a.tFmt}"
+                 onclick="seekToAnnotation(${a.t})"
+                 onmouseenter="showMarkerTip(this, '${a.emoji} ${a.label} @ ${a.tFmt}')"
+                 onmouseleave="hideMarkerTip()">${a.emoji.substring(0,2)}</div>`;
+  }).join('');
+
+  container.innerHTML = ticks.join('') + markers;
+
+  // Auton zone width
+  const autonZone = document.getElementById('voAutonZone');
+  if (autonZone) autonZone.style.width = ((AUTON_DURATION / MATCH_DURATION) * 100) + '%';
+}
+
+function showMarkerTip(el, text) {
+  const tip = document.getElementById('voTooltip');
+  if (!tip || !el) return;
+  tip.textContent = text;
+  tip.style.left = el.style.left;
+  tip.classList.add('show');
+}
+function hideMarkerTip() {
+  const tip = document.getElementById('voTooltip');
+  if (tip) tip.classList.remove('show');
+}
+
+function seekToAnnotation(t) {
+  syncTimer(t);
+  if (!VO.running) startMatchTimer();
 }
 
 function activateScoreOverlay(m) {
-  const red = (m.alliances || []).find(a => a.color === 'red');
+  const red  = (m.alliances || []).find(a => a.color === 'red');
   const blue = (m.alliances || []).find(a => a.color === 'blue');
-  const lbl = `${rl(m.round)}${m.matchnum}`;
-  const el = document.getElementById('soMatchLbl');
-  const rt = document.getElementById('soRedTeams');
-  const bt = document.getElementById('soBlueTeams');
-  const rScore = document.getElementById('soRedScore');
-  const bScore = document.getElementById('soBlueScore');
+
+  // Team names in HUD
+  const redTeams  = (red?.teams  || []).map(t => tn(t.team.id)).join(' + ');
+  const blueTeams = (blue?.teams || []).map(t => tn(t.team.id)).join(' + ');
+  const redOrg    = (red?.teams  || []).map(t => to(t.team.id)).filter(Boolean).join(' / ');
+  const blueOrg   = (blue?.teams || []).map(t => to(t.team.id)).filter(Boolean).join(' / ');
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('voRedTeams', redTeams || '—');
+  set('voBlueTeams', blueTeams || '—');
+  set('voRedOrg',  redOrg);
+  set('voBlueOrg', blueOrg);
+
+  // Scores: use API scores if available
+  const rScore = red?.score  ?? 0;
+  const bScore = blue?.score ?? 0;
   const inR = document.getElementById('inRedScore');
   const inB = document.getElementById('inBlueScore');
-  const row = document.getElementById('scoreInputRow');
-  const ov = document.getElementById('scoreOverlay');
+  if (inR) { inR.value  = rScore; }
+  if (inB) { inB.value  = bScore; }
+  set('voRedScore',  rScore);
+  set('voBlueScore', bScore);
 
-  if (el) el.textContent = lbl;
-  if (rt) rt.textContent = (red?.teams || []).map(t => tn(t.team.id)).join(' + ');
-  if (bt) bt.textContent = (blue?.teams || []).map(t => tn(t.team.id)).join(' + ');
+  // Restore saved annotations for this match
+  VO.matchId = m.id;
+  VO.annotations = gn(m.id, '__annotations') || [];
 
-  // Always start at 0-0 — scores update live via manual input or API poll
-  if (rScore) rScore.textContent = 0;
-  if (bScore) bScore.textContent = 0;
-  if (inR) inR.value = 0;
-  if (inB) inB.value = 0;
+  // Reset timer to start
+  stopMatchTimer();
+  VO.elapsed = 0;
+  renderOverlayTimer();
+  renderAnnotations();
 
-  if (row) row.style.display = 'flex';
-  if (ov) { ov.style.display = 'flex'; overlayVisible = true; }
+  // Show all overlay elements
+  ['voHud','voToolbar','voTimerRow','voTimeline'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = '';
+  });
+  document.getElementById('vidWrap').classList.add('overlay-pinned');
+
+  setSt(`Overlay active — use A/S/D/L/E/N to annotate, Space to start/pause timer`, 'live');
+}
+
+function toggleOverlay() {
+  const hud = document.getElementById('voHud');
+  const hidden = hud?.style.display === 'none';
+  ['voHud','voToolbar','voTimerRow','voTimeline'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = hidden ? '' : 'none';
+  });
+  const wrap = document.getElementById('vidWrap');
+  if (wrap) wrap.classList.toggle('overlay-pinned', hidden);
 }
 
 // ─── TEAM ANALYSIS PAGE ──────────────────────────────────────────────────────
@@ -1515,37 +1818,97 @@ function switchTab(tab) {
 // Season ID — fetched dynamically from the loaded event so it's always correct
 let CURRENT_SEASON_ID = null;
 
+// Cache season data in sessionStorage so repeat opens are instant
+const SEASON_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+function getSeasonCache(teamId, seasonId) {
+  try {
+    const raw = sessionStorage.getItem(`vadt_season_${teamId}_${seasonId}`);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts > SEASON_CACHE_TTL) return null;
+    return data;
+  } catch { return null; }
+}
+
+function setSeasonCache(teamId, seasonId, data) {
+  try {
+    sessionStorage.setItem(`vadt_season_${teamId}_${seasonId}`, JSON.stringify({ ts: Date.now(), data }));
+  } catch {}
+}
+
 async function loadSeasonData(teamId) {
   const main = document.getElementById('tpSeasonMain');
   const side = document.getElementById('tpSeasonSide');
-  if (main) main.innerHTML = '<div class="empty" style="margin-top:60px;"><p>Loading season data…</p></div>';
 
-  try {
-    // Get season ID from the currently loaded event — always accurate
-    if (!CURRENT_SEASON_ID && S.ev?.season?.id) {
-      CURRENT_SEASON_ID = S.ev.season.id;
-      console.log('Season ID from event:', CURRENT_SEASON_ID, S.ev.season.name);
-    }
-    if (!CURRENT_SEASON_ID) {
-      // Fallback: fetch from seasons API
+  // Get season ID first
+  if (!CURRENT_SEASON_ID && S.ev?.season?.id) {
+    CURRENT_SEASON_ID = S.ev.season.id;
+  }
+  if (!CURRENT_SEASON_ID) {
+    try {
       const seasons = await rg('/seasons', { 'program[]': 1, active: true, per_page: 1 });
       CURRENT_SEASON_ID = seasons.data?.[0]?.id;
-      console.log('Season ID from API:', CURRENT_SEASON_ID);
-    }
-    if (!CURRENT_SEASON_ID) throw new Error('Could not determine current season ID');
+    } catch {}
+  }
+  if (!CURRENT_SEASON_ID) {
+    if (main) main.innerHTML = `<div class="empty" style="margin-top:60px;"><p style="color:#ff7b77;">Could not determine season ID</p></div>`;
+    return;
+  }
 
-    // Fetch all matches this season across all events
-    const [matchData, rankData, skillsData, eventsData] = await Promise.all([
-      ra(`/teams/${teamId}/matches`, { 'season[]': CURRENT_SEASON_ID, per_page: 250 }),
-      ra(`/teams/${teamId}/rankings`, { 'season[]': CURRENT_SEASON_ID }),
-      ra(`/teams/${teamId}/skills`, { 'season[]': CURRENT_SEASON_ID }),
-      ra(`/teams/${teamId}/events`, { 'season[]': CURRENT_SEASON_ID }),
-    ]);
+  // ── Cache hit: render instantly ──
+  const cached = getSeasonCache(teamId, CURRENT_SEASON_ID);
+  if (cached) {
+    seasonDataLoaded = true;
+    document.getElementById('tabSeasonBadge').textContent = `${cached.matchData.length} matches`;
+    renderSeasonMain(teamId, cached.matchData, cached.rankData, cached.skillsData, cached.eventsData);
+    renderSeasonSide(teamId, cached.matchData, cached.rankData, cached.skillsData, cached.eventsData);
+    return;
+  }
+
+  // ── Cache miss: show skeleton, fetch progressively ──
+  if (main) main.innerHTML = `
+    <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
+      <div class="tp-stats">
+        ${['Season Record','Avg Score','Consistency','Trend'].map(l=>`
+        <div class="tp-stat">
+          <div class="tp-stat-lbl">${l}</div>
+          <div style="height:28px;background:var(--s4);border-radius:4px;animation:skelPulse 1.4s ease-in-out infinite;margin-top:4px;"></div>
+        </div>`).join('')}
+      </div>
+      <div class="tp-card"><div style="height:160px;background:var(--s4);border-radius:4px;animation:skelPulse 1.4s ease-in-out infinite;"></div></div>
+    </div>`;
+  if (side) side.innerHTML = `<div style="padding:16px;display:flex;flex-direction:column;gap:8px;">
+    ${[1,2,3].map(()=>`<div style="height:60px;background:var(--s4);border-radius:8px;animation:skelPulse 1.4s ease-in-out infinite;"></div>`).join('')}
+  </div>`;
+
+  try {
+    // Fire all 4 calls in parallel, render as each resolves
+    let matchData = [], rankData = [], skillsData = [], eventsData = [];
+
+    const fetchAll = [
+      ra(`/teams/${teamId}/matches`,  { 'season[]': CURRENT_SEASON_ID, per_page: 250 }).then(d => {
+        matchData = d;
+        document.getElementById('tabSeasonBadge').textContent = `${d.length} matches`;
+      }),
+      ra(`/teams/${teamId}/rankings`, { 'season[]': CURRENT_SEASON_ID }).then(d => { rankData = d; }),
+      ra(`/teams/${teamId}/skills`,   { 'season[]': CURRENT_SEASON_ID }).then(d => { skillsData = d; }),
+      ra(`/teams/${teamId}/events`,   { 'season[]': CURRENT_SEASON_ID }).then(d => { eventsData = d; }),
+    ];
+
+    // Render a partial update when matches (the slowest) come in
+    fetchAll[0].then(() => {
+      if (matchData.length) renderSeasonMain(teamId, matchData, rankData, skillsData, eventsData);
+    });
+
+    await Promise.all(fetchAll);
 
     seasonDataLoaded = true;
-    document.getElementById('tabSeasonBadge').textContent = `${matchData.length} matches`;
     renderSeasonMain(teamId, matchData, rankData, skillsData, eventsData);
     renderSeasonSide(teamId, matchData, rankData, skillsData, eventsData);
+
+    // Store in cache for next time
+    setSeasonCache(teamId, CURRENT_SEASON_ID, { matchData, rankData, skillsData, eventsData });
   } catch(e) {
     if (main) main.innerHTML = `<div class="empty" style="margin-top:60px;"><p style="color:#ff7b77;">Season data error: ${e.message}</p></div>`;
     console.error('Season data error:', e);
