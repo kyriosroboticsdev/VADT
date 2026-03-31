@@ -651,7 +651,7 @@ function renderMList(){
         <span class="vs">vs</span>
         ${(blue?.teams||[]).map(t=>`<span class="tt tt-b">${tn(t.team.id)}</span>`).join('')}
       </div>
-      ${m.scored?`<div class="mi-sc">${red?.score??'—'} – ${blue?.score??'—'}</div>`:''}
+      ${(m.scored||(red?.score!=null&&blue?.score!=null))?`<div class="mi-sc">${red?.score??'—'} – ${blue?.score??'—'}</div>`:''}
     </div>`;
   }).join('');
 }
@@ -1068,15 +1068,24 @@ function renderTeamPage(teamId) {
 function getTeamMatches(teamId) {
   const tid = Number(teamId);
   const all = S.matches.filter(m => (m.alliances || []).some(a => (a.teams || []).some(t => Number(t.team.id) === tid)));
-  console.log(`getTeamMatches(${tid}): ${all.length} matches found, ${all.filter(m=>m.scored).length} scored`);
+  // Debug: show actual score values to understand why scored=false
+  const withScores = all.filter(m => {
+    const a = m.alliances || [];
+    return a.some(al => al.score !== null && al.score !== undefined);
+  });
+  console.log(`getTeamMatches(${tid}): ${all.length} matches, ${all.filter(m=>m.scored).length} scored flag, ${withScores.length} have actual scores`);
+  if (all.length > 0) console.log('Sample match:', JSON.stringify({scored:all[0].scored, alliances:all[0].alliances?.map(a=>({color:a.color,score:a.score}))}));
   return S.matches
     .filter(m => (m.alliances || []).some(a => (a.teams || []).some(t => Number(t.team.id) === tid)))
     .map(m => {
       const myAlliance = (m.alliances || []).find(a => (a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
       const oppAlliance = (m.alliances || []).find(a => !(a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
-      const myScore = myAlliance?.score ?? null;
-      const oppScore = oppAlliance?.score ?? null;
-      const scored = m.scored && myScore !== null;
+      const myScore = (myAlliance?.score !== undefined && myAlliance?.score !== null) ? Number(myAlliance.score) : null;
+      const oppScore = (oppAlliance?.score !== undefined && oppAlliance?.score !== null) ? Number(oppAlliance.score) : null;
+      // RobotEvents sometimes returns scored:false even when scores exist
+      // Treat as scored if either alliance has an actual score value
+      const hasScores = myScore !== null && oppScore !== null;
+      const scored = hasScores || m.scored;
       const result = !scored ? '—' : myScore > oppScore ? 'W' : myScore < oppScore ? 'L' : 'T';
       const partner = (myAlliance?.teams || []).find(t => Number(t.team.id) !== Number(teamId));
       const lbl = `${rl(m.round)}${m.matchnum}`;
