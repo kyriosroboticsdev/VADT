@@ -833,7 +833,9 @@ function pushDetectedScores(){
 }
 
 // ─── INIT ──────────────────────────────────────────────────────────────────────
-init();
-initGoogleAuth();
-checkAuthRedirect();
-if(!S.re)setTimeout(openSettings,600);
+  document.addEventListener('DOMContentLoaded', () => {
+    init();
+    initGoogleAuth();
+    checkAuthRedirect();
+    if(!S.re)setTimeout(openSettings,600);
+  });
