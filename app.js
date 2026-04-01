@@ -1,5 +1,6 @@
 // ─── STATE ────────────────────────────────────────────────────────────────────
-const S={re:'',gid:'937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com',gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
+const S={re:'',gid:'
+937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com',gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
 const ls=(k,v)=>{if(v!==undefined)localStorage.setItem(k,v);else return localStorage.getItem(k)||'';};
 const init=()=>{
   S.re=ls('vs_re');
@@ -19,7 +20,7 @@ function initGoogleAuth(){renderAuthBar(null);}
 function signInGoogle(){
   const sku=document.getElementById('evIn')?.value||'';
   if(sku)sessionStorage.setItem('vadt_restore_sku',sku);
-  const p=new URLSearchParams({client_id:S.gid,redirect_uri:'https://kyriosroboticsdev.github.io/VADT/',response_type:'token',scope:'openid email profile',prompt:'select_account'});
+  const p=new URLSearchParams({client_id:S.gid,redirect_uri:'https://vexscout.vercel.app/',response_type:'token',scope:'openid email profile',prompt:'select_account'});
   window.location.href='https://accounts.google.com/o/oauth2/v2/auth?'+p.toString();
 }
 async function checkAuthRedirect(){
