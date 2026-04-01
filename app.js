@@ -732,11 +732,26 @@ function showCVStep(step){
   ['1','2','3'].forEach((n,i)=>{const pip=document.getElementById('cvStep'+n);if(pip)pip.classList.toggle('active',['capture','draw','live'][i]===step);});
 }
 function captureFrame(){
-  const video=document.getElementById('vidFrame');
-  if(!video||video.style.display==='none'){const msg=document.getElementById('cvNoVideoMsg');if(msg){msg.style.display='block';msg.textContent='⚠️ No video loaded — upload a screenshot instead.';}return;}
-  const src=video.src||'',ytMatch=src.match(/embed\/([A-Za-z0-9_-]{11})/),thumb=ytMatch?`https://img.youtube.com/vi/${ytMatch[1]}/hqdefault.jpg`:null;
-  if(thumb){const img=new Image();img.crossOrigin='anonymous';img.onload=()=>{CV.capturedImage=img;showDrawStep(img);};img.onerror=()=>{const msg=document.getElementById('cvNoVideoMsg');if(msg){msg.style.display='block';msg.textContent='⚠️ Cross-origin blocked — please upload a screenshot.';}}; img.src=thumb;}
-  else{const msg=document.getElementById('cvNoVideoMsg');if(msg){msg.style.display='block';msg.textContent='⚠️ Could not capture frame — upload a screenshot.';}}
+  const localVid=document.getElementById('cvVideoPreview');
+  if(localVid&&localVid.src&&localVid.readyState>=2){
+    const c=document.createElement('canvas');
+    c.width=localVid.videoWidth;c.height=localVid.videoHeight;
+    c.getContext('2d').drawImage(localVid,0,0);
+    const img=new Image();img.onload=()=>{CV.capturedImage=img;showDrawStep(img);};img.src=c.toDataURL('image/jpeg',0.95);
+    return;
+  }
+  const msg=document.getElementById('cvNoVideoMsg');
+  if(msg){msg.style.display='block';msg.textContent='⚠️ Load a video file first, pause it at the desired frame, then capture.';}
+}
+function loadCVVideo(e){
+  const file=e.target.files[0];if(!file)return;
+  const vid=document.getElementById('cvVideoPreview');
+  if(vid.src)URL.revokeObjectURL(vid.src);
+  vid.src=URL.createObjectURL(file);
+  vid.style.display='block';
+  const msg=document.getElementById('cvNoVideoMsg');
+  if(msg){msg.style.display='block';msg.textContent='⏸ Pause at the desired frame, then click Capture Frame.';}
+  e.target.value='';
 }
 function loadScreenshot(e){
   const file=e.target.files[0];if(!file)return;
