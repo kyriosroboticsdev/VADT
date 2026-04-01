@@ -1,6 +1,5 @@
 // ─── STATE ────────────────────────────────────────────────────────────────────
-const S={re:'',gid:'
-937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com',gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
+const S={re:'',gid:'937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com',gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
 const ls=(k,v)=>{if(v!==undefined)localStorage.setItem(k,v);else return localStorage.getItem(k)||'';};
 const init=()=>{
   S.re=ls('vs_re');
