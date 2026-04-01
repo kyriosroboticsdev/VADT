@@ -23,39 +23,6 @@
 }
 body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;line-height:1.5;min-height:100vh;overflow:hidden;}
 
-/* ─── ONBOARDING ─── */
-#onboarding{position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:200;display:flex;align-items:center;justify-content:center;}
-.ob-card{background:var(--s2);border:1px solid var(--b2);border-radius:18px;width:530px;max-width:95vw;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.6);}
-.ob-prog-bar{height:3px;background:var(--s4);}
-.ob-prog-fill{height:100%;background:var(--gold);border-radius:3px;transition:width 0.4s ease;}
-.ob-body{padding:30px 34px;}
-.ob-eyebrow{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.14em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;}
-.ob-h1{font-family:var(--fd);font-weight:900;font-size:30px;letter-spacing:0.01em;line-height:1.1;margin-bottom:10px;}
-.ob-h1 em{color:var(--gold);font-style:normal;}
-.ob-p{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:20px;}
-.ob-p strong{color:var(--t1);font-weight:500;}
-.ob-link-btn{display:flex;align-items:center;gap:12px;background:var(--s3);border:1px solid var(--b2);border-radius:var(--rl);padding:13px 15px;cursor:pointer;transition:all 0.14s;text-decoration:none;margin-bottom:10px;}
-.ob-link-btn:hover{background:var(--s4);border-color:var(--b3);}
-.ob-link-ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.ob-link-body{text-align:left;}
-.ob-link-label{font-weight:600;font-size:14px;color:var(--t1);}
-.ob-link-sub{font-size:12px;color:var(--t2);margin-top:1px;}
-.ob-field{margin-bottom:14px;}
-.ob-field-label{font-size:13px;color:var(--t2);margin-bottom:6px;display:block;}
-.ob-field-input{width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fm);font-size:13px;padding:10px 12px;border-radius:var(--r);outline:none;transition:border-color 0.15s;}
-.ob-field-input:focus{border-color:var(--gold);}
-.ob-field-input::placeholder{color:var(--t3);font-family:var(--fb);}
-.ob-hint{font-size:12px;color:var(--t3);margin-top:5px;line-height:1.5;}
-.ob-hint a{color:var(--gold);text-decoration:none;}
-.ob-footer{display:flex;align-items:center;justify-content:space-between;padding:15px 34px;border-top:1px solid var(--b1);background:var(--s1);}
-.ob-dots{display:flex;gap:5px;align-items:center;}
-.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--s5);transition:all 0.2s;}
-.ob-dot.on{background:var(--gold);width:18px;border-radius:3px;}
-.ob-skip{font-size:13px;color:var(--t3);cursor:pointer;background:none;border:none;font-family:var(--fb);transition:color 0.12s;}
-.ob-skip:hover{color:var(--t2);}
-.ob-next{background:var(--gold);color:#1a1200;font-family:var(--fd);font-size:15px;font-weight:700;letter-spacing:0.06em;padding:8px 22px;border:none;border-radius:var(--r);cursor:pointer;transition:opacity 0.15s;}
-.ob-next:hover{opacity:0.87;}
-
 /* ─── TOPBAR ─── */
 .topbar{background:var(--s2);border-bottom:1px solid var(--b1);height:50px;display:flex;align-items:center;padding:0 14px;gap:9px;flex-shrink:0;}
 .logo{font-family:var(--fd);font-weight:900;font-size:21px;letter-spacing:0.05em;white-space:nowrap;display:flex;align-items:center;gap:5px;}
@@ -78,8 +45,6 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 
 /* ─── LAYOUT ─── */
 .layout{display:grid;grid-template-columns:252px 1fr 280px;height:calc(100vh - 50px);}
-
-/* panels */
 .pl{background:var(--s1);border-right:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden;}
 .pr{background:var(--s1);border-left:1px solid var(--b1);display:flex;flex-direction:column;overflow:hidden;}
 .ph{padding:10px 12px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
@@ -88,7 +53,7 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 .scr::-webkit-scrollbar{width:3px;}
 .scr::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
 
-/* match list */
+/* ─── MATCH LIST ─── */
 .mi{padding:9px 10px;margin:3px 5px;border-radius:var(--r);cursor:pointer;border:1px solid transparent;transition:all 0.1s;}
 .mi:hover{background:var(--s3);}
 .mi.active{background:var(--s3);border-color:var(--gold);}
@@ -106,10 +71,8 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 .vs{color:var(--t3);font-size:10px;}
 .mi-sc{font-family:var(--fd);font-weight:700;font-size:12px;color:var(--t2);margin-top:3px;}
 
-/* center */
+/* ─── CENTER ─── */
 .pc{display:flex;flex-direction:column;overflow:hidden;background:var(--s0);}
-
-/* video panel */
 .vid-panel{flex-shrink:0;display:flex;flex-direction:column;background:var(--s1);border-bottom:1px solid var(--b1);}
 .vid-input-bar{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--s2);border-bottom:1px solid var(--b1);flex-shrink:0;}
 .vi{flex:1;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:5px 9px;border-radius:var(--r);outline:none;min-width:0;}
@@ -121,12 +84,10 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 .vid-resize-handle:hover{background:var(--gold);}
 .vid-placeholder,.vid-blocked{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--t3);font-size:12px;text-align:center;padding:16px;}
 
-/* scout area */
+/* ─── SCOUT AREA ─── */
 .sa{flex:1;overflow-y:auto;padding:12px;}
 .sa::-webkit-scrollbar{width:3px;}
 .sa::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
-
-/* match banner */
 .mb{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;}
 .mb-s{display:flex;flex-direction:column;gap:2px;}
 .mb-s.rt{align-items:flex-end;}
@@ -136,8 +97,6 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 .mb-mid{text-align:center;}
 .mb-lbl{font-family:var(--fd);font-size:11px;letter-spacing:0.12em;color:var(--t3);text-transform:uppercase;}
 .mb-sc{font-family:var(--fd);font-weight:900;font-size:28px;line-height:1.1;}
-
-/* prob */
 .pw{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:11px 13px;margin-bottom:10px;}
 .ph2{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
 .pl2{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.11em;color:var(--t3);text-transform:uppercase;}
@@ -146,8 +105,6 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 .pb2{font-family:var(--fd);font-size:17px;font-weight:900;color:#6ab3ff;}
 .pt{height:6px;background:var(--s4);border-radius:3px;overflow:hidden;}
 .pf{height:100%;border-radius:3px;transition:width 0.5s ease;}
-
-/* team cards */
 .tr{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;margin-bottom:10px;}
 .tc{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:10px 12px;border-top:3px solid transparent;}
 .tc.red{border-top-color:var(--red);}.tc.blue{border-top-color:var(--blue);}
@@ -160,8 +117,6 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 .st{background:var(--s3);border-radius:var(--r);padding:4px 7px;}
 .stl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:1px;}
 .stv{font-family:var(--fm);font-size:12px;font-weight:600;}
-
-/* form */
 .sf{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;}
 .sf-t{font-family:var(--fd);font-weight:700;font-size:12px;letter-spacing:0.08em;color:var(--t2);text-transform:uppercase;margin-bottom:10px;}
 .sr{display:grid;grid-template-columns:165px 1fr;align-items:center;gap:8px;margin-bottom:8px;}
@@ -180,10 +135,7 @@ body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;l
 input[type=range]{width:100%;accent-color:var(--gold);}
 .fa{display:flex;gap:7px;margin-top:11px;padding-top:10px;border-top:1px solid var(--b1);}
 
-/* ai */
-
-
-/* right */
+/* ─── RIGHT PANEL ─── */
 .ev-hd{padding:11px 12px;border-bottom:1px solid var(--b1);flex-shrink:0;}
 .ev-nm{font-family:var(--fd);font-weight:700;font-size:15px;line-height:1.2;margin-bottom:2px;}
 .ev-mt{font-size:11px;color:var(--t3);}
@@ -197,68 +149,10 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .ex h4{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;}
 .xb{display:flex;align-items:center;gap:7px;width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:12px;padding:7px 10px;border-radius:var(--r);cursor:pointer;transition:all 0.12s;margin-bottom:5px;text-align:left;}
 .xb:hover{background:var(--s4);border-color:var(--b3);}
-
 .empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:34px 14px;color:var(--t3);font-size:13px;text-align:center;}
 .nt{background:var(--gold-d);border:1px solid rgba(245,197,66,0.18);border-radius:var(--rl);padding:9px 12px;font-size:12px;color:var(--gold);line-height:1.6;margin-bottom:10px;}
 
-/* ─── TEAM ANALYSIS PAGE ─── */
-#teamPage{position:fixed;inset:0;background:var(--s0);z-index:150;display:none;flex-direction:column;overflow:hidden;}
-#teamPage.open{display:flex;}
-.tp-topbar{background:var(--s2);border-bottom:1px solid var(--b1);height:50px;display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;}
-.tp-back{display:flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--b2);color:var(--t2);font-family:var(--fb);font-size:13px;padding:5px 12px;border-radius:var(--r);cursor:pointer;transition:all 0.12s;}
-.tp-back:hover{border-color:var(--b3);color:var(--t1);}
-.tp-team-num{font-family:var(--fd);font-weight:900;font-size:24px;letter-spacing:0.04em;}
-.tp-team-org{font-size:13px;color:var(--t2);}
-.tp-body{display:grid;grid-template-columns:1fr 340px;flex:1;overflow:hidden;gap:0;}
-.tp-main{overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;}
-.tp-main::-webkit-scrollbar{width:3px;}
-.tp-main::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
-.tp-side{background:var(--s1);border-left:1px solid var(--b1);overflow-y:auto;padding:16px;}
-.tp-side::-webkit-scrollbar{width:3px;}
-.tp-side::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
-
-/* stat cards row */
-.tp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
-.tp-stat{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:13px 14px;}
-.tp-stat-lbl{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;}
-.tp-stat-val{font-family:var(--fd);font-weight:900;font-size:26px;line-height:1;}
-.tp-stat-sub{font-size:11px;color:var(--t2);margin-top:3px;}
-
-/* chart card */
-.tp-card{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:14px 16px;}
-.tp-card-title{font-family:var(--fd);font-weight:700;font-size:12px;letter-spacing:0.1em;color:var(--t2);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
-.tp-chart-wrap{position:relative;height:180px;}
-
-/* momentum bar */
-.momentum-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px;}
-.mom-block{width:22px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:var(--fd);}
-.mom-w{background:rgba(34,197,94,0.2);color:#22c55e;}
-.mom-l{background:rgba(232,48,42,0.2);color:#ff7b77;}
-.mom-t{background:var(--s4);color:var(--t3);}
-
-/* match history list */
-.tp-match-row{display:grid;grid-template-columns:50px 1fr 80px 80px;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r);border:1px solid transparent;transition:all 0.1s;margin-bottom:3px;}
-.tp-match-row:hover{background:var(--s3);border-color:var(--b1);}
-.tp-match-lbl{font-family:var(--fd);font-weight:700;font-size:13px;}
-.tp-match-teams{font-size:12px;color:var(--t2);}
-.tp-match-score{font-family:var(--fd);font-weight:700;font-size:14px;text-align:right;}
-.tp-match-result{font-size:11px;font-weight:600;padding:2px 7px;border-radius:3px;text-align:center;}
-.res-w{background:rgba(34,197,94,0.13);color:#22c55e;}
-.res-l{background:rgba(232,48,42,0.13);color:#ff7b77;}
-.res-t{background:var(--s4);color:var(--t3);}
-
-/* mmr badge */
-.mmr-badge{display:flex;align-items:center;gap:12px;background:var(--s3);border-radius:var(--rl);padding:12px 14px;margin-bottom:10px;}
-.mmr-num{font-family:var(--fd);font-weight:900;font-size:40px;line-height:1;}
-.mmr-label{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;}
-.mmr-trend{font-size:13px;font-weight:500;}
-
-/* ai insight */
-.tp-ai-box{background:var(--s3);border-radius:var(--r);padding:10px 12px;font-size:13px;color:var(--t2);line-height:1.65;}
-.tp-ai-box strong{color:var(--t1);font-weight:500;}
-
-/* ─── INTERACTIVE VIDEO OVERLAY ─── */
-/* Scoreboard HUD */
+/* ─── VIDEO OVERLAY HUD ─── */
 .vo-hud{position:absolute;top:0;left:0;right:0;pointer-events:none;z-index:15;display:flex;align-items:stretch;background:linear-gradient(to bottom,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.3) 70%,transparent 100%);}
 .vo-hud-red{flex:1;padding:6px 12px;display:flex;flex-direction:column;justify-content:center;}
 .vo-hud-blue{flex:1;padding:6px 12px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;}
@@ -275,10 +169,8 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .vo-hud-timer{font-family:var(--fd);font-weight:900;font-size:22px;color:#fff;line-height:1;}
 .vo-hud-timer.auton{color:#6ee7a0;}
 .vo-hud-timer.overtime{color:#ff7b77;animation:blink 0.5s step-start infinite;}
-
-/* Annotation toolbar */
 .vo-toolbar{position:absolute;bottom:0;left:0;right:0;pointer-events:all;z-index:15;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);padding:8px 10px 6px;display:flex;align-items:center;gap:6px;opacity:0;transition:opacity 0.2s;}
-.vid-embed-wrap:hover .vo-toolbar, .vid-embed-wrap.overlay-pinned .vo-toolbar{opacity:1;}
+.vid-embed-wrap:hover .vo-toolbar,.vid-embed-wrap.overlay-pinned .vo-toolbar{opacity:1;}
 .vo-ann-btn{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.18);color:#fff;font-size:11px;font-family:var(--fb);padding:4px 8px;border-radius:5px;cursor:pointer;transition:all 0.12s;white-space:nowrap;flex-shrink:0;}
 .vo-ann-btn:hover{background:rgba(255,255,255,0.22);}
 .vo-ann-btn .kbd{font-size:9px;background:rgba(0,0,0,0.4);padding:1px 4px;border-radius:3px;margin-left:2px;font-family:var(--fm);}
@@ -291,8 +183,6 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .vo-ann-btn.ann-green{border-color:rgba(34,197,94,0.6);background:rgba(34,197,94,0.15);}
 .vo-ann-btn.ann-green:hover{background:rgba(34,197,94,0.3);}
 .vo-toolbar-sep{width:1px;height:18px;background:rgba(255,255,255,0.15);flex-shrink:0;}
-
-/* Timer controls row */
 .vo-timer-row{display:flex;align-items:center;gap:7px;padding:5px 10px;background:var(--s2);border-top:1px solid var(--b1);pointer-events:all;}
 .vo-timer-row label{font-size:11px;color:var(--t3);white-space:nowrap;}
 .so-input{width:52px;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fd);font-size:18px;font-weight:700;padding:3px 6px;border-radius:var(--r);outline:none;text-align:center;}
@@ -300,8 +190,6 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .vo-timer-btn{background:var(--s3);border:1px solid var(--b2);color:var(--t2);font-size:12px;padding:4px 9px;border-radius:var(--r);cursor:pointer;transition:all 0.12s;font-family:var(--fb);}
 .vo-timer-btn:hover{background:var(--s4);color:var(--t1);}
 .vo-timer-btn.active{background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.4);color:#22c55e;}
-
-/* Annotation timeline strip */
 .vo-timeline{padding:0 10px 6px;background:var(--s1);border-top:1px solid var(--b1);min-height:32px;position:relative;overflow:hidden;}
 .vo-tl-inner{position:relative;height:28px;width:100%;}
 .vo-tl-bar{position:absolute;top:12px;left:0;right:0;height:3px;background:var(--s4);border-radius:2px;}
@@ -311,31 +199,59 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .vo-tl-marker:hover{transform:translateX(-8px) scale(1.4);z-index:3;}
 .vo-tl-tick{position:absolute;top:8px;width:1px;height:11px;background:rgba(255,255,255,0.1);}
 .vo-tl-tick-lbl{position:absolute;top:22px;font-size:8px;color:var(--t3);transform:translateX(-50%);white-space:nowrap;}
-
-/* Annotation log panel (right side of controls) */
 .vo-ann-log{display:flex;gap:6px;flex:1;overflow-x:auto;align-items:center;padding-right:4px;}
 .vo-ann-log::-webkit-scrollbar{height:2px;}
 .vo-ann-log::-webkit-scrollbar-thumb{background:var(--s5);}
 .vo-ann-chip{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 7px;border-radius:10px;white-space:nowrap;cursor:pointer;flex-shrink:0;border:1px solid transparent;}
 .vo-ann-chip:hover{filter:brightness(1.2);}
 .vo-ann-chip .chip-t{font-family:var(--fm);font-size:10px;opacity:0.7;margin-left:2px;}
-
-/* Tooltip for markers */
 .vo-tooltip{position:absolute;bottom:26px;background:rgba(10,10,16,0.95);border:1px solid var(--b2);border-radius:6px;padding:5px 9px;font-size:11px;color:var(--t1);pointer-events:none;z-index:20;white-space:nowrap;transform:translateX(-50%);display:none;}
 .vo-tooltip.show{display:block;}
 
-
-/* ─── TEAM PAGE TABS ─── */
+/* ─── TEAM ANALYSIS PAGE ─── */
+#teamPage{position:fixed;inset:0;background:var(--s0);z-index:150;display:none;flex-direction:column;overflow:hidden;}
+#teamPage.open{display:flex;}
+.tp-topbar{background:var(--s2);border-bottom:1px solid var(--b1);height:50px;display:flex;align-items:center;padding:0 20px;gap:14px;flex-shrink:0;}
+.tp-back{display:flex;align-items:center;gap:7px;background:transparent;border:1px solid var(--b2);color:var(--t2);font-family:var(--fb);font-size:13px;padding:5px 12px;border-radius:var(--r);cursor:pointer;transition:all 0.12s;}
+.tp-back:hover{border-color:var(--b3);color:var(--t1);}
+.tp-team-num{font-family:var(--fd);font-weight:900;font-size:24px;letter-spacing:0.04em;}
+.tp-team-org{font-size:13px;color:var(--t2);}
+.tp-body{display:grid;grid-template-columns:1fr 340px;flex:1;overflow:hidden;}
+.tp-main{overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;}
+.tp-main::-webkit-scrollbar{width:3px;}
+.tp-main::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
+.tp-side{background:var(--s1);border-left:1px solid var(--b1);overflow-y:auto;padding:16px;}
+.tp-side::-webkit-scrollbar{width:3px;}
+.tp-side::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
+.tp-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.tp-stat{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:13px 14px;}
+.tp-stat-lbl{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;}
+.tp-stat-val{font-family:var(--fd);font-weight:900;font-size:26px;line-height:1;}
+.tp-stat-sub{font-size:11px;color:var(--t2);margin-top:3px;}
+.tp-card{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:14px 16px;}
+.tp-card-title{font-family:var(--fd);font-weight:700;font-size:12px;letter-spacing:0.1em;color:var(--t2);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;}
+.tp-chart-wrap{position:relative;height:180px;}
+.momentum-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:4px;}
+.mom-block{width:22px;height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;font-family:var(--fd);}
+.mom-w{background:rgba(34,197,94,0.2);color:#22c55e;}
+.mom-l{background:rgba(232,48,42,0.2);color:#ff7b77;}
+.mom-t{background:var(--s4);color:var(--t3);}
+.tp-match-row{display:grid;grid-template-columns:50px 1fr 80px 80px;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r);border:1px solid transparent;transition:all 0.1s;margin-bottom:3px;}
+.tp-match-row:hover{background:var(--s3);border-color:var(--b1);}
+.tp-match-lbl{font-family:var(--fd);font-weight:700;font-size:13px;}
+.tp-match-teams{font-size:12px;color:var(--t2);}
+.tp-match-score{font-family:var(--fd);font-weight:700;font-size:14px;text-align:right;}
+.tp-match-result{font-size:11px;font-weight:600;padding:2px 7px;border-radius:3px;text-align:center;}
+.res-w{background:rgba(34,197,94,0.13);color:#22c55e;}
+.res-l{background:rgba(232,48,42,0.13);color:#ff7b77;}
+.res-t{background:var(--s4);color:var(--t3);}
 .tp-tabs{display:flex;gap:0;border-bottom:1px solid var(--b1);background:var(--s2);flex-shrink:0;padding:0 20px;}
 .tp-tab{font-family:var(--fd);font-weight:700;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;padding:12px 18px;cursor:pointer;color:var(--t3);border-bottom:2px solid transparent;transition:all 0.15s;background:none;border-top:none;border-left:none;border-right:none;}
 .tp-tab:hover{color:var(--t2);}
 .tp-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 .tp-tab-badge{background:var(--s4);color:var(--t3);font-size:10px;font-family:var(--fb);font-weight:600;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;}
 .tp-tab.active .tp-tab-badge{background:var(--gold-d);color:var(--gold);}
-
 @keyframes skelPulse{0%,100%{opacity:0.5;}50%{opacity:1;}}
-
-/* season stats specifics */
 .season-event-row{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:11px 14px;margin-bottom:8px;}
 .season-event-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
 .season-event-name{font-size:13px;font-weight:500;color:var(--t1);}
@@ -348,55 +264,92 @@ input[type=range]{width:100%;accent-color:var(--gold);}
 .season-skills-bar{height:6px;background:var(--s4);border-radius:3px;overflow:hidden;margin-top:6px;}
 .season-skills-fill{height:100%;border-radius:3px;background:var(--gold);}
 
+/* ─── CV OVERLAY ─── */
+#cvOverlayPanel{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:400;display:none;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;overflow-y:auto;}
+#cvOverlayPanel.open{display:flex;}
+.cvo-box{background:var(--s2);border:1px solid var(--b2);border-radius:14px;width:860px;max-width:98vw;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.7);}
+.cvo-hd{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--b1);background:var(--s1);}
+.cvo-title{font-family:var(--fd);font-weight:900;font-size:20px;flex:1;}
+.cvo-step-bar{display:flex;gap:5px;}
+.cvo-step-pip{background:var(--s4);color:var(--t3);padding:2px 9px;border-radius:3px;font-family:var(--fm);font-size:11px;}
+.cvo-step-pip.active{background:var(--gold-d);color:var(--gold);}
+.cvo-body{padding:16px 18px;}
+.cvo-canvas-wrap{position:relative;width:100%;background:#000;border-radius:8px;overflow:hidden;cursor:crosshair;}
+#cvoCanvas{display:block;width:100%;height:auto;}
+#cvoDrawCanvas{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;}
+.cvo-zones{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+.cvo-zone{background:var(--s3);border:1px solid var(--b2);border-radius:var(--rl);padding:10px 12px;cursor:pointer;transition:border-color 0.1s;}
+.cvo-zone-hd{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+.cvo-zone-color{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.cvo-zone-name{font-family:var(--fd);font-weight:700;font-size:13px;}
+.cvo-zone-status{font-size:11px;color:var(--t3);}
+.cvo-zone-val{font-family:var(--fm);font-size:22px;font-weight:700;color:var(--gold);margin-top:2px;}
+.cvo-zone.drawn{border-color:rgba(34,197,94,0.4);}
+.cvo-zone.drawn .cvo-zone-status{color:#22c55e;}
+.cvo-live{background:var(--s1);border-top:1px solid var(--b1);padding:12px 18px;display:flex;align-items:center;gap:16px;}
+.cvo-live-score{font-family:var(--fd);font-weight:900;font-size:32px;}
+.cvo-live-score .r{color:#ff6b65;}
+.cvo-live-score .sep{color:var(--t3);margin:0 6px;}
+.cvo-live-score .b{color:#6ab3ff;}
+.cvo-instr{background:var(--gold-d);border:1px solid rgba(245,197,66,0.2);border-radius:var(--r);padding:9px 12px;font-size:12px;color:var(--gold);line-height:1.6;margin-bottom:10px;}
+
+/* ─── SETTINGS MODAL ─── */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;display:none;align-items:center;justify-content:center;}
+.modal-backdrop.open{display:flex;}
+.modal-box{background:var(--s2);border:1px solid var(--b2);border-radius:14px;width:460px;max-width:95vw;padding:26px 28px;box-shadow:0 20px 50px rgba(0,0,0,0.5);}
 </style>
 </head>
 <body>
-
-
 
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="logo">VEX<em>SCOUT</em><sub>BETA</sub></div>
   <div class="sep"></div>
-  <input class="ev-input" id="evIn" placeholder="Paste your RobotEvents event URL here — e.g. robotevents.com/…/RE-VRC-25-1234.html" />
+  <input class="ev-input" id="evIn" placeholder="Paste your RobotEvents event URL — e.g. robotevents.com/…/RE-VRC-25-1234.html"/>
   <button class="btn-g" id="ldBtn" onclick="loadEvent()">Load Event</button>
   <button class="btn-o" onclick="openSettings()">⚙ Settings</button>
+  <button class="btn-o" onclick="window.open('notebook.html','_blank')">📓 Notebook</button>
   <div style="display:flex;align-items:center;gap:7px;margin-left:4px;" id="authArea"><span style="font-size:12px;color:var(--t3);">Loading…</span></div>
   <div class="status-row"><div class="sdot" id="sd"></div><span id="stxt">No event loaded</span></div>
 </div>
 
-<!-- LAYOUT -->
+<!-- MAIN LAYOUT -->
 <div class="layout">
+
+  <!-- LEFT: MATCH LIST -->
   <div class="pl">
     <div class="ph"><span class="ph-t">Matches</span><button class="btn-o" style="font-size:11px;padding:3px 8px;" onclick="refreshMatches()">↻</button></div>
     <div class="scr" id="mList"><div class="empty">Load an event above to see matches</div></div>
   </div>
+
+  <!-- CENTER -->
   <div class="pc">
-    <!-- VIDEO PANEL -->
     <div class="vid-panel" id="vidPanel">
       <div class="vid-input-bar">
-        <input class="vi" id="vUrl" placeholder="Paste a YouTube or Twitch URL to watch inline…" />
+        <input class="vi" id="vUrl" placeholder="Paste a YouTube or Twitch URL to watch inline…"/>
         <button class="btn-o" onclick="loadVid()">Load ▶</button>
         <div class="sep" style="height:18px;"></div>
         <label style="font-size:11px;color:var(--t3);white-space:nowrap;">Match #</label>
-        <input id="matchJumpInput" type="text" placeholder="e.g. Q3" title="Type a match label to jump the scouting panel to that match"
+        <input id="matchJumpInput" type="text" placeholder="e.g. Q3" title="Jump to match"
           style="width:60px;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fm);font-size:12px;padding:4px 7px;border-radius:var(--r);outline:none;"
-          oninput="jumpToMatch(this.value)" />
+          oninput="jumpToMatch(this.value)"/>
+        <button class="btn-o" onclick="openCVOverlay()" title="Video score detection">🎯 Detect</button>
         <button class="btn-o" id="vidToggle" onclick="toggleVid()" style="padding:4px 9px;" title="Hide/show video">⌃</button>
       </div>
+
       <div style="position:relative;flex-shrink:0;">
         <div class="vid-embed-wrap" id="vidWrap">
           <div class="vid-placeholder" id="vidPlaceholder">
             <div style="font-size:28px;opacity:0.2;">▶</div>
             <span>Paste a stream or VOD URL above and click Load</span>
           </div>
-          <iframe id="vidFrame" style="display:none;width:100%;height:100%;border:none;" allow="autoplay; fullscreen" allowfullscreen></iframe>
+          <iframe id="vidFrame" style="display:none;width:100%;height:100%;border:none;" allow="autoplay;fullscreen" allowfullscreen></iframe>
           <div class="vid-blocked" id="vidBlocked" style="display:none;">
             <div style="font-size:22px;opacity:0.3;">⛔</div>
-            <span>This video can't be embedded — the owner has disabled it.</span>
+            <span>This video can't be embedded.</span>
             <a id="vidExtLink" href="#" target="_blank" class="btn-o" style="margin-top:8px;font-size:12px;">Open in YouTube ↗</a>
           </div>
-          <!-- INTERACTIVE OVERLAY: HUD -->
+          <!-- HUD -->
           <div class="vo-hud" id="voHud" style="display:none;">
             <div class="vo-hud-red">
               <div class="vo-hud-team r" id="voRedTeams">—</div>
@@ -405,9 +358,7 @@ input[type=range]{width:100%;accent-color:var(--gold);}
             <div class="vo-hud-mid">
               <div class="vo-hud-period auton" id="voPeriodBadge">AUTON</div>
               <div class="vo-hud-score">
-                <span class="r" id="voRedScore">0</span>
-                <span class="sep">:</span>
-                <span class="b" id="voBlueScore">0</span>
+                <span class="r" id="voRedScore">0</span><span class="sep">:</span><span class="b" id="voBlueScore">0</span>
               </div>
               <div class="vo-hud-timer" id="voTimer">0:15</div>
             </div>
@@ -416,41 +367,41 @@ input[type=range]{width:100%;accent-color:var(--gold);}
               <div class="vo-hud-org" id="voBlueOrg"></div>
             </div>
           </div>
-
-          <!-- INTERACTIVE OVERLAY: ANNOTATION TOOLBAR (shown on hover) -->
+          <!-- ANNOTATION TOOLBAR -->
           <div class="vo-toolbar" id="voToolbar" style="display:none;">
-            <button class="vo-ann-btn ann-green" onclick="dropAnnotation('auton_start')" title="[A] Mark auton start">🟢 Auton Start<span class="kbd">A</span></button>
-            <button class="vo-ann-btn ann-gold"  onclick="dropAnnotation('score')"       title="[S] Mark a score">💛 Score<span class="kbd">S</span></button>
-            <button class="vo-ann-btn ann-red"   onclick="dropAnnotation('defense')"     title="[D] Mark defense played">🔴 Defense<span class="kbd">D</span></button>
-            <button class="vo-ann-btn ann-blue"  onclick="dropAnnotation('alliance')"    title="[L] Mark alliance coordination">🔵 Alliance Play<span class="kbd">L</span></button>
-            <button class="vo-ann-btn"           onclick="dropAnnotation('error')"       title="[E] Mark an error/penalty">⚠️ Error<span class="kbd">E</span></button>
-            <button class="vo-ann-btn"           onclick="dropAnnotation('note')"        title="[N] Add a generic note">📝 Note<span class="kbd">N</span></button>
+            <button class="vo-ann-btn ann-green" onclick="dropAnnotation('auton_start')">🟢 Auton Start<span class="kbd">A</span></button>
+            <button class="vo-ann-btn ann-gold"  onclick="dropAnnotation('score')">💛 Score<span class="kbd">S</span></button>
+            <button class="vo-ann-btn ann-red"   onclick="dropAnnotation('defense')">🔴 Defense<span class="kbd">D</span></button>
+            <button class="vo-ann-btn ann-blue"  onclick="dropAnnotation('alliance')">🔵 Alliance<span class="kbd">L</span></button>
+            <button class="vo-ann-btn"           onclick="dropAnnotation('error')">⚠️ Error<span class="kbd">E</span></button>
+            <button class="vo-ann-btn"           onclick="dropAnnotation('note')">📝 Note<span class="kbd">N</span></button>
             <div class="vo-toolbar-sep"></div>
-            <button class="vo-ann-btn" onclick="clearAnnotations()" title="Clear all annotations" style="color:#ff9d9a;border-color:rgba(255,80,80,0.3);">✕ Clear</button>
+            <button class="vo-ann-btn" onclick="clearAnnotations()" style="color:#ff9d9a;border-color:rgba(255,80,80,0.3);">✕ Clear</button>
           </div>
         </div>
-        <!-- TIMER + SCORE CONTROLS -->
+
+        <!-- TIMER ROW -->
         <div class="vo-timer-row" id="voTimerRow" style="display:none;">
           <label>🔴</label>
           <input class="so-input" id="inRedScore" type="number" min="0" max="999" value="0" oninput="updateOverlayScore()"/>
           <label style="margin-left:4px;">🔵</label>
           <input class="so-input" id="inBlueScore" type="number" min="0" max="999" value="0" oninput="updateOverlayScore()"/>
           <div style="width:1px;height:20px;background:var(--b2);margin:0 4px;flex-shrink:0;"></div>
-          <button class="vo-timer-btn" id="voStartBtn" onclick="toggleMatchTimer()" title="Start/pause the match timer (Spacebar)">▶ Start Timer</button>
-          <button class="vo-timer-btn" onclick="syncTimer(15)"  title="Jump to 15s (end of auton)">→ 0:15</button>
-          <button class="vo-timer-btn" onclick="syncTimer(0)"   title="Reset to match start">↺ Reset</button>
+          <button class="vo-timer-btn" id="voStartBtn" onclick="toggleMatchTimer()">▶ Start Timer</button>
+          <button class="vo-timer-btn" onclick="syncTimer(15)">→ 0:15</button>
+          <button class="vo-timer-btn" onclick="syncTimer(0)">↺ Reset</button>
           <div style="margin-left:auto;display:flex;align-items:center;gap:5px;">
             <span style="font-size:10px;color:var(--t3);">Annotations:</span>
             <div class="vo-ann-log" id="voAnnLog"></div>
           </div>
         </div>
-        <!-- ANNOTATION TIMELINE STRIP -->
+
+        <!-- TIMELINE -->
         <div class="vo-timeline" id="voTimeline" style="display:none;">
           <div class="vo-tl-inner" id="voTlInner">
             <div class="vo-tl-bar"></div>
             <div class="vo-tl-auton-zone" id="voAutonZone"></div>
             <div class="vo-tl-progress" id="voTlProgress" style="width:0%;"></div>
-            <!-- tick marks injected by JS -->
             <div id="voTlMarkers"></div>
           </div>
           <div class="vo-tooltip" id="voTooltip"></div>
@@ -458,1895 +409,130 @@ input[type=range]{width:100%;accent-color:var(--gold);}
       </div>
       <div class="vid-resize-handle" id="vidResizeHandle"></div>
     </div>
-    <!-- SCOUT AREA -->
-    <div class="sa" id="sArea"><div class="empty" style="margin-top:50px;"><div style="font-size:34px;opacity:0.22;">🏆</div><p>Select a match from the left to begin scouting</p></div></div>
+
+    <div class="sa" id="sArea">
+      <div class="empty" style="margin-top:50px;">
+        <div style="font-size:34px;opacity:0.22;">🏆</div>
+        <p>Select a match from the left to begin scouting</p>
+      </div>
+    </div>
   </div>
+
+  <!-- RIGHT: RANKINGS -->
   <div class="pr">
     <div class="ev-hd"><div class="ev-nm" id="evNm">No event loaded</div><div class="ev-mt" id="evMt">—</div></div>
     <div class="ph"><span class="ph-t">Event Rankings</span></div>
     <div class="scr" id="rkList"><div class="empty" style="padding:14px;">—</div></div>
     <div class="ex">
       <h4>Export Scouting Data</h4>
-      <button class="xb" onclick="exportXLSX()">📊 Download .xlsx (all teams)</button>
+      <button class="xb" onclick="exportXLSX()">📊 Download .xlsx</button>
       <button class="xb" onclick="exportSheets()">📋 Sync to Google Sheets</button>
     </div>
   </div>
 </div>
 
-<script>
-const S={re:"",gid:"937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com",gat:'',eid:null,ev:null,matches:[],rankings:[],teams:{},notes:{},sel:null,timer:null,divId:undefined};
-const ls=(k,v)=>{if(v!==undefined)localStorage.setItem(k,v);else return localStorage.getItem(k)||'';};
-const init=()=>{
-  // RE token: always from localStorage (user enters it via Settings — never hardcoded in any file)
-  S.re = ls('vs_re');
-  // Google Client ID: safe to hardcode (secured by registered origins, not secrecy)
-  S.gid = "937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com";
-  // Allow config.js override if present
-  if(typeof VADT_CONFIG !== 'undefined' && VADT_CONFIG.googleClientId){
-    S.gid = VADT_CONFIG.googleClientId;
-  }
-  S.notesKey='vs_n';
-  try{const n=ls(S.notesKey);if(n)Object.assign(S.notes,JSON.parse(n));}catch{}
-};
-const sn2=()=>ls(S.notesKey||'vs_n',JSON.stringify(S.notes));
-const nk=(m,t)=>`${m}_${t}`;
-const gn=(m,t)=>S.notes[nk(m,t)]||null;
-const setN=(m,t,d)=>{S.notes[nk(m,t)]=d;sn2();};
-
-// ─── ONBOARDING ─────────────────────────────────────────────────────────────
-
-
-
-// ─── GOOGLE AUTH (OAuth2 implicit flow — works on any static host) ──────────
-// Uses the standard OAuth2 token endpoint — no Firebase, no redirect URIs needed.
-// Only requires: Client ID + "https://kyriosroboticsdev.github.io" as Authorised JS Origin.
-// Also requires OAuth consent screen configured in Google Cloud Console.
-
-const getGoogleClientId = () => S.gid || "937251908005-hvco8m4dpidqiuo09er1tec3p14426au.apps.googleusercontent.com";
-let currentUser = null;
-
-function initGoogleAuth() {
-  renderAuthBar(null);
-}
-
-function signInGoogle() {
-  // Use OAuth2 redirect flow — popup polling is blocked by GitHub Pages COOP headers
-  // Save current event/SKU so we can restore it after redirect
-  const sku = document.getElementById('evIn')?.value || '';
-  if (sku) sessionStorage.setItem('vadt_restore_sku', sku);
-
-  const clientId = getGoogleClientId();
-  if (!clientId) { setSt('Google Client ID not loaded — check config.js', 'idle'); return; }
-  const params = new URLSearchParams({
-    client_id: clientId,
-    redirect_uri: 'https://kyriosroboticsdev.github.io/VADT/',
-    response_type: 'token',
-    scope: 'openid email profile',
-    prompt: 'select_account',
-  });
-  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
-}
-
-async function checkAuthRedirect() {
-  // Called on page load — check if we just returned from Google OAuth
-  const hash = window.location.hash;
-  if (!hash.includes('access_token')) return;
-
-  // Extract token from URL hash and clean up the URL
-  const params = new URLSearchParams(hash.slice(1));
-  const accessToken = params.get('access_token');
-  window.history.replaceState(null, '', window.location.pathname);
-
-  if (accessToken) {
-    await fetchGoogleUser(accessToken);
-    // Restore the event SKU if we had one before signing in
-    const savedSku = sessionStorage.getItem('vadt_restore_sku');
-    if (savedSku) {
-      sessionStorage.removeItem('vadt_restore_sku');
-      const input = document.getElementById('evIn');
-      if (input) {
-        input.value = savedSku;
-        setSt('Signed in — reloading event…', 'load');
-        setTimeout(() => loadEvent(), 500);
-      }
-    }
-  }
-}
-
-async function fetchGoogleUser(accessToken) {
-  try {
-    const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-      headers: { Authorization: 'Bearer ' + accessToken }
-    });
-    const user = await res.json();
-    currentUser = {
-      uid: user.sub,
-      displayName: user.name,
-      email: user.email,
-      photoURL: user.picture,
-      accessToken,
-    };
-    S.notesKey = 'vs_n_' + currentUser.uid;
-    try { const n = ls(S.notesKey); if (n) Object.assign(S.notes, JSON.parse(n)); } catch {}
-    renderAuthBar(currentUser);
-    setSt('Signed in as ' + currentUser.displayName, 'live');
-  } catch(e) {
-    setSt('Could not fetch user info: ' + e.message, 'idle');
-    console.error('fetchGoogleUser error:', e);
-  }
-}
-
-function signOutGoogle() {
-  currentUser = null;
-  S.notesKey = 'vs_n';
-  renderAuthBar(null);
-  setSt('Signed out', 'idle');
-}
-
-function renderAuthBar(user) {
-  const el = document.getElementById('authArea');
-  if (!el) return;
-  if (user) {
-    el.innerHTML = `
-      <img src="${user.photoURL||''}" style="width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0;" onerror="this.style.display='none'" />
-      <span style="font-size:12px;color:var(--t2);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${user.displayName||user.email}</span>
-      <button class="btn-o" style="font-size:11px;padding:3px 8px;" onclick="signOutGoogle()">Sign out</button>`;
-  } else {
-    el.innerHTML = `<button class="btn-o" onclick="signInGoogle()" style="display:flex;align-items:center;gap:5px;font-size:12px;">
-      <svg width="13" height="13" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Sign in with Google</button>`;
-  }
-}
-
-// ─── API ─────────────────────────────────────────────────────────────────────
-const RE='https://www.robotevents.com/api/v2';
-
-// Anthropic API calls are blocked by CORS when made directly from a browser.
-// We route through corsproxy.io to bypass this. The proxy forwards the request
-// server-side so the API key and response travel safely.
-
-async function rg(path, p={}, retries=3) {
-  const u = new URL(RE + path);
-  Object.entries(p).forEach(([k,v]) => u.searchParams.append(k, v));
-  for (let attempt = 0; attempt <= retries; attempt++) {
-    try {
-      const r = await fetch(u.toString(), {
-        headers: { Authorization: `Bearer ${S.re}`, Accept: 'application/json' }
-      });
-      if (r.status === 429) {
-        // Rate limited — wait longer before retry
-        const wait = 2000 * (attempt + 1);
-        console.warn(`Rate limited, waiting ${wait}ms before retry ${attempt+1}`);
-        await new Promise(res => setTimeout(res, wait));
-        continue;
-      }
-      if (!r.ok) {
-        let msg = `API error ${r.status}`;
-        try { const j = await r.json(); msg = j.message || msg; } catch {}
-        throw new Error(msg);
-      }
-      return r.json();
-    } catch(e) {
-      if (e.message.startsWith('API error')) throw e; // don't retry 4xx
-      if (attempt === retries) throw e;
-      const wait = 1000 * Math.pow(2, attempt); // 1s, 2s, 4s
-      console.warn(`Fetch attempt ${attempt+1} failed: ${e.message} — retrying in ${wait}ms`);
-      await new Promise(res => setTimeout(res, wait));
-    }
-  }
-}
-async function ra(path,p={}){
-  let pg=1,all=[];
-  while(true){
-    const d=await rg(path,{...p,page:pg,per_page:250});
-    all=all.concat(d.data||[]);
-    if(!d.meta||pg>=d.meta.last_page)break;
-    pg++;
-  }
-  return all;
-}
-
-// ─── LOAD EVENT ──────────────────────────────────────────────────────────────
-function xSKU(raw){
-  // Match RE-VRC-25-1234 style SKUs anywhere in the string (e.g. pasted from a full URL)
-  const m=raw.match(/RE-[A-Z0-9]+-\d{2,4}-\d+/i);
-  return m?m[0].toUpperCase():raw.trim().toUpperCase();
-}
-
-async function loadEvent(){
-  if(!S.re){showHelp();return;}
-  const raw=document.getElementById('evIn').value.trim();
-  if(!raw){setSt('Paste a RobotEvents event URL or SKU','idle');return;}
-  const sku=xSKU(raw);
-  if(!sku.startsWith('RE-')){setSt('Could not find a valid event SKU in that URL. It should look like RE-VRC-25-1234.','idle');return;}
-  document.getElementById('ldBtn').disabled=true;
-  setSt(`Looking up event ${sku}…`,'load');
-  try{
-    // NOTE: RobotEvents API requires "sku[]" array syntax, not plain "sku"
-    const er=await rg('/events',{'sku[]':sku,per_page:1});
-    if(!er.data?.length)throw new Error(`No event found for SKU "${sku}". Double-check it on robotevents.com.`);
-    const ev=er.data[0];
-    // divisions array is embedded in the event response — no separate API call needed
-    const divs=ev.divisions||[];
-    S.eid=ev.id;S.ev=ev;S.divId=divs.length>0?divs[0].id:false;S.matches=[];S.rankings=[];S.teams={};
-    console.log('Event type:',ev.event_type,'| Divisions:',divs.map(d=>d.id+':'+d.name).join(', ')||'none');
-    document.getElementById('evNm').textContent=ev.name;
-    document.getElementById('evMt').textContent=
-      `${ev.location?.city||''}${ev.location?.region?', '+ev.location.region:''} · ${new Date(ev.start).toLocaleDateString()}`;
-    setSt('Event found — loading matches…','load');
-    await refreshMatches();
-    await loadRankings();
-    startPoll();
-    setSt(`✓ ${S.matches.length} matches loaded`,'live');
-  }catch(e){
-    setSt('Error: '+e.message,'idle');
-    console.error('loadEvent error:',e);
-  }
-  document.getElementById('ldBtn').disabled=false;
-}
-
-async function refreshMatches(){
-  if(!S.eid)return;
-  try{
-    // S.divId is set from the event object in loadEvent — no API call needed here
-    if(S.divId){
-      S.matches=await ra(`/events/${S.eid}/divisions/${S.divId}/matches`);
-    }else{
-      // No divisions (league session, skills-only, etc.) — matches not available via API
-      S.matches=[];
-      setSt('This event type does not expose matches via the API','idle');
-      renderMList();
-      return;
-    }
-    const ids=new Set();
-    S.matches.forEach(m=>(m.alliances||[]).forEach(a=>(a.teams||[]).forEach(t=>ids.add(t.team.id))));
-    await pfTeams([...ids]);
-    renderMList();
-    if(S.sel)renderScout(S.matches.find(m=>m.id===S.sel.id)||S.sel);
-    if(!S.matches.length)setSt('Event loaded — no matches posted yet','live');
-  }catch(e){
-    setSt('Match load error: '+e.message,'idle');
-    console.error('refreshMatches error:',e);
-  }
-}
-
-async function pfTeams(ids){
-  for(const id of ids){
-    if(!S.teams[id]){
-      try{
-        S.teams[id]=await rg(`/teams/${id}`);
-        // Small delay to avoid rate limiting when fetching many teams
-        await new Promise(r => setTimeout(r, 300));
-      }catch(e){
-        console.warn(`Could not load team ${id}:`,e.message);
-        S.teams[id]={number:'?',organization:'—'};
-      }
-    }
-  }
-}
-const tn=id=>{
-  if(S.teams[id]?.number) return S.teams[id].number;
-  // Fall back to team name from rankings (rankings store number as 'name')
-  const rk=S.rankings.find(r=>Number(r.team?.id)===Number(id));
-  return rk?.team?.name||'?';
-};
-const to=id=>S.teams[id]?.organization||S.teams[id]?.team_name||'';
-const rl=r=>r===2?'Q':r===3?'SF':r===4?'F':'M';
-
-function renderMList(){
-  const el=document.getElementById('mList');
-  if(!S.matches.length){el.innerHTML='<div class="empty">No matches found</div>';return;}
-  el.innerHTML=S.matches.map((m,i)=>{
-    const red=(m.alliances||[]).find(a=>a.color==='red');
-    const blue=(m.alliances||[]).find(a=>a.color==='blue');
-    const allIds=[...(red?.teams||[]),...(blue?.teams||[])].map(t=>t.team.id);
-    const sk=allIds.some(tid=>gn(m.id,tid));const ac=S.sel?.id===m.id;
-    return`<div class="mi${ac?' active':''}${sk?' scouted':''}" onclick="selMatch(${i})">
-      <div class="mi-top"><span class="mi-num">${rl(m.round)}${m.matchnum}</span>
-        <span class="bx ${m.scored?'b-sc':'b-up'}">${m.scored?'SCORED':'UPCOMING'}</span>
-        ${sk?'<span class="bx b-sk">✓</span>':''}
-      </div>
-      <div class="mi-teams">
-        ${(red?.teams||[]).map(t=>`<span class="tt tt-r">${tn(t.team.id)}</span>`).join('')}
-        <span class="vs">vs</span>
-        ${(blue?.teams||[]).map(t=>`<span class="tt tt-b">${tn(t.team.id)}</span>`).join('')}
-      </div>
-      ${(m.scored||(red?.score!=null&&blue?.score!=null))?`<div class="mi-sc">${red?.score??'—'} – ${blue?.score??'—'}</div>`:''}
-    </div>`;
-  }).join('');
-}
-
-function selMatch(i){
-  S.sel=S.matches[i];
-  renderMList();
-  renderScout(S.sel);
-  activateScoreOverlay(S.sel);
-}
-
-// ─── SCOUT PANEL ─────────────────────────────────────────────────────────────
-function renderScout(m){
-  const red=(m.alliances||[]).find(a=>a.color==='red');
-  const blue=(m.alliances||[]).find(a=>a.color==='blue');
-  const rt=red?.teams||[],bt=blue?.teams||[];
-  const {rP,bP}=wProb(rt,bt);
-  renderRankings(new Set([...rt,...bt].map(t=>t.team.id)));
-  const lb=`${rl(m.round)}${m.matchnum}`;
-  document.getElementById('sArea').innerHTML=`
-    <div class="nt">📹 Paste the YouTube or Twitch URL for this match in the bar above and click <strong>Load ▶</strong> to watch inline. Use the <strong>⌃</strong> button to collapse the player while filling out the scouting form.</div>
-    <div class="mb">
-      <div class="mb-s">${rt.map(t=>`<div class="mb-tn r">${tn(t.team.id)}</div><div class="mb-org">${to(t.team.id)}</div>`).join('')}</div>
-      <div class="mb-mid"><div class="mb-lbl">${lb}</div><div class="mb-sc">${red?.score??'—'} : ${blue?.score??'—'}</div></div>
-      <div class="mb-s rt">${bt.map(t=>`<div class="mb-tn b">${tn(t.team.id)}</div><div class="mb-org">${to(t.team.id)}</div>`).join('')}</div>
-    </div>
-    <div class="pw">
-      <div class="ph2"><span class="pl2">Win Prediction</span><span style="font-size:11px;color:var(--t3);">From event W/L record</span></div>
-      <div class="pn"><span class="pr2">${rt.map(t=>tn(t.team.id)).join('+')} ${rP}%</span><span class="pb2">${bP}% ${bt.map(t=>tn(t.team.id)).join('+')}</span></div>
-      <div class="pt"><div class="pf" style="width:${rP}%;background:linear-gradient(to right,var(--red),#d06060);"></div></div>
-    </div>
-    <div class="tr">${[...rt.map(t=>({t,c:'red'})),...bt.map(t=>({t,c:'blue'}))].map(({t,c})=>mkTcard(t.team.id,c)).join('')}</div>
-    ${[...rt.map(t=>({t,c:'red'})),...bt.map(t=>({t,c:'blue'}))].map(({t,c})=>mkForm(m.id,t.team.id,c)).join('')}
-`;
-  [...rt,...bt].forEach(t=>restoreForm(m.id,t.team.id));
-}
-
-function mkTcard(tid,color){
-  const rk=S.rankings.find(r=>r.team?.id===tid);
-  const wp=rk?`${rk.wins}-${rk.losses}-${rk.ties}`:'—';
-  return`<div class="tc ${color}"><div class="tc-top"><div><div class="tc-n ${color}">${tn(tid)}</div><div class="tc-o">${to(tid)}</div></div><span class="rkb">R#${rk?.rank??'?'}</span></div>
-    <div class="tc-st"><div class="st"><div class="stl">W/L/T</div><div class="stv">${wp}</div></div><div class="st"><div class="stl">AP</div><div class="stv">${rk?.ap??'—'}</div></div><div class="st"><div class="stl">SP</div><div class="stv">${rk?.sp??'—'}</div></div><div class="st"><div class="stl">Rank</div><div class="stv">#${rk?.rank??'?'}</div></div></div></div>`;
-}
-
-function mkForm(mid,tid,color){
-  const num=tn(tid),p=`f_${mid}_${tid}`,cc=color==='red'?'#ff6b65':'#6ab3ff';
-  return`<div class="sf"><div class="sf-t">Scouting: <span style="color:${cc}">${num}</span></div>
-    <div class="sr"><div><div class="sl">Autonomous</div><div class="ss">Routine quality & points scored</div></div><div class="stars" id="${p}_a" data-val="0">${mkS(p+'_a')}</div></div>
-    <div class="sr"><div><div class="sl">Driver Skill</div><div class="ss">Control, speed, precision</div></div><div class="stars" id="${p}_d" data-val="0">${mkS(p+'_d')}</div></div>
-    <div class="sr"><div><div class="sl">Alliance Coordination</div><div class="ss">Teamwork with their partner</div></div><div class="stars" id="${p}_c" data-val="0">${mkS(p+'_c')}</div></div>
-    <div class="sr"><div class="sl">Played Defense</div><div style="display:flex;align-items:center;gap:7px;"><input type="checkbox" class="cb" id="${p}_df" /><label style="font-size:13px;cursor:pointer;" for="${p}_df">Yes — played defense this match</label></div></div>
-    <div class="sr"><div class="sl">Consistency</div><select class="sels" id="${p}_cn"><option value="">— select —</option><option>Very consistent</option><option>Mostly consistent</option><option>Some errors</option><option>Frequent errors / penalties</option></select></div>
-    <div style="margin-bottom:9px;"><div class="sl" style="margin-bottom:4px;">Observations</div><textarea class="txta" id="${p}_nt" placeholder="Strategy, robot type, weak points, standout moments…"></textarea></div>
-    <div><div class="sl" style="margin-bottom:5px;">Your Rating</div><div class="mr"><span class="mrn" id="${p}_rl">5</span><input type="range" min="1" max="10" value="5" step="1" id="${p}_rv" oninput="document.getElementById('${p}_rl').textContent=this.value" /><span style="font-size:11px;color:var(--t3);">/ 10</span></div></div>
-    <div class="fa"><button class="btn-g" onclick="saveOnly('${mid}','${tid}')">Save Notes</button></div></div>`;
-}
-
-const mkS=g=>[1,2,3,4,5].map(n=>`<span class="star" onclick="setStar('${g}',${n})">★</span>`).join('');
-function setStar(g,n){const el=document.getElementById(g);if(!el)return;el.dataset.val=n;el.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('on',i<n));}
-const gStar=g=>{const el=document.getElementById(g);return el?parseInt(el.dataset.val||0):0;};
-
-function restoreForm(mid,tid){
-  const note=gn(mid,tid);if(!note)return;const p=`f_${mid}_${tid}`;
-  setStar(`${p}_a`,note.auto||0);setStar(`${p}_d`,note.driver||0);setStar(`${p}_c`,note.coord||0);
-  const df=document.getElementById(`${p}_df`);if(df)df.checked=note.defense||false;
-  const cn=document.getElementById(`${p}_cn`);if(cn)cn.value=note.consistency||'';
-  const nt=document.getElementById(`${p}_nt`);if(nt)nt.value=note.notes||'';
-  const rv=document.getElementById(`${p}_rv`);const rl2=document.getElementById(`${p}_rl`);
-  if(rv){rv.value=note.myRating||5;if(rl2)rl2.textContent=rv.value;}
-}
-
-function readForm(mid,tid){
-  const p=`f_${mid}_${tid}`;
-  return{matchId:mid,teamId:tid,teamNum:tn(tid),
-    auto:gStar(`${p}_a`),driver:gStar(`${p}_d`),coord:gStar(`${p}_c`),
-    defense:document.getElementById(`${p}_df`)?.checked||false,
-    consistency:document.getElementById(`${p}_cn`)?.value||'',
-    notes:document.getElementById(`${p}_nt`)?.value||'',
-    myRating:parseInt(document.getElementById(`${p}_rv`)?.value||5),
-    savedAt:new Date().toISOString()};
-}
-
-function saveOnly(mid,tid){const d=readForm(mid,tid);setN(mid,tid,{...gn(mid,tid)||{},...d});renderMList();setSt(`Saved notes for ${tn(tid)}`,'live');}
-
-
-
-// ─── WIN PROB ────────────────────────────────────────────────────────────────
-function wProb(rt,bt){
-  const s=ts=>{let t=0,n=0;for(const x of ts){const r=S.rankings.find(r=>r.team?.id===x.team.id);if(r){const tot=(r.wins||0)+(r.losses||0)+(r.ties||0);t+=tot>0?(r.wins+0.5*r.ties)/tot:0.5;n++;}}return n>0?t/n:0.5;};
-  const rs=s(rt),bs=s(bt),sum=rs+bs||1;
-  const rP=Math.max(5,Math.min(95,Math.round(50+(rs/sum-0.5)*70)));
-  return{rP,bP:100-rP};
-}
-
-// ─── RANKINGS ────────────────────────────────────────────────────────────────
-async function loadRankings(){
-  if(!S.eid||!S.divId)return;
-  try{
-    S.rankings=await ra(`/events/${S.eid}/divisions/${S.divId}/rankings`);
-    renderRankings(new Set());
-  }catch(e){
-    console.warn('Rankings load error:',e.message);
-  }
-}
-function renderRankings(hl){
-  const el=document.getElementById('rkList');
-  if(!S.rankings.length){el.innerHTML='<div class="empty" style="padding:12px;">Rankings not yet available</div>';return;}
-  el.innerHTML=S.rankings.map(r=>`
-    <div class="rr${hl.has(r.team?.id)?' hl':''}" onclick="openTeamPage(${r.team?.id})" style="cursor:pointer;" title="View team analysis">
-      <span class="rn">${r.rank}</span>
-      <span class="rt2">${r.team?.name||'?'}</span>
-      <span class="rw">${r.wins}-${r.losses}-${r.ties}</span>
-    </div>`).join('');
-}
-
-// ─── VIDEO ───────────────────────────────────────────────────────────────────
-let vidCollapsed = false;
-
-function loadVid() {
-  const raw = document.getElementById('vUrl').value.trim();
-  if (!raw) { setSt('Paste a YouTube or Twitch URL first', 'idle'); return; }
-
-  const frame = document.getElementById('vidFrame');
-  const placeholder = document.getElementById('vidPlaceholder');
-  const blocked = document.getElementById('vidBlocked');
-  const extLink = document.getElementById('vidExtLink');
-  const wrap = document.getElementById('vidWrap');
-
-  let embedUrl = '';
-  let directUrl = raw;
-
-  const yt = raw.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-  const tw = raw.match(/twitch\.tv\/(?:videos\/)?([^\/\?&]+)/);
-
-  if (yt) {
-    embedUrl = `https://www.youtube.com/embed/${yt[1]}?autoplay=1&rel=0`;
-    directUrl = `https://www.youtube.com/watch?v=${yt[1]}`;
-  } else if (tw) {
-    const isVod = /twitch\.tv\/videos\//.test(raw);
-    embedUrl = isVod
-      ? `https://player.twitch.tv/?video=${tw[1]}&parent=${location.hostname}&autoplay=true`
-      : `https://player.twitch.tv/?channel=${tw[1]}&parent=${location.hostname}&autoplay=true`;
-    directUrl = raw;
-  } else {
-    setSt('Unsupported URL — use YouTube or Twitch', 'idle');
-    return;
-  }
-
-  // Show iframe, hide placeholders
-  placeholder.style.display = 'none';
-  blocked.style.display = 'none';
-  frame.style.display = 'block';
-  frame.src = embedUrl;
-  extLink.href = directUrl;
-
-  // Expand if collapsed
-  if (vidCollapsed) toggleVid();
-
-  // Detect embedding blocked (YouTube often sends X-Frame-Options)
-  // We listen for a load error — if the frame stays blank after 5s show the fallback
-  frame.onload = () => {
-    // Frame loaded — might still be blocked but we can't detect that cross-origin
-    // YouTube will show its own "Watch on YouTube" message inside the frame if blocked
-  };
-
-  setSt('Video loaded inline', 'live');
-}
-
-function toggleVid() {
-  const wrap = document.getElementById('vidWrap');
-  const btn = document.getElementById('vidToggle');
-  vidCollapsed = !vidCollapsed;
-  // Clear any inline height set by the drag handler so CSS class can take over
-  wrap.style.height = '';
-  wrap.style.transition = '';
-  wrap.classList.toggle('collapsed', vidCollapsed);
-  btn.textContent = vidCollapsed ? '⌄' : '⌃';
-  btn.title = vidCollapsed ? 'Show video' : 'Hide video';
-}
-
-// ─── EXPORT ──────────────────────────────────────────────────────────────────
-function exportXLSX(){
-  const wb=XLSX.utils.book_new();
-  const aR=[['Match','Team','Alliance','Auto★','Driver★','Coord★','Defense','Consistency','My Rating','AI Rating','Avg','Summary','Strengths','Concerns','Alliance Tip','Notes','Saved']];
-  const tm={};
-  S.matches.forEach(m=>{
-    const lb=`${rl(m.round)}${m.matchnum}`;
-    (m.alliances||[]).forEach(a=>(a.teams||[]).forEach(t=>{
-      const id=t.team.id,num=tn(id),note=gn(m.id,id),rk=S.rankings.find(r=>r.team?.id===id);
-      const avg=note?.myRating&&note?.aiRating?((note.myRating+note.aiRating)/2).toFixed(1):'';
-      if(note)aR.push([lb,num,a.color,note.auto,note.driver,note.coord,note.defense?'Yes':'',note.consistency,note.myRating,note.notes||'',note.savedAt||'']);
-      if(!tm[num])tm[num]=[];tm[num].push({lb,al:a.color,rk:rk?.rank,wlt:rk?`${rk.wins}-${rk.losses}-${rk.ties}`:'',note,avg});
-    }));
-  });
-  const mws=XLSX.utils.aoa_to_sheet(aR);mws['!cols']=[8,9,9,7,7,7,8,22,10,10,8,40,30,30,35,40,20].map(w=>({wch:w}));
-  XLSX.utils.book_append_sheet(wb,mws,'All Matches');
-  Object.entries(tm).forEach(([num,rows])=>{
-    const h=['Match','Alliance','Rank','W/L/T','Auto★','Driver★','Coord★','Defense','Consistency','My Rating','Notes'];
-    const d=rows.map(r=>[r.lb,r.al,r.rk,r.wlt,r.note?.auto,r.note?.driver,r.note?.coord,r.note?.defense?'Yes':'',r.note?.consistency,r.note?.myRating,r.note?.aiRating||'',r.avg,r.note?.aiReport?.summary||'',r.note?.aiReport?.strengths||'',r.note?.aiReport?.concerns||'',r.note?.aiReport?.allianceTip||'',r.note?.notes||'']);
-    const ws=XLSX.utils.aoa_to_sheet([h,...d]);ws['!cols']=[8,9,6,10,7,7,7,8,22,10,10,8,40,30,30,35,40].map(w=>({wch:w}));
-    XLSX.utils.book_append_sheet(wb,ws,num.replace(/[\/\\?\*\[\]]/g,'_').substring(0,31));
-  });
-  XLSX.writeFile(wb,`VEXScout_${(S.ev?.name||'Event').replace(/[^a-zA-Z0-9_\-]/g,'_').substring(0,40)}.xlsx`);
-  setSt('Downloaded .xlsx','live');
-}
-
-function exportSheets(){
-  if(!S.gid){alert('The .xlsx export works great with Google Sheets — download it, then go to sheets.google.com and drag the file in to import it automatically.');return;}
-  const scope='https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file';
-  const au=`https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(S.gid)}&redirect_uri=${encodeURIComponent(location.href)}&response_type=token&scope=${encodeURIComponent(scope)}`;
-  const aw=window.open(au,'gauth',`width=500,height=600,left=${(screen.width-500)/2},top=${(screen.height-600)/2}`);
-  const poll=setInterval(()=>{try{const h=aw?.location?.hash||'';if(h.includes('access_token')){const p=new URLSearchParams(h.slice(1));S.gat=p.get('access_token');clearInterval(poll);aw.close();doSync();}}catch{}if(aw?.closed)clearInterval(poll);},500);
-}
-
-async function doSync(){
-  setSt('Creating Google Sheet…','load');
-  try{
-    const cr=await fetch('https://sheets.googleapis.com/v4/spreadsheets',{method:'POST',headers:{Authorization:`Bearer ${S.gat}`,'Content-Type':'application/json'},body:JSON.stringify({properties:{title:`VEXScout — ${S.ev?.name||'Event'}`},sheets:[{properties:{title:'All Matches'}}]})});
-    const sh=await cr.json();const sid=sh.spreadsheetId;
-    const nums=[...new Set(S.matches.flatMap(m=>(m.alliances||[]).flatMap(a=>(a.teams||[]).map(t=>tn(t.team.id)))))];
-    await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sid}:batchUpdate`,{method:'POST',headers:{Authorization:`Bearer ${S.gat}`,'Content-Type':'application/json'},body:JSON.stringify({requests:nums.map(n=>({addSheet:{properties:{title:n.substring(0,31)}}}))})});
-    const rows=[['Match','Team','Alliance','Auto','Driver','Coord','Defense','Consistency','My Rating','AI Rating','Avg','Summary','Notes']];
-    S.matches.forEach(m=>{const lb=`${rl(m.round)}${m.matchnum}`;(m.alliances||[]).forEach(a=>(a.teams||[]).forEach(t=>{const note=gn(m.id,t.team.id);if(!note)return;const avg=note.myRating&&note.aiRating?((note.myRating+note.aiRating)/2).toFixed(1):'';rows.push([lb,tn(t.team.id),a.color,note.auto,note.driver,note.coord,note.defense?'Yes':'',note.consistency,note.myRating,note.aiRating||'',avg,note.aiReport?.summary||'',note.notes||'']);}));});
-    await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${sid}/values/All%20Matches!A1:Z${rows.length}?valueInputOption=RAW`,{method:'PUT',headers:{Authorization:`Bearer ${S.gat}`,'Content-Type':'application/json'},body:JSON.stringify({values:rows})});
-    setSt('Synced!','live');window.open(`https://docs.google.com/spreadsheets/d/${sid}`,'_blank');
-  }catch(e){setSt('Sheets error: '+e.message,'idle');}
-}
-
-
-// ─── VIDEO RESIZE ────────────────────────────────────────────────────────────
-(function(){
-  const handle = document.getElementById('vidResizeHandle');
-  if (!handle) return;
-  let dragging = false, startY = 0, startH = 0;
-  handle.addEventListener('mousedown', e => {
-    dragging = true;
-    startY = e.clientY;
-    startH = document.getElementById('vidWrap').offsetHeight;
-    document.body.style.userSelect = 'none';
-    document.body.style.cursor = 'ns-resize';
-  });
-  document.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    const delta = e.clientY - startY;
-    const newH = Math.max(0, Math.min(startH + delta, window.innerHeight * 0.65));
-    const wrap = document.getElementById('vidWrap');
-    wrap.style.height = newH + 'px';
-    wrap.style.transition = 'none';
-    if (newH < 40) {
-      wrap.classList.add('collapsed');
-      vidCollapsed = true;
-      document.getElementById('vidToggle').textContent = '⌄';
-    } else {
-      wrap.classList.remove('collapsed');
-      vidCollapsed = false;
-      document.getElementById('vidToggle').textContent = '⌃';
-    }
-  });
-  document.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    document.body.style.userSelect = '';
-    document.body.style.cursor = '';
-    const wrap = document.getElementById('vidWrap');
-    wrap.style.transition = '';
-    // Sync vidCollapsed state with actual height after drag
-    const h = wrap.offsetHeight;
-    vidCollapsed = h < 40;
-    const btn = document.getElementById('vidToggle');
-    if (btn) btn.textContent = vidCollapsed ? '⌄' : '⌃';
-  });
-  // Touch support
-  handle.addEventListener('touchstart', e => {
-    dragging = true;
-    startY = e.touches[0].clientY;
-    startH = document.getElementById('vidWrap').offsetHeight;
-  }, {passive:true});
-  document.addEventListener('touchmove', e => {
-    if (!dragging) return;
-    const delta = e.touches[0].clientY - startY;
-    const newH = Math.max(0, Math.min(startH + delta, window.innerHeight * 0.65));
-    document.getElementById('vidWrap').style.height = newH + 'px';
-  }, {passive:true});
-  document.addEventListener('touchend', () => { dragging = false; });
-})();
-
-// ─── POLL ────────────────────────────────────────────────────────────────────
-function startPoll() {
-  if (S.timer) clearInterval(S.timer);
-  let polling = false;
-  S.timer = setInterval(async () => {
-    if (polling) return; // skip if previous poll still running
-    polling = true;
-    try {
-      await refreshMatches();
-      await loadRankings();
-      setSt(`Updated ${new Date().toLocaleTimeString()}`, 'live');
-    } catch(e) {
-      console.warn('Poll error:', e.message);
-    } finally {
-      polling = false;
-    }
-  }, 45000); // 45s — gives API more breathing room
-}
-
-// ─── UTILS ───────────────────────────────────────────────────────────────────
-function setSt(msg,state){document.getElementById('stxt').textContent=msg;const d=document.getElementById('sd');d.className='sdot '+(state==='live'?'sdot-live':state==='load'?'sdot-load':'');}
-
-
-// ─── INTERACTIVE VIDEO OVERLAY ───────────────────────────────────────────────
-
-const MATCH_DURATION = 120; // seconds total
-const AUTON_DURATION  = 15;  // seconds
-
-// Overlay state
-const VO = {
-  running: false,
-  elapsed: 0,          // seconds elapsed since match start
-  rafId: null,
-  lastTs: null,
-  annotations: [],     // { id, type, t, label, color, emoji }
-  matchId: null,
-};
-
-const ANN_TYPES = {
-  auton_start: { label: 'Auton Start', emoji: '🟢', color: '#22c55e', chipBg: 'rgba(34,197,94,0.18)', chipBorder: 'rgba(34,197,94,0.5)' },
-  score:        { label: 'Score',       emoji: '💛', color: '#f5c542', chipBg: 'rgba(245,197,66,0.18)', chipBorder: 'rgba(245,197,66,0.5)' },
-  defense:      { label: 'Defense',     emoji: '🛡️',  color: '#ff6b65', chipBg: 'rgba(232,48,42,0.18)', chipBorder: 'rgba(232,48,42,0.5)' },
-  alliance:     { label: 'Alliance',    emoji: '🤝',  color: '#6ab3ff', chipBg: 'rgba(26,125,223,0.18)', chipBorder: 'rgba(26,125,223,0.5)' },
-  error:        { label: 'Error',       emoji: '⚠️',  color: '#f97316', chipBg: 'rgba(249,115,22,0.18)', chipBorder: 'rgba(249,115,22,0.5)' },
-  note:         { label: 'Note',        emoji: '📝',  color: '#a78bfa', chipBg: 'rgba(167,139,250,0.18)', chipBorder: 'rgba(167,139,250,0.5)' },
-};
-
-function fmtTime(s) {
-  const t = Math.max(0, Math.round(s));
-  return `${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`;
-}
-
-function updateOverlayScore() {
-  const r = parseInt(document.getElementById('inRedScore')?.value || 0);
-  const b = parseInt(document.getElementById('inBlueScore')?.value || 0);
-  const el_r = document.getElementById('voRedScore');
-  const el_b = document.getElementById('voBlueScore');
-  if (el_r) el_r.textContent = r;
-  if (el_b) el_b.textContent = b;
-}
-
-function overlayTick(ts) {
-  if (!VO.running) return;
-  if (VO.lastTs !== null) {
-    const delta = (ts - VO.lastTs) / 1000;
-    VO.elapsed = Math.min(MATCH_DURATION, VO.elapsed + delta);
-  }
-  VO.lastTs = ts;
-  renderOverlayTimer();
-  if (VO.elapsed >= MATCH_DURATION) {
-    stopMatchTimer();
-    return;
-  }
-  VO.rafId = requestAnimationFrame(overlayTick);
-}
-
-function renderOverlayTimer() {
-  const remaining = Math.max(0, MATCH_DURATION - VO.elapsed);
-  const timerEl   = document.getElementById('voTimer');
-  const periodEl  = document.getElementById('voPeriodBadge');
-  const progEl    = document.getElementById('voTlProgress');
-
-  const isAuton = VO.elapsed < AUTON_DURATION;
-  const displayTime = isAuton ? AUTON_DURATION - VO.elapsed : MATCH_DURATION - VO.elapsed;
-
-  if (timerEl) {
-    timerEl.textContent = fmtTime(displayTime);
-    timerEl.className = 'vo-hud-timer' + (remaining < 10 ? ' overtime' : '');
-  }
-  if (periodEl) {
-    periodEl.textContent = isAuton ? 'AUTON' : 'DRIVER';
-    periodEl.className = 'vo-hud-period ' + (isAuton ? 'auton' : 'driver');
-  }
-  if (progEl) {
-    progEl.style.width = ((VO.elapsed / MATCH_DURATION) * 100).toFixed(2) + '%';
-  }
-}
-
-function toggleMatchTimer() {
-  if (VO.running) {
-    stopMatchTimer();
-  } else {
-    startMatchTimer();
-  }
-}
-
-function startMatchTimer() {
-  VO.running = true;
-  VO.lastTs = null;
-  VO.rafId = requestAnimationFrame(overlayTick);
-  const btn = document.getElementById('voStartBtn');
-  if (btn) { btn.textContent = '⏸ Pause'; btn.classList.add('active'); }
-}
-
-function stopMatchTimer() {
-  VO.running = false;
-  if (VO.rafId) cancelAnimationFrame(VO.rafId);
-  const btn = document.getElementById('voStartBtn');
-  if (btn) { btn.textContent = '▶ Start Timer'; btn.classList.remove('active'); }
-}
-
-function syncTimer(seconds) {
-  const wasRunning = VO.running;
-  stopMatchTimer();
-  VO.elapsed = Math.max(0, Math.min(MATCH_DURATION, seconds));
-  VO.lastTs = null;
-  renderOverlayTimer();
-  if (wasRunning) startMatchTimer();
-}
-
-// Keyboard shortcuts for annotation while video is focused
-document.addEventListener('keydown', e => {
-  const overlay = document.getElementById('voHud');
-  if (!overlay || overlay.style.display === 'none') return;
-  // Don't fire if typing in an input
-  if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
-  const map = { a:'auton_start', s:'score', d:'defense', l:'alliance', e:'error', n:'note' };
-  if (map[e.key.toLowerCase()]) { dropAnnotation(map[e.key.toLowerCase()]); e.preventDefault(); }
-  if (e.code === 'Space') { toggleMatchTimer(); e.preventDefault(); }
-});
-
-let annIdCounter = 0;
-function dropAnnotation(type) {
-  const def = ANN_TYPES[type];
-  if (!def) return;
-  const ann = {
-    id: ++annIdCounter,
-    type,
-    t: VO.elapsed,
-    tFmt: fmtTime(VO.elapsed),
-    label: def.label,
-    emoji: def.emoji,
-    color: def.color,
-    chipBg: def.chipBg,
-    chipBorder: def.chipBorder,
-  };
-  VO.annotations.push(ann);
-  // Save to notes if a match is selected
-  if (VO.matchId !== null) {
-    const existing = gn(VO.matchId, '__annotations') || [];
-    existing.push(ann);
-    setN(VO.matchId, '__annotations', existing);
-  }
-  renderAnnotations();
-
-  // Flash feedback
-  const wrap = document.getElementById('vidWrap');
-  if (wrap) {
-    wrap.style.outline = `2px solid ${def.color}`;
-    setTimeout(() => { if (wrap) wrap.style.outline = ''; }, 300);
-  }
-}
-
-function clearAnnotations() {
-  VO.annotations = [];
-  if (VO.matchId !== null) setN(VO.matchId, '__annotations', []);
-  renderAnnotations();
-}
-
-function renderAnnotations() {
-  // Chip log
-  const log = document.getElementById('voAnnLog');
-  if (log) {
-    log.innerHTML = VO.annotations.length
-      ? VO.annotations.map(a => `
-          <div class="vo-ann-chip" style="background:${a.chipBg};border-color:${a.chipBorder};color:${a.color};"
-               onclick="seekToAnnotation(${a.t})" title="Jump to ${a.tFmt} — ${a.label}">
-            ${a.emoji} ${a.label}<span class="chip-t">${a.tFmt}</span>
-          </div>`).join('')
-      : '<span style="font-size:11px;color:var(--t3);">Use buttons or keyboard shortcuts (A/S/D/L/E/N) to annotate</span>';
-    log.scrollLeft = log.scrollWidth;
-  }
-
-  // Timeline markers
-  const container = document.getElementById('voTlMarkers');
-  const tooltip   = document.getElementById('voTooltip');
-  if (!container) return;
-
-  // Render tick marks (every 15s)
-  const ticks = [];
-  for (let t = 0; t <= MATCH_DURATION; t += 15) {
-    const pct = (t / MATCH_DURATION * 100).toFixed(1);
-    ticks.push(`<div class="vo-tl-tick" style="left:${pct}%;"></div>`);
-    ticks.push(`<div class="vo-tl-tick-lbl" style="left:${pct}%;">${fmtTime(t)}</div>`);
-  }
-
-  const markers = VO.annotations.map(a => {
-    const pct = (Math.min(a.t, MATCH_DURATION) / MATCH_DURATION * 100).toFixed(2);
-    return `<div class="vo-tl-marker" style="left:${pct}%;background:${a.color};" 
-                 title="${a.emoji} ${a.label} @ ${a.tFmt}"
-                 onclick="seekToAnnotation(${a.t})"
-                 onmouseenter="showMarkerTip(this, '${a.emoji} ${a.label} @ ${a.tFmt}')"
-                 onmouseleave="hideMarkerTip()">${a.emoji.substring(0,2)}</div>`;
-  }).join('');
-
-  container.innerHTML = ticks.join('') + markers;
-
-  // Auton zone width
-  const autonZone = document.getElementById('voAutonZone');
-  if (autonZone) autonZone.style.width = ((AUTON_DURATION / MATCH_DURATION) * 100) + '%';
-}
-
-function showMarkerTip(el, text) {
-  const tip = document.getElementById('voTooltip');
-  if (!tip || !el) return;
-  tip.textContent = text;
-  tip.style.left = el.style.left;
-  tip.classList.add('show');
-}
-function hideMarkerTip() {
-  const tip = document.getElementById('voTooltip');
-  if (tip) tip.classList.remove('show');
-}
-
-function seekToAnnotation(t) {
-  syncTimer(t);
-  if (!VO.running) startMatchTimer();
-}
-
-function activateScoreOverlay(m) {
-  const red  = (m.alliances || []).find(a => a.color === 'red');
-  const blue = (m.alliances || []).find(a => a.color === 'blue');
-
-  // Team names in HUD
-  const redTeams  = (red?.teams  || []).map(t => tn(t.team.id)).join(' + ');
-  const blueTeams = (blue?.teams || []).map(t => tn(t.team.id)).join(' + ');
-  const redOrg    = (red?.teams  || []).map(t => to(t.team.id)).filter(Boolean).join(' / ');
-  const blueOrg   = (blue?.teams || []).map(t => to(t.team.id)).filter(Boolean).join(' / ');
-
-  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  set('voRedTeams', redTeams || '—');
-  set('voBlueTeams', blueTeams || '—');
-  set('voRedOrg',  redOrg);
-  set('voBlueOrg', blueOrg);
-
-  // Scores: use API scores if available
-  const rScore = red?.score  ?? 0;
-  const bScore = blue?.score ?? 0;
-  const inR = document.getElementById('inRedScore');
-  const inB = document.getElementById('inBlueScore');
-  if (inR) { inR.value  = rScore; }
-  if (inB) { inB.value  = bScore; }
-  set('voRedScore',  rScore);
-  set('voBlueScore', bScore);
-
-  // Restore saved annotations for this match
-  VO.matchId = m.id;
-  VO.annotations = gn(m.id, '__annotations') || [];
-
-  // Reset timer to start
-  stopMatchTimer();
-  VO.elapsed = 0;
-  renderOverlayTimer();
-  renderAnnotations();
-
-  // Show all overlay elements
-  ['voHud','voToolbar','voTimerRow','voTimeline'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = '';
-  });
-  document.getElementById('vidWrap').classList.add('overlay-pinned');
-
-  setSt(`Overlay active — use A/S/D/L/E/N to annotate, Space to start/pause timer`, 'live');
-}
-
-function toggleOverlay() {
-  const hud = document.getElementById('voHud');
-  const hidden = hud?.style.display === 'none';
-  ['voHud','voToolbar','voTimerRow','voTimeline'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = hidden ? '' : 'none';
-  });
-  const wrap = document.getElementById('vidWrap');
-  if (wrap) wrap.classList.toggle('overlay-pinned', hidden);
-}
-
-// ─── TEAM ANALYSIS PAGE ──────────────────────────────────────────────────────
-let tpCharts = [];
-let currentTeamId = null;
-
-async function openTeamPage(teamId) {
-  if (!teamId) return;
-  currentTeamId = teamId;
-  document.getElementById('teamPage').classList.add('open');
-
-  // Show loading state immediately
-  document.getElementById('tpMain').innerHTML = '<div class="empty" style="margin-top:60px;"><p>Loading team data…</p></div>';
-  document.getElementById('tpSide').innerHTML = '<div class="empty"><p>Loading…</p></div>';
-
-  // Fetch team details if not already loaded
-  if (!S.teams[teamId]) {
-    try {
-      S.teams[teamId] = await rg(`/teams/${teamId}`);
-    } catch(e) {
-      // Fall back to info from rankings if API call fails
-      const rankEntry = S.rankings.find(r => r.team?.id === teamId);
-      S.teams[teamId] = {
-        id: teamId,
-        number: rankEntry?.team?.name || '?',
-        organization: '',
-        location: {}
-      };
-    }
-  }
-
-  renderTeamPage(teamId);
-}
-
-function closeTeamPage() {
-  document.getElementById('teamPage').classList.remove('open');
-  tpCharts.forEach(c => { try { c.destroy(); } catch {} });
-  tpCharts = [];
-  currentTeamId = null;
-}
-
-function renderTeamPage(teamId) {
-  const team = S.teams[teamId] || {};
-  const rank = S.rankings.find(r => Number(r.team?.id) === Number(teamId));
-  console.log(`renderTeamPage(${teamId}): team=${JSON.stringify(team?.number)}, rank=#${rank?.rank}, matches=${S.matches.length}, rankings=${S.rankings.length}`);
-
-  // Reset tab state whenever a new team is opened
-  seasonDataLoaded = false;
-  activeTab = 'event';
-  document.getElementById('tpEventTab').style.display = 'grid';
-  document.getElementById('tpSeasonTab').style.display = 'none';
-  document.getElementById('tabEvent').classList.add('active');
-  document.getElementById('tabSeason').classList.remove('active');
-  document.getElementById('tabSeasonBadge').textContent = '—';
-  const color = rank ? (S.rankings.indexOf(rank) < S.rankings.length / 2 ? '#6ab3ff' : '#ff6b65') : 'var(--gold)';
-
-  document.getElementById('tpTeamNum').textContent = tn(teamId);
-  document.getElementById('tpTeamNum').style.color = color;
-  document.getElementById('tpTeamOrg').textContent = to(teamId) || team.team_name || '';
-
-  // Build this team's match history from all matches
-  const teamMatches = getTeamMatches(teamId);
-  const scoredCount = teamMatches.filter(tm => tm.scored).length;
-  document.getElementById('tabEventBadge').textContent = `${scoredCount} matches`;
-
-  renderTPMain(teamId, teamMatches, rank);
-  renderTPSide(teamId, teamMatches, rank);
-  // Restore any previously imported CV data for this team
-  setTimeout(() => restoreCVData(teamId), 100);
-}
-
-function getTeamMatches(teamId) {
-  const tid = Number(teamId);
-  const all = S.matches.filter(m => (m.alliances || []).some(a => (a.teams || []).some(t => Number(t.team.id) === tid)));
-  // Debug: show actual score values to understand why scored=false
-  const withScores = all.filter(m => {
-    const a = m.alliances || [];
-    return a.some(al => al.score !== null && al.score !== undefined);
-  });
-  console.log(`getTeamMatches(${tid}): ${all.length} matches, ${all.filter(m=>m.scored).length} scored flag, ${withScores.length} have actual scores`);
-  if (all.length > 0) console.log('Sample match:', JSON.stringify({scored:all[0].scored, alliances:all[0].alliances?.map(a=>({color:a.color,score:a.score}))}));
-  return S.matches
-    .filter(m => (m.alliances || []).some(a => (a.teams || []).some(t => Number(t.team.id) === tid)))
-    .map(m => {
-      const myAlliance = (m.alliances || []).find(a => (a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
-      const oppAlliance = (m.alliances || []).find(a => !(a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
-      const myScore = (myAlliance?.score !== undefined && myAlliance?.score !== null) ? Number(myAlliance.score) : null;
-      const oppScore = (oppAlliance?.score !== undefined && oppAlliance?.score !== null) ? Number(oppAlliance.score) : null;
-      // RobotEvents sometimes returns scored:false even when scores exist
-      // Treat as scored if either alliance has an actual score value
-      const hasScores = myScore !== null && oppScore !== null;
-      const scored = hasScores || m.scored;
-      const result = !scored ? '—' : myScore > oppScore ? 'W' : myScore < oppScore ? 'L' : 'T';
-      const partner = (myAlliance?.teams || []).find(t => Number(t.team.id) !== Number(teamId));
-      const lbl = `${rl(m.round)}${m.matchnum}`;
-      const note = gn(m.id, Number(teamId));
-      return { m, lbl, myScore, oppScore, result, scored, myColor: myAlliance?.color, partner, note };
-    });
-}
-
-// Only scored matches — used for charts/stats that need actual scores
-function getScoredMatches(teamId) {
-  return getTeamMatches(teamId).filter(tm => tm.scored);
-}
-
-function computeMMR(teamId, teamMatches) {
-  // MMR-style rating: starts at 1000, +30 for win, -25 for loss, margin bonus
-  let mmr = 1000;
-  const history = [];
-  teamMatches.forEach(({ myScore, oppScore, result }) => {
-    const margin = Math.abs(myScore - oppScore);
-    const marginBonus = Math.min(20, Math.floor(margin / 5));
-    if (result === 'W') mmr += 30 + marginBonus;
-    else if (result === 'L') mmr -= 25 - Math.min(10, marginBonus);
-    history.push(mmr);
-  });
-  return { mmr: Math.round(mmr), history };
-}
-
-function computeConsistency(scores) {
-  if (scores.length < 2) return 100;
-  const avg = scores.reduce((a, b) => a + b, 0) / scores.length;
-  const variance = scores.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / scores.length;
-  const stddev = Math.sqrt(variance);
-  // Consistency 0-100: lower stddev = higher consistency
-  return Math.max(0, Math.round(100 - (stddev / Math.max(avg, 1)) * 100));
-}
-
-function computeTrend(scores) {
-  if (scores.length < 3) return { label: 'Insufficient data', dir: 0 };
-  const half = Math.floor(scores.length / 2);
-  const firstHalf = scores.slice(0, half).reduce((a, b) => a + b, 0) / half;
-  const secondHalf = scores.slice(-half).reduce((a, b) => a + b, 0) / half;
-  const delta = secondHalf - firstHalf;
-  if (delta > 5) return { label: '↑ Improving', dir: 1, delta: Math.round(delta) };
-  if (delta < -5) return { label: '↓ Declining', dir: -1, delta: Math.round(Math.abs(delta)) };
-  return { label: '→ Stable', dir: 0, delta: 0 };
-}
-
-function renderTPMain(teamId, teamMatches, rank) {
-  const main = document.getElementById('tpMain');
-  tpCharts.forEach(c => { try { c.destroy(); } catch {} });
-  tpCharts = [];
-
-  const scoredMatches = getScoredMatches(teamId);
-  const hasNotes = teamMatches.some(tm => tm.note);
-
-  if (!teamMatches.length) {
-    main.innerHTML = '<div class="empty" style="margin-top:60px;"><p>No matches found for this team.</p></div>';
-    return;
-  }
-
-  // Charts and stats use only scored matches
-  const scores = scoredMatches.map(tm => tm.myScore);
-  const oppScores = scoredMatches.map(tm => tm.oppScore);
-  const labels = scoredMatches.map(tm => tm.lbl);
-  const wins = scoredMatches.filter(tm => tm.result === 'W').length;
-  const losses = scoredMatches.filter(tm => tm.result === 'L').length;
-  const ties = scoredMatches.filter(tm => tm.result === 'T').length;
-  const avgScore = scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : 0;
-  const peakScore = scores.length ? Math.max(...scores) : 0;
-  const peakMatch = scoredMatches[scores.indexOf(peakScore)];
-  const consistency = computeConsistency(scores);
-  const trend = computeTrend(scores);
-  const { mmr } = computeMMR(teamId, scoredMatches);
-  const trendColor = trend.dir > 0 ? '#22c55e' : trend.dir < 0 ? '#ff7b77' : 'var(--t2)';
-
-  main.innerHTML = `
-    <!-- STAT CARDS -->
-    <div class="tp-stats">
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Record</div>
-        <div class="tp-stat-val" style="color:#22c55e;">${wins}W</div>
-        <div class="tp-stat-sub">${losses}L · ${ties}T</div>
-      </div>
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Avg Score</div>
-        <div class="tp-stat-val" style="color:var(--gold);">${avgScore}</div>
-        <div class="tp-stat-sub">Peak: ${peakScore} (${peakMatch?.lbl})</div>
-      </div>
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Consistency</div>
-        <div class="tp-stat-val" style="color:var(--purple);">${consistency}</div>
-        <div class="tp-stat-sub">out of 100</div>
-      </div>
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Performance</div>
-        <div class="tp-stat-val" style="color:${trendColor};font-size:18px;">${trend.label}</div>
-        <div class="tp-stat-sub">${trend.delta ? (trend.dir>0?'+':'-')+trend.delta+' pts avg' : 'across matches'}</div>
-      </div>
-    </div>
-
-    <!-- SCORE TIMELINE CHART -->
-    <div class="tp-card">
-      <div class="tp-card-title">Score Progression <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">Match by match</span></div>
-      <div class="tp-chart-wrap"><canvas id="chartScores"></canvas></div>
-    </div>
-
-    <!-- MMR CHART -->
-    <div class="tp-card">
-      <div class="tp-card-title">Performance Rating (MMR) <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">Starts at 1000</span></div>
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;">
-        <div>
-          <div class="tp-stat-lbl">Current MMR</div>
-          <div class="tp-stat-val" style="color:var(--gold);font-size:32px;">${mmr}</div>
-        </div>
-        <div style="flex:1;height:60px;position:relative;"><canvas id="chartMMR"></canvas></div>
-      </div>
-    </div>
-
-    <!-- WIN/LOSS MOMENTUM -->
-    <div class="tp-card">
-      <div class="tp-card-title">Win / Loss Streak</div>
-      <div class="momentum-row">
-        ${teamMatches.map(tm => `<div class="mom-block mom-${tm.result.toLowerCase()}" title="${tm.lbl}: ${tm.result}">${tm.result}</div>`).join('')}
-      </div>
-    </div>
-
-    <!-- RANKING POINT ACCUMULATION -->
-    <div class="tp-card">
-      <div class="tp-card-title">Ranking Points Accumulated <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">Cumulative</span></div>
-      <div class="tp-chart-wrap" style="height:140px;"><canvas id="chartRP"></canvas></div>
-    </div>
-  `;
-
-  // Chart defaults
-  const chartDefaults = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1c1c22', titleColor: '#eeeef4', bodyColor: '#8888a0', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1 } },
-    scales: {
-      x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#48485a', font: { size: 11 } } },
-      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#48485a', font: { size: 11 } } }
-    }
-  };
-
-  // Charts need a frame to render after innerHTML is set
-  requestAnimationFrame(() => {
-  const ctxS = document.getElementById('chartScores')?.getContext('2d');
-  if (ctxS) {
-    tpCharts.push(new Chart(ctxS, {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          { label: 'My Score', data: scores, borderColor: '#f5c542', backgroundColor: 'rgba(245,197,66,0.08)', tension: 0.3, pointRadius: 4, pointBackgroundColor: '#f5c542' },
-          { label: 'Opp Score', data: oppScores, borderColor: 'rgba(255,255,255,0.15)', backgroundColor: 'transparent', tension: 0.3, pointRadius: 3, pointBackgroundColor: 'rgba(255,255,255,0.2)', borderDash: [4,4] }
-        ]
-      },
-      options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8888a0', font: { size: 11 } } } } }
-    }));
-  }
-
-  // MMR chart
-  const { history: mmrHistory } = computeMMR(teamId, teamMatches);
-  const ctxM = document.getElementById('chartMMR')?.getContext('2d');
-  if (ctxM) {
-    tpCharts.push(new Chart(ctxM, {
-      type: 'line',
-      data: { labels, datasets: [{ data: mmrHistory, borderColor: '#f5c542', backgroundColor: 'rgba(245,197,66,0.1)', tension: 0.4, pointRadius: 0, fill: true }] },
-      options: { ...chartDefaults, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-    }));
-  }
-
-  // RP accumulation chart
-  let rpAcc = 0;
-  const rpData = teamMatches.map(tm => {
-    const rp = tm.result === 'W' ? 2 : tm.result === 'T' ? 1 : 0;
-    rpAcc += rp;
-    return rpAcc;
-  });
-  const ctxRP = document.getElementById('chartRP')?.getContext('2d');
-  if (ctxRP) {
-    tpCharts.push(new Chart(ctxRP, {
-      type: 'bar',
-      data: { labels, datasets: [{ data: rpData, backgroundColor: teamMatches.map(tm => tm.result === 'W' ? 'rgba(34,197,94,0.6)' : tm.result === 'L' ? 'rgba(232,48,42,0.4)' : 'rgba(136,136,160,0.3)'), borderRadius: 3 }] },
-      options: { ...chartDefaults, scales: { x: { ...chartDefaults.scales.x }, y: { ...chartDefaults.scales.y, beginAtZero: true } } }
-    }));
-  }
-  }); // end requestAnimationFrame
-}
-
-function renderTPSide(teamId, teamMatches, rank) {
-  const scoredMatches = teamMatches.filter(tm => tm.scored);
-  const side = document.getElementById('tpSide');
-
-  // Alliance partner analysis
-  const partnerMap = {};
-  teamMatches.forEach(tm => {
-    if (!tm.partner) return;
-    const pid = tm.partner.team.id;
-    if (!partnerMap[pid]) partnerMap[pid] = { wins: 0, losses: 0, ties: 0, id: pid };
-    if (tm.result === 'W') partnerMap[pid].wins++;
-    else if (tm.result === 'L') partnerMap[pid].losses++;
-    else partnerMap[pid].ties++;
-  });
-  const partners = Object.values(partnerMap).sort((a, b) => b.wins - a.wins);
-
-  // Match history list
-  const matchListHTML = teamMatches.map(tm => {
-    const hasNote = tm.note && (tm.note.notes || tm.note.auto || tm.note.driver);
-    const scoreStr = tm.scored ? `${tm.myScore} – ${tm.oppScore}` : 'Upcoming';
-    const resultCls = tm.result === 'W' ? 'res-w' : tm.result === 'L' ? 'res-l' : 'res-t';
-    const scoreColor = tm.result === 'W' ? '#22c55e' : tm.result === 'L' ? '#ff7b77' : 'var(--t2)';
-    return `<div style="margin-bottom:6px;">
-      <div class="tp-match-row" style="cursor:pointer;" onclick="jumpToMatchFromTeam('${tm.lbl}')">
-        <span class="tp-match-lbl">${tm.lbl}</span>
-        <span class="tp-match-teams" style="color:${tm.myColor==='red'?'#ff7b77':'#6ab3ff'};">
-          ${tn(teamId)} + ${tn(tm.partner?.team?.id||0)}
-        </span>
-        <span class="tp-match-score" style="color:${scoreColor};">${scoreStr}</span>
-        <span class="tp-match-result ${resultCls}">${tm.result}</span>
-      </div>
-      ${hasNote ? `<div style="background:var(--s3);border-radius:var(--r);padding:7px 10px;margin-top:2px;font-size:12px;color:var(--t2);line-height:1.55;">
-        ${tm.note.auto ? `<span style="color:var(--gold);">Auto ★${tm.note.auto}</span> &nbsp;` : ''}
-        ${tm.note.driver ? `<span style="color:var(--gold);">Driver ★${tm.note.driver}</span> &nbsp;` : ''}
-        ${tm.note.myRating ? `<span style="color:var(--purple);">Your rating: ${tm.note.myRating}/10</span>` : ''}
-        ${tm.note.notes ? `<div style="margin-top:4px;color:var(--t1);">"${tm.note.notes}"</div>` : ''}
-      </div>` : ''}
-    </div>`;
-  }).join('');
-
-  side.innerHTML = `
-    <!-- RANKING INFO -->
-    <div style="margin-bottom:14px;">
-      <div class="ph-t" style="margin-bottom:8px;">Event Standing</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
-        <div class="tp-stat"><div class="tp-stat-lbl">Rank</div><div class="tp-stat-val" style="color:var(--gold);">#${rank?.rank??'?'}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">WP</div><div class="tp-stat-val">${rank?.wp??'—'}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">AP</div><div class="tp-stat-val">${rank?.ap??'—'}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">SP</div><div class="tp-stat-val">${rank?.sp??'—'}</div></div>
-      </div>
-    </div>
-
-    <!-- BEST ALLIANCE PARTNERS -->
-    <div style="margin-bottom:14px;">
-      <div class="ph-t" style="margin-bottom:8px;">Alliance Partners</div>
-      ${partners.length ? partners.map(p => `
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px;background:var(--s2);border-radius:var(--r);margin-bottom:4px;cursor:pointer;" onclick="openTeamPage(${p.id})">
-          <span style="font-family:var(--fm);font-size:12px;font-weight:600;">${tn(p.id)}</span>
-          <span style="font-size:11px;color:${p.wins>p.losses?'#22c55e':p.wins<p.losses?'#ff7b77':'var(--t2)'};">${p.wins}W-${p.losses}L-${p.ties}T</span>
-        </div>`).join('') : '<div class="empty" style="padding:10px;">No partner data yet</div>'}
-    </div>
-
-<!-- MATCH HISTORY -->
-    <div>
-      <div class="ph-t" style="margin-bottom:8px;">Match History <span style="color:var(--t3);font-weight:400;">${teamMatches.length} total · ${teamMatches.filter(tm=>tm.note).length} scouted</span></div>
-      ${matchListHTML || '<div class="empty" style="padding:10px;">No scored matches</div>'}
-    </div>
-  `;
-}
-
-
-function exportTeamData() {
-  if (!currentTeamId) return;
-  const team = S.teams[currentTeamId] || {};
-  const teamMatches = getTeamMatches(currentTeamId);
-  const { mmr } = computeMMR(currentTeamId, teamMatches);
-  const scores = teamMatches.map(tm => tm.myScore);
-  const wb = XLSX.utils.book_new();
-  const rows = [['Match','Result','My Score','Opp Score','Partner','MMR After','Notes']];
-  let runMMR = 1000;
-  teamMatches.forEach(tm => {
-    const margin = Math.abs(tm.myScore - tm.oppScore);
-    const bonus = Math.min(20, Math.floor(margin/5));
-    if (tm.result==='W') runMMR += 30+bonus;
-    else if (tm.result==='L') runMMR -= 25-Math.min(10,bonus);
-    rows.push([tm.lbl, tm.result, tm.myScore, tm.oppScore, tn(tm.partner?.team?.id||0), Math.round(runMMR), tm.note?.notes||'']);
-  });
-  const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [8,6,10,10,10,10,40].map(w=>({wch:w}));
-  XLSX.utils.book_append_sheet(wb, ws, (team.number||'Team').substring(0,31));
-  XLSX.writeFile(wb, `VADT_${tn(currentTeamId)}_analysis.xlsx`);
-}
-
-// Score overlay activated directly in selMatch above
-
-
-// ─── MATCH JUMP ──────────────────────────────────────────────────────────────
-function jumpToMatch(query) {
-  if (!query || query.length < 2) return;
-  const q = query.trim().toUpperCase();
-  // Match formats: Q3, Q12, SF1, SF2, F1, M3 etc.
-  const idx = S.matches.findIndex(m => {
-    const label = `${rl(m.round)}${m.matchnum}`.toUpperCase();
-    return label === q || label.startsWith(q);
-  });
-  if (idx > -1) {
-    selMatch(idx);
-    // Scroll to and highlight the match in the left panel
-    const items = document.querySelectorAll('.mi');
-    if (items[idx]) {
-      items[idx].scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-    document.getElementById('matchJumpInput').style.borderColor = 'var(--green)';
-    setTimeout(() => {
-      const el = document.getElementById('matchJumpInput');
-      if (el) el.style.borderColor = 'var(--b2)';
-    }, 1200);
-  } else {
-    document.getElementById('matchJumpInput').style.borderColor = 'var(--red)';
-    setTimeout(() => {
-      const el = document.getElementById('matchJumpInput');
-      if (el) el.style.borderColor = 'var(--b2)';
-    }, 1000);
-  }
-}
-
-
-// ─── SETTINGS MODAL ──────────────────────────────────────────────────────────
-function openSettings() {
-  const modal = document.getElementById('settingsModal');
-  const googleEl = document.getElementById('settingsGoogleStatus');
-  const reInput = document.getElementById('settingsReToken');
-  const reStatus = document.getElementById('settingsReStatus');
-
-  // Pre-fill RE token
-  if (reInput) {
-    reInput.value = S.re || '';
-    reInput.style.borderColor = S.re ? 'var(--green)' : 'var(--b2)';
-  }
-  if (reStatus) {
-    reStatus.textContent = S.re ? `Token active (${S.re.length} chars) — stored in your browser only.` : 'No token set — paste your RobotEvents token above.';
-    reStatus.style.color = S.re ? 'var(--green)' : 'var(--gold)';
-  }
-
-  // Show Google sign-in status
-  if (googleEl) {
-    googleEl.textContent = currentUser
-      ? `Signed in as ${currentUser.displayName} (${currentUser.email})`
-      : 'Not signed in — click Sign in with Google in the top bar';
-    googleEl.style.color = currentUser ? 'var(--green)' : 'var(--t2)';
-  }
-
-  if (modal) modal.style.display = 'flex';
-}
-
-function closeSettings() {
-  const modal = document.getElementById('settingsModal');
-  if (modal) modal.style.display = 'none';
-}
-
-function saveSettings() {
-  // Save RE token
-  const reInput = document.getElementById('settingsReToken');
-  if (reInput && reInput.value.trim()) {
-    S.re = reInput.value.trim();
-    ls('vs_re', S.re);
-  }
-  setTimeout(closeSettings, 200);
-  setSt('Settings saved', 'live');
-}
-
-// Close settings on backdrop click
-document.addEventListener('click', e => {
-  const modal = document.getElementById('settingsModal');
-  if (modal && e.target === modal) closeSettings();
-});
-
-
-function jumpToMatchFromTeam(lbl) {
-  closeTeamPage();
-  // Small delay so page closes before jump
-  setTimeout(() => jumpToMatch(lbl), 150);
-}
-
-
-// ─── TAB SWITCHING ───────────────────────────────────────────────────────────
-let activeTab = 'event';
-let seasonDataLoaded = false;
-
-function switchTab(tab) {
-  activeTab = tab;
-  document.getElementById('tpEventTab').style.display = tab === 'event' ? 'grid' : 'none';
-  document.getElementById('tpSeasonTab').style.display = tab === 'season' ? 'grid' : 'none';
-  document.getElementById('tabEvent').classList.toggle('active', tab === 'event');
-  document.getElementById('tabSeason').classList.toggle('active', tab === 'season');
-
-  if (tab === 'season' && !seasonDataLoaded && currentTeamId) {
-    loadSeasonData(currentTeamId);
-  }
-}
-
-// ─── SEASON DATA ─────────────────────────────────────────────────────────────
-// Season ID — fetched dynamically from the loaded event so it's always correct
-let CURRENT_SEASON_ID = null;
-
-// Cache season data in sessionStorage so repeat opens are instant
-const SEASON_CACHE_TTL = 5 * 60 * 1000; // 5 minutes
-
-function getSeasonCache(teamId, seasonId) {
-  try {
-    const raw = sessionStorage.getItem(`vadt_season_${teamId}_${seasonId}`);
-    if (!raw) return null;
-    const { ts, data } = JSON.parse(raw);
-    if (Date.now() - ts > SEASON_CACHE_TTL) return null;
-    return data;
-  } catch { return null; }
-}
-
-function setSeasonCache(teamId, seasonId, data) {
-  try {
-    sessionStorage.setItem(`vadt_season_${teamId}_${seasonId}`, JSON.stringify({ ts: Date.now(), data }));
-  } catch {}
-}
-
-async function loadSeasonData(teamId) {
-  const main = document.getElementById('tpSeasonMain');
-  const side = document.getElementById('tpSeasonSide');
-
-  // Get season ID first
-  if (!CURRENT_SEASON_ID && S.ev?.season?.id) {
-    CURRENT_SEASON_ID = S.ev.season.id;
-  }
-  if (!CURRENT_SEASON_ID) {
-    try {
-      const seasons = await rg('/seasons', { 'program[]': 1, active: true, per_page: 1 });
-      CURRENT_SEASON_ID = seasons.data?.[0]?.id;
-    } catch {}
-  }
-  if (!CURRENT_SEASON_ID) {
-    if (main) main.innerHTML = `<div class="empty" style="margin-top:60px;"><p style="color:#ff7b77;">Could not determine season ID</p></div>`;
-    return;
-  }
-
-  // ── Cache hit: render instantly ──
-  const cached = getSeasonCache(teamId, CURRENT_SEASON_ID);
-  if (cached) {
-    seasonDataLoaded = true;
-    document.getElementById('tabSeasonBadge').textContent = `${cached.matchData.length} matches`;
-    renderSeasonMain(teamId, cached.matchData, cached.rankData, cached.skillsData, cached.eventsData);
-    renderSeasonSide(teamId, cached.matchData, cached.rankData, cached.skillsData, cached.eventsData);
-    return;
-  }
-
-  // ── Cache miss: show skeleton, fetch progressively ──
-  if (main) main.innerHTML = `
-    <div style="padding:20px;display:flex;flex-direction:column;gap:12px;">
-      <div class="tp-stats">
-        ${['Season Record','Avg Score','Consistency','Trend'].map(l=>`
-        <div class="tp-stat">
-          <div class="tp-stat-lbl">${l}</div>
-          <div style="height:28px;background:var(--s4);border-radius:4px;animation:skelPulse 1.4s ease-in-out infinite;margin-top:4px;"></div>
-        </div>`).join('')}
-      </div>
-      <div class="tp-card"><div style="height:160px;background:var(--s4);border-radius:4px;animation:skelPulse 1.4s ease-in-out infinite;"></div></div>
-    </div>`;
-  if (side) side.innerHTML = `<div style="padding:16px;display:flex;flex-direction:column;gap:8px;">
-    ${[1,2,3].map(()=>`<div style="height:60px;background:var(--s4);border-radius:8px;animation:skelPulse 1.4s ease-in-out infinite;"></div>`).join('')}
-  </div>`;
-
-  try {
-    // Fire all 4 calls in parallel, render as each resolves
-    let matchData = [], rankData = [], skillsData = [], eventsData = [];
-
-    const fetchAll = [
-      ra(`/teams/${teamId}/matches`,  { 'season[]': CURRENT_SEASON_ID, per_page: 250 }).then(d => {
-        matchData = d;
-        document.getElementById('tabSeasonBadge').textContent = `${d.length} matches`;
-      }),
-      ra(`/teams/${teamId}/rankings`, { 'season[]': CURRENT_SEASON_ID }).then(d => { rankData = d; }),
-      ra(`/teams/${teamId}/skills`,   { 'season[]': CURRENT_SEASON_ID }).then(d => { skillsData = d; }),
-      ra(`/teams/${teamId}/events`,   { 'season[]': CURRENT_SEASON_ID }).then(d => { eventsData = d; }),
-    ];
-
-    // Render a partial update when matches (the slowest) come in
-    fetchAll[0].then(() => {
-      if (matchData.length) renderSeasonMain(teamId, matchData, rankData, skillsData, eventsData);
-    });
-
-    await Promise.all(fetchAll);
-
-    seasonDataLoaded = true;
-    renderSeasonMain(teamId, matchData, rankData, skillsData, eventsData);
-    renderSeasonSide(teamId, matchData, rankData, skillsData, eventsData);
-
-    // Store in cache for next time
-    setSeasonCache(teamId, CURRENT_SEASON_ID, { matchData, rankData, skillsData, eventsData });
-  } catch(e) {
-    if (main) main.innerHTML = `<div class="empty" style="margin-top:60px;"><p style="color:#ff7b77;">Season data error: ${e.message}</p></div>`;
-    console.error('Season data error:', e);
-  }
-}
-
-function computeSeasonStats(teamId, matches) {
-  let wins = 0, losses = 0, ties = 0, totalScore = 0, scoreCount = 0;
-  const matchesByEvent = {};
-
-  matches.forEach(m => {
-    const myAlliance = (m.alliances || []).find(a => (a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
-    const oppAlliance = (m.alliances || []).find(a => !(a.teams || []).some(t => Number(t.team.id) === Number(teamId)));
-    if (!myAlliance) return;
-
-    const myScore = myAlliance.score != null ? Number(myAlliance.score) : null;
-    const oppScore = oppAlliance?.score != null ? Number(oppAlliance.score) : null;
-    const hasScores = myScore !== null && oppScore !== null;
-    const scored = hasScores || m.scored;
-    if (!scored) return;
-
-    if (myScore > oppScore) wins++;
-    else if (myScore < oppScore) losses++;
-    else ties++;
-
-    if (myScore !== null) { totalScore += myScore; scoreCount++; }
-
-    const eid = m.event?.id;
-    if (eid) {
-      if (!matchesByEvent[eid]) matchesByEvent[eid] = { event: m.event, wins: 0, losses: 0, ties: 0, scores: [] };
-      if (myScore > oppScore) matchesByEvent[eid].wins++;
-      else if (myScore < oppScore) matchesByEvent[eid].losses++;
-      else matchesByEvent[eid].ties++;
-      if (myScore !== null) matchesByEvent[eid].scores.push(myScore);
-    }
-  });
-
-  return {
-    wins, losses, ties,
-    avgScore: scoreCount ? Math.round(totalScore / scoreCount) : 0,
-    matchesByEvent: Object.values(matchesByEvent),
-    total: wins + losses + ties
-  };
-}
-
-function renderSeasonMain(teamId, matches, rankings, skills, events) {
-  const main = document.getElementById('tpSeasonMain');
-  const stats = computeSeasonStats(teamId, matches);
-  const scoredMatches = matches.filter(m => {
-    const my = (m.alliances||[]).find(a=>(a.teams||[]).some(t=>Number(t.team.id)===Number(teamId)));
-    const opp = (m.alliances||[]).find(a=>!(a.teams||[]).some(t=>Number(t.team.id)===Number(teamId)));
-    return (my?.score!=null&&opp?.score!=null)||m.scored;
-  }).map(m => {
-    const my = (m.alliances||[]).find(a=>(a.teams||[]).some(t=>Number(t.team.id)===Number(teamId)));
-    const opp = (m.alliances||[]).find(a=>!(a.teams||[]).some(t=>Number(t.team.id)===Number(teamId)));
-    const ms = my?.score!=null?Number(my.score):0;
-    const os = opp?.score!=null?Number(opp.score):0;
-    return { myScore:ms, oppScore:os, result: ms>os?'W':ms<os?'L':'T', eventName: m.event?.name||'?' };
-  });
-
-  const scores = scoredMatches.map(m => m.myScore);
-  const consistency = computeConsistency(scores);
-  const trend = computeTrend(scores);
-  const { mmr, history: mmrHistory } = computeMMR(teamId, scoredMatches);
-  const trendColor = trend.dir > 0 ? '#22c55e' : trend.dir < 0 ? '#ff7b77' : 'var(--t2)';
-  const winRate = stats.total > 0 ? Math.round((stats.wins / stats.total) * 100) : 0;
-
-  // Best skills scores
-  const driverSkill = skills.filter(s => s.type === 1).sort((a,b) => b.score - a.score)[0];
-  const autoSkill = skills.filter(s => s.type === 0).sort((a,b) => b.score - a.score)[0];
-  const combinedSkill = driverSkill && autoSkill ? (driverSkill.score + autoSkill.score) : null;
-
-  main.innerHTML = `
-    <div class="tp-stats">
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Season Record</div>
-        <div class="tp-stat-val" style="color:#22c55e;">${stats.wins}W</div>
-        <div class="tp-stat-sub">${stats.losses}L · ${stats.ties}T (${winRate}% win rate)</div>
-      </div>
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Avg Score</div>
-        <div class="tp-stat-val" style="color:var(--gold);">${stats.avgScore}</div>
-        <div class="tp-stat-sub">across ${stats.total} matches</div>
-      </div>
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Consistency</div>
-        <div class="tp-stat-val" style="color:var(--blue);">${consistency}</div>
-        <div class="tp-stat-sub">out of 100</div>
-      </div>
-      <div class="tp-stat">
-        <div class="tp-stat-lbl">Trend</div>
-        <div class="tp-stat-val" style="color:${trendColor};font-size:18px;">${trend.label}</div>
-        <div class="tp-stat-sub">season-wide</div>
-      </div>
-    </div>
-
-    ${combinedSkill !== null ? `
-    <div class="tp-card">
-      <div class="tp-card-title">Robot Skills <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">Best scores this season</span></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-        <div class="tp-stat"><div class="tp-stat-lbl">Combined</div><div class="tp-stat-val" style="color:var(--gold);">${combinedSkill}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Driver</div><div class="tp-stat-val">${driverSkill?.score ?? '—'}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Autonomous</div><div class="tp-stat-val">${autoSkill?.score ?? '—'}</div></div>
-      </div>
-    </div>` : ''}
-
-    <div class="tp-card">
-      <div class="tp-card-title">Season Score Progression <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">All ${scoredMatches.length} scored matches</span></div>
-      <div class="tp-chart-wrap"><canvas id="chartSeasonScores"></canvas></div>
-    </div>
-
-    <div class="tp-card">
-      <div class="tp-card-title">Season MMR <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">Starts at 1000</span></div>
-      <div style="display:flex;align-items:center;gap:16px;margin-bottom:10px;">
-        <div><div class="tp-stat-lbl">Season MMR</div><div class="tp-stat-val" style="color:var(--gold);font-size:32px;">${mmr}</div></div>
-        <div style="flex:1;height:60px;position:relative;"><canvas id="chartSeasonMMR"></canvas></div>
-      </div>
-    </div>
-
-    <div class="tp-card">
-      <div class="tp-card-title">Win / Loss Streak <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">All season</span></div>
-      <div class="momentum-row">
-        ${scoredMatches.map(m => `<div class="mom-block mom-${m.result.toLowerCase()}" title="${m.eventName}: ${m.result}">${m.result}</div>`).join('')}
-      </div>
-    </div>
-  `;
-
-  // Charts
-  requestAnimationFrame(() => {
-    const chartDefaults = {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { backgroundColor: '#1c1c22', titleColor: '#eeeef4', bodyColor: '#8888a0', borderColor: 'rgba(255,255,255,0.1)', borderWidth: 1 } },
-      scales: {
-        x: { display: false },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#48485a', font: { size: 11 } } }
-      }
-    };
-
-    const ctxSS = document.getElementById('chartSeasonScores')?.getContext('2d');
-    if (ctxSS) {
-      tpCharts.push(new Chart(ctxSS, {
-        type: 'line',
-        data: {
-          labels: scoredMatches.map((m,i) => i+1),
-          datasets: [
-            { label: 'My Score', data: scores, borderColor: '#f5c542', backgroundColor: 'rgba(245,197,66,0.08)', tension: 0.3, pointRadius: 2, pointBackgroundColor: '#f5c542' },
-            { label: 'Opp', data: scoredMatches.map(m=>m.oppScore), borderColor: 'rgba(255,255,255,0.12)', backgroundColor: 'transparent', tension: 0.3, pointRadius: 0, borderDash: [3,3] }
-          ]
-        },
-        options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: true, labels: { color: '#8888a0', font: { size: 11 } } } } }
-      }));
-    }
-
-    const ctxSM = document.getElementById('chartSeasonMMR')?.getContext('2d');
-    if (ctxSM) {
-      tpCharts.push(new Chart(ctxSM, {
-        type: 'line',
-        data: { labels: mmrHistory.map((_,i)=>i), datasets: [{ data: mmrHistory, borderColor: '#f5c542', backgroundColor: 'rgba(245,197,66,0.1)', tension: 0.4, pointRadius: 0, fill: true }] },
-        options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false }, y: { display: false } }, plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-      }));
-    }
-  });
-}
-
-function renderSeasonSide(teamId, matches, rankings, skills, events) {
-  const side = document.getElementById('tpSeasonSide');
-  const stats = computeSeasonStats(teamId, matches);
-
-  // Sort events by placement (best first)
-  const eventResults = stats.matchesByEvent.sort((a, b) => {
-    const aWr = a.wins / Math.max(a.wins+a.losses+a.ties, 1);
-    const bWr = b.wins / Math.max(b.wins+b.losses+b.ties, 1);
-    return bWr - aWr;
-  });
-
-  const bestPlacement = rankings.sort((a,b) => a.rank - b.rank)[0];
-
-  // World skills rank from skills data
-  const topSkills = skills.filter(s=>s.type===1).sort((a,b)=>b.score-a.score)[0];
-
-  const placeColor = (rank) => {
-    if (rank === 1) return 'gold';
-    if (rank <= 3) return 'silver';
-    if (rank <= 8) return 'bronze';
-    return 'other';
-  };
-
-  side.innerHTML = `
-    <div style="margin-bottom:14px;">
-      <div class="ph-t" style="margin-bottom:8px;">Season Highlights</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-        <div class="tp-stat"><div class="tp-stat-lbl">Events</div><div class="tp-stat-val">${events.length}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Best Rank</div><div class="tp-stat-val" style="color:var(--gold);">#${bestPlacement?.rank ?? '—'}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Win Rate</div><div class="tp-stat-val">${stats.total > 0 ? Math.round(stats.wins/stats.total*100) : 0}%</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Skills</div><div class="tp-stat-val">${topSkills?.score ?? '—'}</div></div>
-      </div>
-    </div>
-
-    <div>
-      <div class="ph-t" style="margin-bottom:8px;">Events Attended <span style="color:var(--t3);font-weight:400;">${events.length} this season</span></div>
-      ${eventResults.length ? eventResults.map(er => {
-        const total = er.wins + er.losses + er.ties;
-        const wr = total > 0 ? Math.round(er.wins/total*100) : 0;
-        const avgSc = er.scores.length ? Math.round(er.scores.reduce((a,b)=>a+b,0)/er.scores.length) : 0;
-        // Find ranking for this event
-        const evRank = rankings.find(r => r.event?.id === er.event?.id);
-        const rank = evRank?.rank;
-        const pc = placeColor(rank);
-        return `<div class="season-event-row">
-          <div class="season-event-top">
-            <div class="season-event-name">${er.event?.name || 'Unknown Event'}</div>
-            ${rank ? `<div class="season-event-place ${pc}">#${rank}</div>` : ''}
-          </div>
-          <div class="season-event-stats">
-            <span>${er.wins}W-${er.losses}L-${er.ties}T</span>
-            <span>·</span>
-            <span>${wr}% win rate</span>
-            <span>·</span>
-            <span>Avg ${avgSc}</span>
-          </div>
-          <div class="season-skills-bar">
-            <div class="season-skills-fill" style="width:${wr}%;"></div>
-          </div>
-        </div>`;
-      }).join('') : '<div class="empty" style="padding:10px;">No event data</div>'}
-    </div>
-  `;
-}
-
-
-// ─── CV DATA IMPORT ──────────────────────────────────────────────────────────
-let cvData = null; // most recently imported CV analysis
-
-function importCVData(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const data = JSON.parse(e.target.result);
-      // Validate it's a VADT CV export
-      if (!data.timeline || !data.robot_contributions) {
-        throw new Error('Not a valid VADT CV export file');
-      }
-      cvData = data;
-      // Store against current team
-      if (currentTeamId) {
-        S.notes[`cv_${currentTeamId}`] = data;
-        saveNotes();
-      }
-      renderCVSection(data);
-      setSt(`CV data imported: ${data.source}`, 'live');
-    } catch(err) {
-      setSt('CV import error: ' + err.message, 'idle');
-    }
-  };
-  reader.readAsText(file);
-  // Reset input so same file can be re-imported
-  event.target.value = '';
-}
-
-function renderCVSection(data) {
-  // Find or create the CV section in the event tab main area
-  let cvSection = document.getElementById('cvSection');
-  if (!cvSection) {
-    const main = document.getElementById('tpMain');
-    if (!main) return;
-    const div = document.createElement('div');
-    div.id = 'cvSection';
-    main.appendChild(div);
-    cvSection = div;
-  }
-
-  const winner = data.winner.toUpperCase();
-  const winColor = data.winner === 'red' ? '#ff6b65' : data.winner === 'blue' ? '#6ab3ff' : 'var(--t2)';
-  const autonColor = data.auton_winner === 'red' ? '#ff6b65' : data.auton_winner === 'blue' ? '#6ab3ff' : 'var(--t2)';
-
-  cvSection.innerHTML = `
-    <div class="tp-card" style="margin-top:12px;">
-      <div class="tp-card-title">
-        CV Analysis
-        <span style="font-size:11px;color:var(--t3);font-family:var(--fb);font-weight:400;">${data.source}</span>
-      </div>
-
-      <!-- Final score -->
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
-        <div class="tp-stat"><div class="tp-stat-lbl">Red Score</div><div class="tp-stat-val" style="color:#ff6b65;">${data.final_red_score}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Blue Score</div><div class="tp-stat-val" style="color:#6ab3ff;">${data.final_blue_score}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Winner</div><div class="tp-stat-val" style="color:${winColor};font-size:16px;">${winner}</div></div>
-        <div class="tp-stat"><div class="tp-stat-lbl">Auton</div><div class="tp-stat-val" style="color:${autonColor};font-size:16px;">${data.auton_winner.toUpperCase()}</div></div>
-      </div>
-
-      <!-- Robot contributions -->
-      <div style="margin-bottom:12px;">
-        <div style="font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;">Robot Contributions</div>
-        ${data.robot_contributions.map(r => {
-          const color = r.alliance === 'red' ? '#ff6b65' : '#6ab3ff';
-          const barColor = r.alliance === 'red' ? 'var(--red)' : 'var(--blue)';
-          return `<div style="margin-bottom:7px;">
-            <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
-              <span style="font-family:var(--fm);font-size:12px;font-weight:600;color:${color};">${r.team_number}</span>
-              <span style="font-size:12px;color:var(--t2);">${r.blocks_scored} blocks · ${r.contribution_pct}%</span>
-            </div>
-            <div style="height:5px;background:var(--s4);border-radius:3px;overflow:hidden;">
-              <div style="width:${r.contribution_pct}%;height:100%;background:${barColor};border-radius:3px;"></div>
-            </div>
-          </div>`;
-        }).join('')}
-      </div>
-
-      <!-- Score timeline chart -->
-      <div style="font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.1em;color:var(--t3);text-transform:uppercase;margin-bottom:7px;">Score Timeline</div>
-      <div style="position:relative;height:140px;"><canvas id="chartCV"></canvas></div>
-    </div>
-  `;
-
-  // Draw timeline chart
-  requestAnimationFrame(() => {
-    const ctx = document.getElementById('chartCV')?.getContext('2d');
-    if (!ctx || !window.Chart) return;
-    const labels = data.timeline.map(p => p.t + 's');
-    const step = Math.max(1, Math.floor(labels.length / 20)); // max 20 labels
-    tpCharts.push(new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: data.timeline.map((p,i) => i%step===0 ? p.t+'s' : ''),
-        datasets: [
-          { label: 'Red',  data: data.timeline.map(p=>p.red),  borderColor:'#ff6b65', backgroundColor:'rgba(232,48,42,0.08)', tension:0.3, pointRadius:0, fill:true },
-          { label: 'Blue', data: data.timeline.map(p=>p.blue), borderColor:'#6ab3ff', backgroundColor:'rgba(26,125,223,0.08)', tension:0.3, pointRadius:0, fill:true },
-        ]
-      },
-      options: {
-        responsive:true, maintainAspectRatio:false,
-        plugins:{ legend:{display:true,labels:{color:'#8888a0',font:{size:11}}}, tooltip:{backgroundColor:'#1c1c22',titleColor:'#eeeef4',bodyColor:'#8888a0'} },
-        scales:{
-          x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#48485a',font:{size:10},maxRotation:0}},
-          y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#48485a',font:{size:10}},beginAtZero:true}
-        }
-      }
-    }));
-  });
-}
-
-// Restore CV data when team page opens
-function restoreCVData(teamId) {
-  const saved = S.notes[`cv_${teamId}`];
-  if (saved) {
-    cvData = saved;
-    renderCVSection(saved);
-  }
-}
-
-// ─── INIT ────────────────────────────────────────────────────────────────────
-init();
-initGoogleAuth();
-// Check if we just returned from Google OAuth redirect
-checkAuthRedirect();
-// If no RE token set, open settings immediately so user can enter it
-if (!S.re) {
-  setTimeout(openSettings, 600);
-}
-// Show Anthropic key prompt once if not set and not previously skipped
-
-</script>
-
-<!-- ─── SCORE OVERLAY (inside vid-embed-wrap) ─── -->
-<!-- injected dynamically -->
-
 <!-- ─── TEAM ANALYSIS PAGE ─── -->
 <div id="teamPage">
   <div class="tp-topbar">
-    <button class="tp-back" onclick="closeTeamPage()">← Back to Scouting</button>
+    <button class="tp-back" onclick="closeTeamPage()">← Back</button>
     <div class="sep"></div>
-    <div>
-      <div class="tp-team-num" id="tpTeamNum">—</div>
-    </div>
+    <div class="tp-team-num" id="tpTeamNum">—</div>
     <div class="tp-team-org" id="tpTeamOrg"></div>
     <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-<button class="btn-o" onclick="document.getElementById('cvImportInput').click()" title="Import data from vadt_cv.py JSON export">📥 Import CV Data</button>
-      <input type="file" id="cvImportInput" accept=".json" style="display:none;" onchange="importCVData(event)" />
+      <button class="btn-o" onclick="document.getElementById('cvImportInput').click()">📥 Import CV Data</button>
+      <input type="file" id="cvImportInput" accept=".json" style="display:none;" onchange="importCVData(event)"/>
       <button class="btn-o" onclick="exportTeamData()">Export ↓</button>
     </div>
   </div>
-  <!-- TABS -->
   <div class="tp-tabs">
-    <button class="tp-tab active" id="tabEvent" onclick="switchTab('event')">
-      Event Stats <span class="tp-tab-badge" id="tabEventBadge">—</span>
-    </button>
-    <button class="tp-tab" id="tabSeason" onclick="switchTab('season')">
-      Season Stats <span class="tp-tab-badge" id="tabSeasonBadge">—</span>
-    </button>
+    <button class="tp-tab active" id="tabEvent" onclick="switchTab('event')">Event Stats<span class="tp-tab-badge" id="tabEventBadge">—</span></button>
+    <button class="tp-tab" id="tabSeason" onclick="switchTab('season')">Season Stats<span class="tp-tab-badge" id="tabSeasonBadge">—</span></button>
   </div>
-
-  <!-- TAB CONTENT -->
   <div class="tp-body" id="tpEventTab">
-    <div class="tp-main" id="tpMain">
-      <div class="empty" style="margin-top:60px;"><p>Loading team data…</p></div>
-    </div>
-    <div class="tp-side" id="tpSide">
-      <div class="empty"><p>Select a team to view analysis</p></div>
-    </div>
+    <div class="tp-main" id="tpMain"><div class="empty" style="margin-top:60px;"><p>Loading…</p></div></div>
+    <div class="tp-side" id="tpSide"><div class="empty"><p>—</p></div></div>
   </div>
-
   <div class="tp-body" id="tpSeasonTab" style="display:none;">
-    <div class="tp-main" id="tpSeasonMain">
-      <div class="empty" style="margin-top:60px;"><p>Click Season Stats to load season data…</p></div>
+    <div class="tp-main" id="tpSeasonMain"><div class="empty" style="margin-top:60px;"><p>Click Season Stats to load…</p></div></div>
+    <div class="tp-side" id="tpSeasonSide"><div class="empty"><p>—</p></div></div>
+  </div>
+</div>
+
+<!-- ─── CV SCORE DETECTION OVERLAY ─── -->
+<div id="cvOverlayPanel">
+  <div class="cvo-box">
+    <div class="cvo-hd">
+      <div class="cvo-title">🎯 Video Score Detection</div>
+      <div class="cvo-step-bar">
+        <span class="cvo-step-pip active" id="cvStep1">1 Capture</span>
+        <span class="cvo-step-pip" id="cvStep2">2 Draw Zones</span>
+        <span class="cvo-step-pip" id="cvStep3">3 Live Detect</span>
+      </div>
+      <button class="btn-o" style="margin-left:10px;" onclick="closeCVOverlay()">✕ Close</button>
     </div>
-    <div class="tp-side" id="tpSeasonSide">
-      <div class="empty"><p>—</p></div>
+    <div class="cvo-body">
+      <div id="cvStepCapture">
+        <div class="cvo-instr">📹 Pause the video at a clear view of the field, then click <strong>Capture Frame</strong>. You can also upload a screenshot if the video is cross-origin.</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+          <button class="btn-g" onclick="captureFrame()">📸 Capture Frame</button>
+          <span style="font-size:12px;color:var(--t3);">or</span>
+          <label class="btn-o" style="cursor:pointer;">Upload Screenshot<input type="file" accept="image/*" style="display:none;" onchange="loadScreenshot(event)"/></label>
+        </div>
+        <div id="cvNoVideoMsg" style="font-size:12px;color:var(--gold);display:none;margin-top:6px;"></div>
+      </div>
+      <div id="cvStepDraw" style="display:none;">
+        <div class="cvo-instr"><strong>Click and drag</strong> to draw each zone. Active zone: <strong id="cvCurrentZoneName" style="color:var(--gold);">Red Goal Zone</strong></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;" id="cvZoneBtns"></div>
+        <div class="cvo-canvas-wrap" id="cvCanvasWrap">
+          <canvas id="cvoCanvas"></canvas>
+          <canvas id="cvoDrawCanvas" onmousedown="cvStartDraw(event)" onmousemove="cvMoveDraw(event)" onmouseup="cvEndDraw(event)"></canvas>
+        </div>
+        <div class="cvo-zones" id="cvZoneList"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+          <button class="btn-g" onclick="startDetection()">▶ Start Detection</button>
+          <button class="btn-o" onclick="resetZones()">↺ Reset</button>
+          <button class="btn-o" onclick="saveCVZones()">💾 Save Zones</button>
+        </div>
+      </div>
+      <div id="cvStepLive" style="display:none;">
+        <div class="cvo-canvas-wrap" style="margin-bottom:10px;">
+          <canvas id="cvoLiveCanvas" style="display:block;width:100%;height:auto;"></canvas>
+        </div>
+        <div class="cvo-zones" id="cvLiveZones"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <button class="btn-o" onclick="stopDetection()">⏹ Stop</button>
+          <button class="btn-o" onclick="showCVStep('draw')">✏️ Edit Zones</button>
+          <button class="btn-g" onclick="pushDetectedScores()">📥 Push to Scoreboard</button>
+        </div>
+      </div>
+    </div>
+    <div class="cvo-live" id="cvLiveBar" style="display:none;">
+      <div class="cvo-live-score"><span class="r" id="cvLiveRed">0</span><span class="sep">:</span><span class="b" id="cvLiveBlue">0</span></div>
+      <div>
+        <div style="font-size:12px;color:var(--t2);" id="cvLiveStatus">Detecting…</div>
+        <div style="font-family:var(--fm);font-size:11px;color:var(--t3);" id="cvLiveFPS">— fps</div>
+      </div>
+      <div style="margin-left:auto;font-size:11px;color:var(--t3);">Auton: <strong id="cvAutonWinner" style="color:var(--gold);">TBD</strong></div>
     </div>
   </div>
 </div>
 
-
 <!-- ─── SETTINGS MODAL ─── -->
-<div id="settingsModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:300;align-items:center;justify-content:center;">
-  <div style="background:var(--s2);border:1px solid var(--b2);border-radius:14px;width:460px;max-width:95vw;padding:26px 28px;box-shadow:0 20px 50px rgba(0,0,0,0.5);">
+<div class="modal-backdrop" id="settingsModal">
+  <div class="modal-box">
     <div style="font-family:var(--fd);font-weight:900;font-size:22px;margin-bottom:4px;">⚙ Settings</div>
-    <div style="font-size:12px;color:var(--t3);margin-bottom:20px;">Keys are stored in your browser only and never sent anywhere except their respective APIs.</div>
-
-    <!-- RobotEvents Token -->
+    <div style="font-size:12px;color:var(--t3);margin-bottom:20px;">Keys stored in your browser only.</div>
     <div style="margin-bottom:16px;">
-      <label style="font-size:12px;color:var(--t2);display:block;margin-bottom:5px;">
-        RobotEvents API Token
-        <a href="https://www.robotevents.com/api/v2" target="_blank" style="color:var(--gold);margin-left:6px;">Get token →</a>
-      </label>
+      <label style="font-size:12px;color:var(--t2);display:block;margin-bottom:5px;">RobotEvents API Token <a href="https://www.robotevents.com/api/v2" target="_blank" style="color:var(--gold);margin-left:6px;">Get token →</a></label>
       <input id="settingsReToken" type="password" placeholder="eyJhbGciO…"
         style="width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fm);font-size:13px;padding:9px 11px;border-radius:var(--r);outline:none;margin-bottom:4px;"
-        oninput="this.style.borderColor=this.value.length>20?'var(--green)':'var(--b2)'" />
-      <div id="settingsReStatus" style="font-size:11px;color:var(--t3);">Stored in your browser only — never shared.</div>
+        oninput="this.style.borderColor=this.value.length>20?'var(--green)':'var(--b2)'"/>
+      <div id="settingsReStatus" style="font-size:11px;color:var(--t3);">Stored in your browser only.</div>
     </div>
-
-    <!-- Google Sign-in status -->
     <div style="margin-bottom:20px;">
       <label style="font-size:12px;color:var(--t2);display:block;margin-bottom:5px;">Google Account</label>
       <div id="settingsGoogleStatus" style="background:var(--s3);border:1px solid var(--b1);border-radius:var(--r);padding:8px 11px;font-size:13px;color:var(--t2);">Not signed in</div>
     </div>
-
     <div style="display:flex;gap:9px;justify-content:flex-end;padding-top:12px;border-top:1px solid var(--b1);">
       <button onclick="closeSettings()" style="background:transparent;border:1px solid var(--b2);color:var(--t2);font-family:var(--fb);font-size:13px;padding:7px 16px;border-radius:var(--r);cursor:pointer;">Cancel</button>
       <button onclick="saveSettings()" style="background:var(--gold);color:#1a1200;font-family:var(--fd);font-size:14px;font-weight:700;letter-spacing:0.06em;padding:7px 20px;border:none;border-radius:var(--r);cursor:pointer;">Save</button>
@@ -2354,5 +540,6 @@ if (!S.re) {
   </div>
 </div>
 
+<script src="app.js"></script>
 </body>
 </html>
