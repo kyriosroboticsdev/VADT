@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VADT — Engineering Notebook</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --red:#e8302a;--blue:#1a7ddf;--gold:#f5c542;--gold-d:rgba(245,197,66,0.12);
+  --green:#22c55e;--green-d:rgba(34,197,94,0.12);
+  --s0:#08080b;--s1:#0e0e13;--s2:#151519;--s3:#1c1c22;--s4:#24242c;--s5:#2e2e3a;
+  --b1:rgba(255,255,255,0.055);--b2:rgba(255,255,255,0.1);--b3:rgba(255,255,255,0.17);
+  --t1:#eeeef4;--t2:#8888a0;--t3:#48485a;
+  --fd:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;--fm:'JetBrains Mono',monospace;
+  --r:6px;--rl:12px;
+}
+body{background:var(--s0);color:var(--t1);font-family:var(--fb);font-size:14px;line-height:1.5;min-height:100vh;overflow:hidden;}
+
+/* TOPBAR */
+.topbar{background:var(--s2);border-bottom:1px solid var(--b1);height:50px;display:flex;align-items:center;padding:0 14px;gap:9px;flex-shrink:0;}
+.logo{font-family:var(--fd);font-weight:900;font-size:21px;letter-spacing:0.05em;display:flex;align-items:center;gap:5px;}
+.logo em{color:var(--gold);font-style:normal;}
+.logo sub{font-size:9px;font-weight:600;background:var(--gold-d);color:var(--gold);padding:1px 5px;border-radius:3px;font-family:var(--fb);letter-spacing:0.08em;vertical-align:middle;margin-left:1px;}
+.sep{width:1px;height:22px;background:var(--b2);flex-shrink:0;}
+.btn-g{background:var(--gold);color:#1a1200;font-family:var(--fd);font-size:14px;font-weight:700;letter-spacing:0.06em;padding:6px 14px;border:none;border-radius:var(--r);cursor:pointer;transition:opacity 0.15s;white-space:nowrap;flex-shrink:0;}
+.btn-g:hover{opacity:0.87;}
+.btn-o{background:transparent;border:1px solid var(--b2);color:var(--t2);font-family:var(--fb);font-size:12px;padding:5px 10px;border-radius:var(--r);cursor:pointer;transition:all 0.12s;white-space:nowrap;flex-shrink:0;}
+.btn-o:hover{border-color:var(--b3);color:var(--t1);}
+
+/* LAYOUT */
+.layout{display:flex;height:calc(100vh - 50px);overflow:hidden;}
+.sidebar{width:220px;background:var(--s1);border-right:1px solid var(--b1);display:flex;flex-direction:column;flex-shrink:0;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* SIDEBAR NAV */
+.sb-section{padding:10px 10px 4px;font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:0.13em;color:var(--t3);text-transform:uppercase;}
+.sb-item{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;border-radius:var(--r);margin:1px 6px;transition:all 0.1s;font-size:13px;color:var(--t2);border:1px solid transparent;}
+.sb-item:hover{background:var(--s3);color:var(--t1);}
+.sb-item.active{background:var(--s3);border-color:var(--gold);color:var(--gold);}
+.sb-item .ico{font-size:15px;flex-shrink:0;}
+.sb-badge{margin-left:auto;background:var(--s4);color:var(--t3);font-size:10px;padding:1px 5px;border-radius:3px;font-family:var(--fm);}
+.sb-item.active .sb-badge{background:var(--gold-d);color:var(--gold);}
+.sb-new{margin:8px 10px 4px;}
+
+/* TABS */
+.tab-bar{display:flex;border-bottom:1px solid var(--b1);background:var(--s2);flex-shrink:0;padding:0 16px;gap:0;}
+.tab{font-family:var(--fd);font-weight:700;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;padding:11px 16px;cursor:pointer;color:var(--t3);border-bottom:2px solid transparent;transition:all 0.15s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--t2);}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.tab-content{flex:1;overflow:hidden;display:none;}
+.tab-content.active{display:flex;flex-direction:column;}
+
+/* SCROLLABLE AREAS */
+.scr{overflow-y:auto;flex:1;}
+.scr::-webkit-scrollbar{width:3px;}
+.scr::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
+
+/* ENTRY LIST */
+.entry-list{padding:6px;}
+.entry-card{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:11px 13px;margin-bottom:6px;cursor:pointer;transition:all 0.12s;}
+.entry-card:hover{border-color:var(--b2);background:var(--s3);}
+.entry-card.active{border-color:var(--gold);background:var(--s3);}
+.ec-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.ec-title{font-family:var(--fd);font-weight:700;font-size:15px;}
+.ec-date{font-size:11px;color:var(--t3);}
+.ec-type{font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:0.06em;}
+.type-meeting{background:rgba(26,125,223,0.15);color:#6ab3ff;}
+.type-design{background:rgba(245,197,66,0.15);color:var(--gold);}
+.type-build{background:rgba(34,197,94,0.15);color:#22c55e;}
+.type-test{background:rgba(232,48,42,0.15);color:#ff7b77;}
+.type-manual{background:rgba(167,139,250,0.15);color:#a78bfa;}
+.ec-preview{font-size:12px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;}
+
+/* NOTEBOOK EDITOR */
+.editor-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.editor-toolbar{padding:8px 12px;background:var(--s2);border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:6px;flex-wrap:wrap;flex-shrink:0;}
+.tb-btn{background:var(--s3);border:1px solid var(--b2);color:var(--t2);font-size:12px;padding:4px 9px;border-radius:var(--r);cursor:pointer;transition:all 0.1s;white-space:nowrap;}
+.tb-btn:hover{background:var(--s4);color:var(--t1);}
+.tb-btn.active{background:var(--gold-d);border-color:rgba(245,197,66,0.4);color:var(--gold);}
+.tb-sep{width:1px;height:18px;background:var(--b2);flex-shrink:0;}
+.tb-sel{background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:12px;padding:4px 8px;border-radius:var(--r);outline:none;}
+
+/* CANVAS PAGE */
+.page-canvas{flex:1;overflow:auto;padding:20px;background:var(--s0);}
+.page-canvas::-webkit-scrollbar{width:4px;}
+.page-canvas::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px;}
+.nb-page{width:816px;min-height:1056px;background:#fff;margin:0 auto;position:relative;box-shadow:0 4px 32px rgba(0,0,0,0.5);border-radius:4px;padding:56px 64px;color:#111;font-family:'Barlow',sans-serif;}
+.nb-page *{box-sizing:border-box;}
+
+/* BLOCKS */
+.nb-block{position:relative;margin-bottom:12px;border:2px solid transparent;border-radius:4px;transition:border-color 0.1s;cursor:default;}
+.nb-block:hover{border-color:rgba(245,197,66,0.4);}
+.nb-block.selected{border-color:var(--gold);}
+.nb-block .block-handle{position:absolute;top:-1px;left:-28px;width:22px;height:22px;background:var(--s4);border:1px solid var(--b2);border-radius:4px;display:none;align-items:center;justify-content:center;cursor:grab;font-size:12px;color:var(--t3);}
+.nb-block:hover .block-handle{display:flex;}
+.nb-block .block-del{position:absolute;top:-1px;right:-28px;width:22px;height:22px;background:rgba(232,48,42,0.15);border:1px solid rgba(232,48,42,0.3);border-radius:4px;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:11px;color:#ff7b77;}
+.nb-block:hover .block-del{display:flex;}
+
+/* BLOCK TYPES */
+.block-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:32px;color:#111;border:none;outline:none;width:100%;background:transparent;line-height:1.2;}
+.block-subtitle{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:#333;border:none;outline:none;width:100%;background:transparent;}
+.block-text{font-size:14px;color:#222;border:none;outline:none;width:100%;background:transparent;resize:none;min-height:40px;line-height:1.7;}
+.block-date-row{display:flex;align-items:center;gap:16px;padding:8px 12px;background:#f7f7f9;border-radius:6px;border:1px solid #e0e0e8;}
+.block-date-row label{font-size:11px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:0.07em;}
+.block-date-row input{border:none;background:transparent;font-size:14px;font-family:'Barlow',sans-serif;color:#111;outline:none;}
+.block-sig{display:flex;align-items:center;gap:20px;padding:10px 14px;border:1px solid #ddd;border-radius:6px;background:#fafafa;}
+.block-sig-line{flex:1;border-bottom:1px solid #999;padding-bottom:4px;font-size:12px;color:#888;text-align:center;}
+.block-divider{height:2px;background:linear-gradient(to right,#e8302a,#1a7ddf);border-radius:2px;margin:8px 0;}
+.block-header-box{background:linear-gradient(135deg,#e8302a 0%,#1a1200 100%);border-radius:8px;padding:18px 22px;color:#fff;}
+.block-header-box .hb-team{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;}
+.block-header-box .hb-event{font-size:13px;opacity:0.75;margin-top:2px;}
+.block-header-box input{background:transparent;border:none;outline:none;color:#fff;font-family:'Barlow Condensed',sans-serif;}
+.block-header-box input::placeholder{color:rgba(255,255,255,0.4);}
+.block-img-placeholder{background:#f0f0f5;border:2px dashed #ccc;border-radius:6px;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#999;font-size:13px;cursor:pointer;}
+.block-img-placeholder:hover{border-color:#aaa;background:#e8e8f0;}
+.block-img-placeholder img{max-width:100%;border-radius:4px;}
+.block-table{width:100%;border-collapse:collapse;font-size:13px;}
+.block-table th{background:#f0f0f5;padding:7px 10px;text-align:left;font-weight:600;border:1px solid #ddd;font-size:12px;}
+.block-table td{padding:6px 10px;border:1px solid #e8e8ee;}
+.block-table td[contenteditable]{outline:none;}
+.block-table td[contenteditable]:focus{background:#fff8e6;}
+
+/* DECISION LOG */
+.dl-stage{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);margin-bottom:10px;overflow:hidden;}
+.dl-stage-hd{display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:pointer;user-select:none;}
+.dl-stage-ico{font-size:18px;}
+.dl-stage-title{font-family:var(--fd);font-weight:700;font-size:14px;letter-spacing:0.06em;}
+.dl-stage-count{margin-left:auto;font-size:11px;color:var(--t3);font-family:var(--fm);}
+.dl-stage-body{padding:0 14px 12px;display:none;}
+.dl-stage-body.open{display:block;}
+.dl-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.dl-field{display:flex;flex-direction:column;gap:4px;}
+.dl-field label{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;}
+.dl-input{background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:7px 9px;border-radius:var(--r);outline:none;width:100%;}
+.dl-input:focus{border-color:var(--gold);}
+.dl-textarea{background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:7px 9px;border-radius:var(--r);outline:none;width:100%;resize:vertical;min-height:64px;}
+.dl-textarea:focus{border-color:var(--gold);}
+.dl-sel{background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:7px 9px;border-radius:var(--r);outline:none;width:100%;}
+.dl-card{background:var(--s3);border:1px solid var(--b1);border-radius:var(--r);padding:10px 12px;margin-bottom:6px;position:relative;}
+.dl-card-title{font-weight:600;font-size:13px;margin-bottom:3px;}
+.dl-card-body{font-size:12px;color:var(--t2);line-height:1.55;}
+.dl-card-del{position:absolute;top:8px;right:8px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:3px;}
+.dl-card-del:hover{color:#ff7b77;background:rgba(232,48,42,0.12);}
+.dl-add{display:flex;align-items:center;gap:7px;width:100%;background:transparent;border:1px dashed var(--b2);color:var(--t3);font-family:var(--fb);font-size:12px;padding:7px 10px;border-radius:var(--r);cursor:pointer;transition:all 0.12s;}
+.dl-add:hover{border-color:var(--gold);color:var(--gold);}
+
+/* MEETING MINUTES */
+.mm-entry{background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:13px 15px;margin-bottom:8px;}
+.mm-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mm-date{font-family:var(--fd);font-weight:700;font-size:16px;color:var(--gold);}
+.mm-dur{font-size:12px;color:var(--t3);}
+.mm-attendees{flex:1;font-size:12px;color:var(--t2);}
+.mm-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+.mm-field{display:flex;flex-direction:column;gap:3px;}
+.mm-field label{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;}
+.mm-input{background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:6px 9px;border-radius:var(--r);outline:none;}
+.mm-input:focus{border-color:var(--gold);}
+.mm-textarea{background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:7px 9px;border-radius:var(--r);outline:none;width:100%;resize:vertical;min-height:72px;}
+.mm-textarea:focus{border-color:var(--gold);}
+.mm-action-list{margin-top:8px;}
+.mm-action{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--b1);}
+.mm-action:last-child{border-bottom:none;}
+.mm-action input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px;}
+.mm-action-text{flex:1;font-size:13px;background:transparent;border:none;color:var(--t1);outline:none;font-family:var(--fb);}
+.mm-action-owner{font-size:11px;color:var(--t3);background:var(--s4);padding:2px 6px;border-radius:3px;border:none;color:var(--t2);font-family:var(--fb);outline:none;width:80px;}
+
+/* GAME MANUAL */
+.gm-search{margin:10px;position:relative;}
+.gm-search input{width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:8px 10px 8px 32px;border-radius:var(--r);outline:none;}
+.gm-search input:focus{border-color:var(--gold);}
+.gm-search::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;}
+.gm-section{margin:0 8px 4px;}
+.gm-section-hd{display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;border-radius:var(--r);background:var(--s2);border:1px solid var(--b1);margin-bottom:2px;user-select:none;}
+.gm-section-hd:hover{background:var(--s3);}
+.gm-section-title{font-family:var(--fd);font-weight:700;font-size:13px;flex:1;}
+.gm-rule{padding:8px 12px;border-bottom:1px solid var(--b1);font-size:13px;color:var(--t1);line-height:1.6;cursor:pointer;transition:background 0.1s;}
+.gm-rule:hover{background:var(--s3);}
+.gm-rule-id{font-family:var(--fm);font-size:11px;color:var(--gold);margin-bottom:2px;font-weight:600;}
+.gm-rule-text{color:var(--t1);}
+.gm-rule-tag{display:inline-block;font-size:10px;padding:1px 5px;border-radius:3px;margin-top:3px;font-weight:600;}
+.tag-sg{background:rgba(34,197,94,0.13);color:#22c55e;}
+.tag-gp{background:rgba(245,197,66,0.13);color:var(--gold);}
+.tag-sp{background:rgba(26,125,223,0.13);color:#6ab3ff;}
+.tag-sc{background:rgba(232,48,42,0.13);color:#ff7b77;}
+
+/* EMPTY */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:40px 20px;color:var(--t3);font-size:13px;text-align:center;}
+
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:none;align-items:center;justify-content:center;}
+.modal.open{display:flex;}
+.modal-box{background:var(--s2);border:1px solid var(--b2);border-radius:14px;width:520px;max-width:95vw;padding:24px 26px;box-shadow:0 20px 50px rgba(0,0,0,0.5);}
+.modal-title{font-family:var(--fd);font-weight:900;font-size:22px;margin-bottom:16px;}
+.modal-field{margin-bottom:12px;}
+.modal-field label{display:block;font-size:12px;color:var(--t2);margin-bottom:5px;}
+.modal-input{width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:8px 10px;border-radius:var(--r);outline:none;}
+.modal-input:focus{border-color:var(--gold);}
+.modal-sel{width:100%;background:var(--s3);border:1px solid var(--b2);color:var(--t1);font-family:var(--fb);font-size:13px;padding:8px 10px;border-radius:var(--r);outline:none;}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--b1);}
+
+/* EXPORT PANEL */
+.export-panel{padding:16px;}
+.export-opt{display:flex;align-items:center;gap:12px;background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:all 0.12s;}
+.export-opt:hover{border-color:var(--b2);background:var(--s3);}
+.export-ico{font-size:24px;flex-shrink:0;}
+.export-label{font-weight:600;font-size:14px;}
+.export-sub{font-size:12px;color:var(--t3);margin-top:1px;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="logo">VEX<em>SCOUT</em><sub>NOTEBOOK</sub></div>
+  <div class="sep"></div>
+  <span style="font-size:12px;color:var(--t2);" id="teamLabel">Engineering Notebook</span>
+  <div style="margin-left:auto;display:flex;gap:7px;">
+    <button class="btn-o" onclick="openNewEntry()">+ New Entry</button>
+    <button class="btn-o" onclick="showTab('export')">Export ↓</button>
+    <button class="btn-o" onclick="window.location.href='index.html'">← Back to Scouting</button>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-section">Notebook</div>
+    <div class="sb-item active" id="nav-entries" onclick="showSection('entries')"><span class="ico">📓</span>Entries<span class="sb-badge" id="entryCount">0</span></div>
+    <div class="sb-item" id="nav-design" onclick="showSection('design')"><span class="ico">⚙️</span>Design Log<span class="sb-badge" id="designCount">0</span></div>
+    <div class="sb-item" id="nav-meetings" onclick="showSection('meetings')"><span class="ico">📋</span>Meetings<span class="sb-badge" id="meetingCount">0</span></div>
+    <div class="sb-section" style="margin-top:8px;">Reference</div>
+    <div class="sb-item" id="nav-manual" onclick="showSection('manual')"><span class="ico">📖</span>Game Manual</div>
+    <div class="sb-section" style="margin-top:8px;">Export</div>
+    <div class="sb-item" id="nav-export" onclick="showSection('export')"><span class="ico">📤</span>Export</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- SECTION: ENTRIES -->
+    <div id="sec-entries" class="tab-content active" style="display:flex;flex-direction:row;overflow:hidden;flex:1;">
+      <!-- Entry list -->
+      <div style="width:280px;border-right:1px solid var(--b1);display:flex;flex-direction:column;flex-shrink:0;">
+        <div style="padding:8px 10px;border-bottom:1px solid var(--b1);background:var(--s1);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--t3);text-transform:uppercase;">All Entries</span>
+          <select id="entryFilter" onchange="renderEntryList()" style="background:var(--s3);border:1px solid var(--b2);color:var(--t2);font-size:11px;padding:2px 6px;border-radius:var(--r);outline:none;">
+            <option value="">All Types</option>
+            <option value="meeting">Meeting</option>
+            <option value="design">Design</option>
+            <option value="build">Build</option>
+            <option value="test">Test</option>
+          </select>
+        </div>
+        <div class="scr" id="entryList"><div class="empty"><div style="font-size:28px;">📓</div><p>No entries yet.<br>Click "+ New Entry"</p></div></div>
+      </div>
+      <!-- Entry editor -->
+      <div class="editor-area" id="editorArea">
+        <div class="empty" style="margin:auto;">
+          <div style="font-size:36px;opacity:0.2;">📝</div>
+          <p>Select an entry to edit,<br>or create a new one.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: DESIGN LOG -->
+    <div id="sec-design" class="tab-content" style="display:none;flex:1;overflow:hidden;">
+      <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+        <div style="padding:10px 14px;border-bottom:1px solid var(--b1);background:var(--s1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--t3);text-transform:uppercase;">Design Decision Log — VEX Engineering Process</span>
+          <button class="btn-o" onclick="addDesignCycle()">+ New Cycle</button>
+        </div>
+        <div class="scr" style="padding:12px 14px;" id="designLog">
+          <div class="empty"><div style="font-size:32px;">⚙️</div><p>No design cycles yet.<br>Click "+ New Cycle" to begin.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: MEETINGS -->
+    <div id="sec-meetings" class="tab-content" style="display:none;flex:1;overflow:hidden;">
+      <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+        <div style="padding:10px 14px;border-bottom:1px solid var(--b1);background:var(--s1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+          <span style="font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:0.12em;color:var(--t3);text-transform:uppercase;">Meeting Minutes</span>
+          <button class="btn-o" onclick="addMeeting()">+ New Meeting</button>
+        </div>
+        <div class="scr" style="padding:12px 14px;" id="meetingLog">
+          <div class="empty"><div style="font-size:32px;">📋</div><p>No meetings logged yet.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: GAME MANUAL -->
+    <div id="sec-manual" class="tab-content" style="display:none;flex:1;overflow:hidden;">
+      <div style="display:flex;height:100%;overflow:hidden;">
+        <div style="width:220px;border-right:1px solid var(--b1);display:flex;flex-direction:column;flex-shrink:0;">
+          <div class="gm-search"><input type="text" id="gmSearch" placeholder="Search rules…" oninput="filterManual(this.value)"/></div>
+          <div class="scr" id="gmNav" style="padding:0 0 8px;"></div>
+        </div>
+        <div class="scr" id="gmContent" style="flex:1;padding:14px 18px;"></div>
+      </div>
+    </div>
+
+    <!-- SECTION: EXPORT -->
+    <div id="sec-export" class="tab-content" style="display:none;flex:1;overflow:hidden;">
+      <div class="scr"><div class="export-panel">
+        <div style="font-family:var(--fd);font-weight:900;font-size:22px;margin-bottom:4px;">Export Notebook</div>
+        <div style="font-size:13px;color:var(--t2);margin-bottom:18px;">Choose a format to share or submit your engineering notebook.</div>
+        <div class="export-opt" onclick="exportPDF()">
+          <div class="export-ico">📄</div>
+          <div><div class="export-label">Export as PDF</div><div class="export-sub">Print-ready, preserves all page formatting. Best for judges.</div></div>
+        </div>
+        <div class="export-opt" onclick="exportGoogleDocs()">
+          <div class="export-ico">📊</div>
+          <div><div class="export-label">Export to Google Docs</div><div class="export-sub">Creates a Google Doc from your entries. Requires Google sign-in.</div></div>
+        </div>
+        <div class="export-opt" onclick="exportMarkdown()">
+          <div class="export-ico">📝</div>
+          <div><div class="export-label">Export as Markdown</div><div class="export-sub">Plain text format for GitHub or other tools.</div></div>
+        </div>
+        <div class="export-opt" onclick="exportJSON()">
+          <div class="export-ico">💾</div>
+          <div><div class="export-label">Backup (JSON)</div><div class="export-sub">Download all notebook data as a JSON backup file.</div></div>
+        </div>
+        <div class="export-opt" onclick="importJSON()">
+          <div class="export-ico">📥</div>
+          <div><div class="export-label">Restore from Backup</div><div class="export-sub">Import a previously exported JSON backup.</div></div>
+        </div>
+        <input type="file" id="importInput" accept=".json" style="display:none;" onchange="doImportJSON(event)"/>
+        <div style="background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);padding:14px;margin-top:10px;">
+          <div style="font-size:12px;font-weight:600;margin-bottom:8px;color:var(--t2);">NOTEBOOK SETTINGS</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div><label style="font-size:11px;color:var(--t3);display:block;margin-bottom:3px;">Team Number</label><input id="cfgTeam" class="modal-input" placeholder="e.g. 1234A" oninput="saveConfig()"/></div>
+            <div><label style="font-size:11px;color:var(--t3);display:block;margin-bottom:3px;">Team Name</label><input id="cfgName" class="modal-input" placeholder="e.g. Kyrios Robotics" oninput="saveConfig()"/></div>
+            <div><label style="font-size:11px;color:var(--t3);display:block;margin-bottom:3px;">Season</label><input id="cfgSeason" class="modal-input" placeholder="e.g. 2025-2026 Push Back" oninput="saveConfig()"/></div>
+            <div><label style="font-size:11px;color:var(--t3);display:block;margin-bottom:3px;">Program</label>
+              <select id="cfgProgram" class="modal-sel" onchange="saveConfig()">
+                <option>VRC</option><option>VEXU</option><option>VEX IQ</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW ENTRY MODAL -->
+<div class="modal" id="newEntryModal">
+  <div class="modal-box">
+    <div class="modal-title">New Notebook Entry</div>
+    <div class="modal-field"><label>Entry Title</label><input class="modal-input" id="neTitle" placeholder="e.g. Autonomous Routine v2 Design"/></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="modal-field"><label>Date</label><input class="modal-input" id="neDate" type="date"/></div>
+      <div class="modal-field"><label>Entry Type</label>
+        <select class="modal-sel" id="neType">
+          <option value="meeting">📋 Meeting</option>
+          <option value="design">⚙️ Design Decision</option>
+          <option value="build">🔧 Build / Fabrication</option>
+          <option value="test">🧪 Test & Evaluation</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-field"><label>Author(s)</label><input class="modal-input" id="neAuthor" placeholder="Team member names"/></div>
+    <div class="modal-footer">
+      <button class="btn-o" onclick="closeModal('newEntryModal')">Cancel</button>
+      <button class="btn-g" onclick="createEntry()">Create Entry</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const NB = {
+  entries: [],
+  designCycles: [],
+  meetings: [],
+  config: { team:'', name:'', season:'2025–2026 Push Back', program:'VRC' },
+  selEntry: null,
+};
+
+const ls = (k, v) => { if (v!==undefined) localStorage.setItem(k,v); else return localStorage.getItem(k)||''; };
+const save = () => ls('vadt_nb', JSON.stringify({ entries:NB.entries, designCycles:NB.designCycles, meetings:NB.meetings, config:NB.config }));
+const load = () => {
+  try {
+    const d = JSON.parse(ls('vadt_nb')||'{}');
+    if (d.entries) NB.entries = d.entries;
+    if (d.designCycles) NB.designCycles = d.designCycles;
+    if (d.meetings) NB.meetings = d.meetings;
+    if (d.config) Object.assign(NB.config, d.config);
+  } catch {}
+};
+
+// ─── NAV ────────────────────────────────────────────────────────────────────
+function showSection(sec) {
+  document.querySelectorAll('[id^="sec-"]').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('sec-' + sec);
+  if (el) el.style.display = 'flex';
+  const nav = document.getElementById('nav-' + sec);
+  if (nav) nav.classList.add('active');
+  if (sec === 'manual') renderManual('');
+  if (sec === 'design') renderDesignLog();
+  if (sec === 'meetings') renderMeetings();
+}
+
+// ─── ENTRIES ────────────────────────────────────────────────────────────────
+function openNewEntry() {
+  document.getElementById('neDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('neTitle').value = '';
+  document.getElementById('neAuthor').value = '';
+  document.getElementById('newEntryModal').classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function createEntry() {
+  const title = document.getElementById('neTitle').value.trim() || 'Untitled Entry';
+  const entry = {
+    id: Date.now(),
+    title,
+    date: document.getElementById('neDate').value,
+    type: document.getElementById('neType').value,
+    author: document.getElementById('neAuthor').value,
+    blocks: [
+      { type:'header-box', data:{ team: NB.config.team||'TEAM', event: NB.config.season||'2025–2026 Push Back' } },
+      { type:'date-row', data:{ date: document.getElementById('neDate').value, entry: '1', author: document.getElementById('neAuthor').value } },
+      { type:'divider', data:{} },
+      { type:'title', data:{ text: title } },
+      { type:'text', data:{ text:'' } },
+    ]
+  };
+  NB.entries.unshift(entry);
+  save();
+  closeModal('newEntryModal');
+  renderEntryList();
+  selectEntry(entry.id);
+  updateCounts();
+}
+
+function renderEntryList() {
+  const filter = document.getElementById('entryFilter')?.value || '';
+  const list = document.getElementById('entryList');
+  const entries = NB.entries.filter(e => !filter || e.type === filter);
+  if (!entries.length) { list.innerHTML = '<div class="empty"><div style="font-size:24px;">📓</div><p>No entries yet.</p></div>'; return; }
+  list.innerHTML = entries.map(e => `
+    <div class="entry-card ${NB.selEntry===e.id?'active':''}" onclick="selectEntry(${e.id})">
+      <div class="ec-top">
+        <span class="ec-title">${e.title}</span>
+        <span class="ec-type type-${e.type}">${e.type}</span>
+      </div>
+      <div class="ec-date">${e.date || '—'} · ${e.author || 'Unknown'}</div>
+      <div class="ec-preview">${getPreview(e)}</div>
+    </div>`).join('');
+}
+
+function getPreview(entry) {
+  const t = entry.blocks?.find(b => b.type === 'text');
+  return t?.data?.text?.substring(0, 80) || '(no text yet)';
+}
+
+function selectEntry(id) {
+  NB.selEntry = id;
+  const entry = NB.entries.find(e => e.id === id);
+  renderEntryList();
+  if (entry) renderEditor(entry);
+}
+
+// ─── EDITOR ─────────────────────────────────────────────────────────────────
+let dragSrc = null;
+
+function renderEditor(entry) {
+  const area = document.getElementById('editorArea');
+  area.innerHTML = `
+    <div class="editor-toolbar">
+      <span style="font-size:12px;font-weight:600;color:var(--t2);">Add Block:</span>
+      <button class="tb-btn" onclick="addBlock('title')">T Title</button>
+      <button class="tb-btn" onclick="addBlock('subtitle')">T Subtitle</button>
+      <button class="tb-btn" onclick="addBlock('text')">¶ Text</button>
+      <button class="tb-btn" onclick="addBlock('date-row')">📅 Date</button>
+      <button class="tb-btn" onclick="addBlock('divider')">— Divider</button>
+      <button class="tb-btn" onclick="addBlock('sig')">✍ Signature</button>
+      <button class="tb-btn" onclick="addBlock('image')">🖼 Image</button>
+      <button class="tb-btn" onclick="addBlock('table')">⊞ Table</button>
+      <button class="tb-btn" onclick="addBlock('header-box')">🏆 Header</button>
+      <div class="tb-sep"></div>
+      <button class="btn-o" style="font-size:11px;padding:4px 10px;" onclick="deleteEntry(${entry.id})">🗑 Delete Entry</button>
+    </div>
+    <div class="page-canvas">
+      <div class="nb-page" id="nbPage">${renderBlocks(entry)}</div>
+    </div>`;
+}
+
+function renderBlocks(entry) {
+  return (entry.blocks || []).map((b, i) => renderBlock(b, i, entry.id)).join('');
+}
+
+function renderBlock(block, idx, entryId) {
+  const inner = blockInner(block);
+  return `<div class="nb-block" data-idx="${idx}" data-entry="${entryId}"
+    draggable="true"
+    ondragstart="dragStart(event,${idx})"
+    ondragover="dragOver(event)"
+    ondrop="dropBlock(event,${idx})"
+    onclick="selectBlock(this)">
+    <div class="block-handle" title="Drag to reorder">⠿</div>
+    <div class="block-del" onclick="removeBlock(event,${entryId},${idx})">✕</div>
+    ${inner}
+  </div>`;
+}
+
+function blockInner(block) {
+  const d = block.data || {};
+  switch(block.type) {
+    case 'title':
+      return `<input class="block-title" value="${esc(d.text||'')}" placeholder="Entry Title" oninput="updateBlock(this,'text')"/>`;
+    case 'subtitle':
+      return `<input class="block-subtitle" value="${esc(d.text||'')}" placeholder="Subtitle" oninput="updateBlock(this,'text')"/>`;
+    case 'text':
+      return `<textarea class="block-text" placeholder="Write your entry here…" oninput="updateBlock(this,'text');autoResize(this)">${esc(d.text||'')}</textarea>`;
+    case 'date-row':
+      return `<div class="block-date-row">
+        <label>Date</label><input type="date" value="${d.date||''}" oninput="updateBlock(this,'date')"/>
+        <label>Entry #</label><input value="${esc(d.entry||'1')}" style="width:50px;" oninput="updateBlock(this,'entry')"/>
+        <label>Author</label><input value="${esc(d.author||'')}" placeholder="Name" oninput="updateBlock(this,'author')"/>
+      </div>`;
+    case 'divider':
+      return `<div class="block-divider"></div>`;
+    case 'sig':
+      return `<div class="block-sig">
+        <div class="block-sig-line">Student<br><input style="text-align:center;border:none;background:transparent;font-family:inherit;outline:none;width:140px;" placeholder="Name" value="${esc(d.student||'')}"/></div>
+        <div class="block-sig-line">Mentor<br><input style="text-align:center;border:none;background:transparent;font-family:inherit;outline:none;width:140px;" placeholder="Name" value="${esc(d.mentor||'')}"/></div>
+        <div class="block-sig-line">Date<br><input type="date" style="border:none;background:transparent;font-family:inherit;outline:none;" value="${d.sigdate||''}"/></div>
+      </div>`;
+    case 'image':
+      return `<div class="block-img-placeholder" onclick="triggerImgUpload(this)">
+        ${d.src ? `<img src="${d.src}" style="max-width:100%;border-radius:4px;"/>` : `<span style="font-size:28px;">🖼</span><span>Click to upload image</span>`}
+        <input type="file" accept="image/*" style="display:none;" onchange="loadImg(event,this)"/>
+      </div>`;
+    case 'table':
+      const rows = d.rows || [['','',''],['','','']];
+      const headers = d.headers || ['Column 1','Column 2','Column 3'];
+      return `<table class="block-table">
+        <thead><tr>${headers.map((h,ci)=>`<th contenteditable="true" oninput="updateTableHeader(this,${ci})">${esc(h)}</th>`).join('')}</tr></thead>
+        <tbody>${rows.map((row,ri)=>`<tr>${row.map((cell,ci)=>`<td contenteditable="true" oninput="updateTableCell(this,${ri},${ci})">${esc(cell)}</td>`).join('')}</tr>`).join('')}
+        <tr><td colspan="${headers.length}" style="text-align:center;cursor:pointer;color:#888;font-size:12px;" onclick="addTableRow(this)">+ Add row</td></tr>
+        </tbody></table>`;
+    case 'header-box':
+      return `<div class="block-header-box">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div>
+            <input class="hb-team" value="${esc(d.team||'TEAM')}" oninput="updateBlock(this,'team')" style="font-size:28px;font-family:'Barlow Condensed',sans-serif;font-weight:900;"/>
+            <input class="hb-event" value="${esc(d.event||'Season')}" oninput="updateBlock(this,'event')" style="font-size:13px;"/>
+          </div>
+          <div style="text-align:right;opacity:0.6;font-size:11px;">ENGINEERING<br>NOTEBOOK</div>
+        </div>
+      </div>`;
+    default: return `<div style="color:#aaa;font-size:12px;">[Unknown block: ${block.type}]</div>`;
+  }
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function updateBlock(el, key) {
+  const nb = el.closest('.nb-block'); if (!nb) return;
+  const idx = +nb.dataset.idx, eId = +nb.dataset.entry;
+  const entry = NB.entries.find(e => e.id === eId); if (!entry) return;
+  entry.blocks[idx].data[key] = el.value !== undefined ? el.value : el.textContent;
+  save();
+}
+
+function autoResize(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+
+function selectBlock(el) { document.querySelectorAll('.nb-block').forEach(b => b.classList.remove('selected')); el.classList.add('selected'); }
+
+function addBlock(type) {
+  const entry = NB.entries.find(e => e.id === NB.selEntry); if (!entry) return;
+  const defaults = { title:{text:''},subtitle:{text:''},text:{text:''},date_row:{},divider:{},sig:{},image:{},table:{headers:['Column 1','Column 2','Column 3'],rows:[['','',''],['','','']]}, 'header-box':{team:NB.config.team||'TEAM',event:NB.config.season||'Season'} };
+  entry.blocks.push({ type, data: defaults[type]||{} });
+  save();
+  renderEditor(entry);
+  // Scroll to bottom of page
+  const pc = document.querySelector('.page-canvas');
+  if (pc) setTimeout(() => pc.scrollTop = pc.scrollHeight, 50);
+}
+
+function removeBlock(evt, entryId, idx) {
+  evt.stopPropagation();
+  const entry = NB.entries.find(e => e.id === entryId); if (!entry) return;
+  entry.blocks.splice(idx, 1);
+  save(); renderEditor(entry);
+}
+
+function deleteEntry(id) {
+  if (!confirm('Delete this entry? This cannot be undone.')) return;
+  NB.entries = NB.entries.filter(e => e.id !== id);
+  NB.selEntry = null;
+  save(); renderEntryList(); updateCounts();
+  document.getElementById('editorArea').innerHTML = '<div class="empty" style="margin:auto;"><div style="font-size:36px;opacity:0.2;">📝</div><p>Select an entry to edit.</p></div>';
+}
+
+// Drag to reorder blocks
+function dragStart(e, idx) { dragSrc = idx; e.dataTransfer.effectAllowed = 'move'; }
+function dragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; }
+function dropBlock(e, idx) {
+  e.preventDefault(); if (dragSrc === null || dragSrc === idx) return;
+  const entry = NB.entries.find(en => en.id === NB.selEntry); if (!entry) return;
+  const blocks = entry.blocks;
+  const [moved] = blocks.splice(dragSrc, 1);
+  blocks.splice(idx, 0, moved);
+  dragSrc = null; save(); renderEditor(entry);
+}
+
+// Image upload
+function triggerImgUpload(el) { el.querySelector('input[type=file]').click(); }
+function loadImg(e, input) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const nb = input.closest('.nb-block'); if (!nb) return;
+    const idx = +nb.dataset.idx, eId = +nb.dataset.entry;
+    const entry = NB.entries.find(en => en.id === eId); if (!entry) return;
+    entry.blocks[idx].data.src = ev.target.result;
+    save(); renderEditor(entry);
+  };
+  reader.readAsDataURL(file);
+}
+
+// Table helpers
+function updateTableHeader(el, ci) {
+  const nb = el.closest('.nb-block'); if (!nb) return;
+  const idx=+nb.dataset.idx,eId=+nb.dataset.entry;
+  const entry=NB.entries.find(e=>e.id===eId); if(!entry) return;
+  entry.blocks[idx].data.headers = entry.blocks[idx].data.headers || [];
+  entry.blocks[idx].data.headers[ci] = el.textContent;
+  save();
+}
+function updateTableCell(el, ri, ci) {
+  const nb = el.closest('.nb-block'); if (!nb) return;
+  const idx=+nb.dataset.idx,eId=+nb.dataset.entry;
+  const entry=NB.entries.find(e=>e.id===eId); if(!entry) return;
+  entry.blocks[idx].data.rows = entry.blocks[idx].data.rows || [];
+  if (!entry.blocks[idx].data.rows[ri]) entry.blocks[idx].data.rows[ri]=[];
+  entry.blocks[idx].data.rows[ri][ci] = el.textContent;
+  save();
+}
+function addTableRow(el) {
+  const nb = el.closest('.nb-block'); if (!nb) return;
+  const idx=+nb.dataset.idx,eId=+nb.dataset.entry;
+  const entry=NB.entries.find(e=>e.id===eId); if(!entry) return;
+  const cols = (entry.blocks[idx].data.headers||[]).length||3;
+  entry.blocks[idx].data.rows = entry.blocks[idx].data.rows||[];
+  entry.blocks[idx].data.rows.push(Array(cols).fill(''));
+  save(); renderEditor(entry);
+}
+
+// ─── DESIGN LOG ──────────────────────────────────────────────────────────────
+const STAGES = [
+  { key:'identify', label:'1. Identify', ico:'🔍', color:'#6ab3ff', desc:'Define the problem, constraints, and goals' },
+  { key:'brainstorm', label:'2. Brainstorm', ico:'💡', color:'#f5c542', desc:'Generate multiple possible solutions' },
+  { key:'choose', label:'3. Choose', ico:'✅', color:'#22c55e', desc:'Select and justify the best solution' },
+  { key:'build', label:'4. Build', ico:'🔧', color:'#f97316', desc:'Document the construction process' },
+  { key:'test', label:'5. Test', ico:'🧪', color:'#a78bfa', desc:'Evaluate performance and iterate' },
+];
+
+function addDesignCycle() {
+  const name = prompt('Design cycle name (e.g. "Intake Mechanism v2"):');
+  if (!name) return;
+  NB.designCycles.unshift({ id: Date.now(), name, items: { identify:[], brainstorm:[], choose:[], build:[], test:[] } });
+  save(); renderDesignLog(); updateCounts();
+}
+
+function renderDesignLog() {
+  const el = document.getElementById('designLog');
+  if (!NB.designCycles.length) { el.innerHTML = '<div class="empty"><div style="font-size:32px;">⚙️</div><p>No design cycles yet.<br>Click "+ New Cycle" to begin.</p></div>'; return; }
+  el.innerHTML = NB.designCycles.map((cycle, ci) => `
+    <div style="background:var(--s2);border:1px solid var(--b1);border-radius:var(--rl);margin-bottom:14px;overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 15px;border-bottom:1px solid var(--b1);">
+        <div>
+          <div style="font-family:var(--fd);font-weight:900;font-size:18px;">${cycle.name}</div>
+          <div style="font-size:11px;color:var(--t3);">${STAGES.reduce((a,s)=>a+(cycle.items[s.key]||[]).length,0)} entries across all stages</div>
+        </div>
+        <button onclick="removeDesignCycle(${ci})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:13px;padding:4px 8px;">✕</button>
+      </div>
+      ${STAGES.map(stage => `
+        <div class="dl-stage" style="margin:8px;border-color:${stage.color}22;">
+          <div class="dl-stage-hd" onclick="toggleStage(this)" style="border-left:3px solid ${stage.color};">
+            <span class="dl-stage-ico">${stage.ico}</span>
+            <span class="dl-stage-title" style="color:${stage.color};">${stage.label}</span>
+            <span style="font-size:12px;color:var(--t3);">${stage.desc}</span>
+            <span class="dl-stage-count">${(cycle.items[stage.key]||[]).length} items</span>
+            <span style="color:var(--t3);margin-left:4px;">▸</span>
+          </div>
+          <div class="dl-stage-body">
+            ${(cycle.items[stage.key]||[]).map((item,ii)=>`
+              <div class="dl-card">
+                <div class="dl-card-title">${esc(item.title||'')}</div>
+                <div class="dl-card-body">${esc(item.body||'')}</div>
+                ${item.outcome?`<div style="margin-top:4px;font-size:11px;color:#22c55e;">Outcome: ${esc(item.outcome)}</div>`:''}
+                <button class="dl-card-del" onclick="removeDesignItem(${ci},'${stage.key}',${ii})">✕</button>
+              </div>`).join('')}
+            <form onsubmit="addDesignItem(event,${ci},'${stage.key}')">
+              <div class="dl-row">
+                <input class="dl-input" name="title" placeholder="Title (e.g. 'Problem: scoring consistency')" required/>
+                <input class="dl-input" name="outcome" placeholder="Outcome / result (optional)"/>
+              </div>
+              <textarea class="dl-textarea" name="body" placeholder="Details, reasoning, sketches description…" style="margin-bottom:7px;"></textarea>
+              <button type="submit" class="dl-add">+ Add to ${stage.label}</button>
+            </form>
+          </div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function toggleStage(hd) {
+  const body = hd.nextElementSibling;
+  const isOpen = body.classList.toggle('open');
+  hd.querySelector('span:last-child').textContent = isOpen ? '▾' : '▸';
+}
+
+function addDesignItem(e, ci, stage) {
+  e.preventDefault();
+  const f = e.target;
+  const item = { title: f.title.value, body: f.body.value, outcome: f.outcome.value, ts: Date.now() };
+  if (!NB.designCycles[ci].items[stage]) NB.designCycles[ci].items[stage] = [];
+  NB.designCycles[ci].items[stage].push(item);
+  f.reset(); save(); renderDesignLog(); updateCounts();
+}
+
+function removeDesignItem(ci, stage, ii) {
+  NB.designCycles[ci].items[stage].splice(ii, 1);
+  save(); renderDesignLog();
+}
+
+function removeDesignCycle(ci) {
+  if (!confirm('Delete this design cycle?')) return;
+  NB.designCycles.splice(ci, 1);
+  save(); renderDesignLog(); updateCounts();
+}
+
+// ─── MEETINGS ────────────────────────────────────────────────────────────────
+function addMeeting() {
+  NB.meetings.unshift({ id:Date.now(), date:new Date().toISOString().split('T')[0], duration:'', attendees:'', agenda:'', notes:'', decisions:'', actions:[] });
+  save(); renderMeetings(); updateCounts();
+}
+
+function renderMeetings() {
+  const el = document.getElementById('meetingLog');
+  if (!NB.meetings.length) { el.innerHTML = '<div class="empty"><div style="font-size:32px;">📋</div><p>No meetings logged yet.</p></div>'; return; }
+  el.innerHTML = NB.meetings.map((m, mi) => `
+    <div class="mm-entry">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="mm-date">${m.date || '—'}</div>
+        <button onclick="removeMeeting(${mi})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;">✕</button>
+      </div>
+      <div class="mm-fields">
+        <div class="mm-field"><label>Date</label><input class="mm-input" type="date" value="${m.date}" oninput="updateMeeting(${mi},'date',this.value)"/></div>
+        <div class="mm-field"><label>Duration</label><input class="mm-input" value="${esc(m.duration)}" placeholder="e.g. 1h 30m" oninput="updateMeeting(${mi},'duration',this.value)"/></div>
+        <div class="mm-field"><label>Attendees</label><input class="mm-input" value="${esc(m.attendees)}" placeholder="Names" oninput="updateMeeting(${mi},'attendees',this.value)"/></div>
+      </div>
+      <div style="margin-bottom:7px;"><label style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:3px;">Agenda</label><textarea class="mm-textarea" placeholder="What was planned…" oninput="updateMeeting(${mi},'agenda',this.value)">${esc(m.agenda)}</textarea></div>
+      <div style="margin-bottom:7px;"><label style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:3px;">Notes / Discussion</label><textarea class="mm-textarea" placeholder="What was discussed…" oninput="updateMeeting(${mi},'notes',this.value)">${esc(m.notes)}</textarea></div>
+      <div style="margin-bottom:7px;"><label style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:3px;">Decisions Made</label><textarea class="mm-textarea" style="min-height:48px;" placeholder="Key decisions…" oninput="updateMeeting(${mi},'decisions',this.value)">${esc(m.decisions)}</textarea></div>
+      <div>
+        <label style="font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:5px;">Action Items</label>
+        <div class="mm-action-list" id="actions-${mi}">
+          ${(m.actions||[]).map((a,ai)=>`
+            <div class="mm-action">
+              <input type="checkbox" ${a.done?'checked':''} onchange="updateAction(${mi},${ai},'done',this.checked)"/>
+              <input class="mm-action-text" value="${esc(a.text||'')}" placeholder="Action item…" oninput="updateAction(${mi},${ai},'text',this.value)"/>
+              <input class="mm-action-owner" value="${esc(a.owner||'')}" placeholder="Owner" oninput="updateAction(${mi},${ai},'owner',this.value)"/>
+              <button onclick="removeAction(${mi},${ai})" style="background:none;border:none;color:var(--t3);cursor:pointer;font-size:12px;">✕</button>
+            </div>`).join('')}
+        </div>
+        <button onclick="addAction(${mi})" class="dl-add" style="margin-top:5px;">+ Add Action Item</button>
+      </div>
+    </div>`).join('');
+}
+
+function updateMeeting(mi, key, val) { NB.meetings[mi][key] = val; save(); }
+function removeMeeting(mi) { if (!confirm('Delete this meeting?')) return; NB.meetings.splice(mi,1); save(); renderMeetings(); updateCounts(); }
+function addAction(mi) { NB.meetings[mi].actions = NB.meetings[mi].actions||[]; NB.meetings[mi].actions.push({text:'',owner:'',done:false}); save(); renderMeetings(); }
+function removeAction(mi, ai) { NB.meetings[mi].actions.splice(ai,1); save(); renderMeetings(); }
+function updateAction(mi, ai, key, val) { NB.meetings[mi].actions[ai][key] = val; save(); }
+
+// ─── GAME MANUAL ─────────────────────────────────────────────────────────────
+const MANUAL = [
+  { id:'SG1', title:'SG1 — Robots start in their Starting Position', section:'Gameplay', tags:['sg'],
+    text:'At the start of each Match, Robots must be touching the foam field tiles that are on the same side of the Autonomous Line as their colored Goal. All Robot mechanisms that are not in contact with tiles must be in the vertical column defined by the horizontal extent of the robot touching the starting tile.' },
+  { id:'SG2', title:'SG2 — Robots may not contact opposing Alliance\'s Goal', section:'Gameplay', tags:['sg'],
+    text:'Robots may not intentionally or accidentally contact the opposing Alliance\'s Goal during the Driver Controlled Period. Minor or incidental contact may be excused at the Head Referee\'s discretion.' },
+  { id:'SG3', title:'SG3 — Stay in the field', section:'Gameplay', tags:['sg'],
+    text:'Robots may not intentionally exit the field. If a Robot exits the field, it will be Disabled for the remainder of the Match.' },
+  { id:'SG4', title:'SG4 — Use Robots to interact with game elements', section:'Gameplay', tags:['sg'],
+    text:'Robots may not directly contact Blocks that are in an opposing Alliance\'s Goal Zone unless that Robot was the one who introduced that block to that zone.' },
+  { id:'SG5', title:'SG5 — Keep game elements in the field', section:'Gameplay', tags:['sg'],
+    text:'Robots may not intentionally or accidentally cause Blocks to leave the field perimeter during a match.' },
+  { id:'SG6', title:'SG6 — Autonomous Win Point', section:'Gameplay', tags:['sg'],
+    text:'An Alliance earns the Autonomous Win Point by having more Blocks in their Alliance Goal Zone at the end of the Autonomous Period than the opposing Alliance.' },
+  { id:'SG7', title:'SG7 — Elevation at the end of Driver Control', section:'Gameplay', tags:['sg'],
+    text:'At the end of the Driver Controlled Period, Robots may earn points by being Elevated. Elevation is defined as any Robot not in contact with the ground within the Elevation Zone designated by the Elevation Bar.' },
+  { id:'G1', title:'G1 — Treat everyone with respect', section:'General', tags:['gp'],
+    text:'All Teams must behave in a respectful and professional manner. Repeated or flagrant violations of this rule may result in Disqualification, either for a specific Match or for the entire Event.' },
+  { id:'G2', title:'G2 — Use common sense', section:'General', tags:['gp'],
+    text:'The rules of VRC are intended to create a safe and competitive environment. If a situation is not explicitly covered by the rules, Teams should use common sense and the spirit of the rules to make decisions.' },
+  { id:'G3', title:'G3 — Drivers only interact with Robots during Timeouts', section:'General', tags:['gp'],
+    text:'Drive Team Members may only interact with their Robot during a Timeout or between Matches. Violations may result in a Warning, Disqualification, or removal from the event.' },
+  { id:'R1', title:'R1 — Robot fits in sizing box', section:'Robot Rules', tags:['sp'],
+    text:'At the start of a Match, each Robot must be smaller than 18" x 18" x 18" (457mm x 457mm x 457mm). An adjustable Sizing Tool will be used to verify Robot dimensions before each Match.' },
+  { id:'R2', title:'R2 — Robot weight limit', section:'Robot Rules', tags:['sp'],
+    text:'Each Robot must weigh no more than 125 lbs (56.7 kg) at the start of a Match.' },
+  { id:'R3', title:'R3 — VEX legal components only', section:'Robot Rules', tags:['sp'],
+    text:'Robots may only use components from the official VEX Robotics product line, or components that are explicitly permitted in these rules. All electrical components must be VEX products unless otherwise specified.' },
+  { id:'R4', title:'R4 — Battery requirements', section:'Robot Rules', tags:['sp'],
+    text:'Teams must use a VEX Robot Battery 2.0 as the primary power source. No other batteries may be used to power any electronic components.' },
+  { id:'SC1', title:'SC1 — Scoring overview', section:'Scoring', tags:['sc'],
+    text:'Scored Blocks in your Alliance Goal Zone are worth 5 points each. Elevated robots are worth 30 points each for High Elevation and 15 points each for Low Elevation. The Autonomous Bonus is worth 8 points.' },
+  { id:'SC2', title:'SC2 — Autonomous Bonus', section:'Scoring', tags:['sc'],
+    text:'The Alliance with more Blocks Scored in their Alliance Goal Zone at the end of the Autonomous Period earns the Autonomous Win Point and an 8-point bonus toward their final score. A tied Autonomous Period results in neither Alliance earning the bonus.' },
+  { id:'SC3', title:'SC3 — Elevation Scoring', section:'Scoring', tags:['sc'],
+    text:'Robots Elevated on the High Elevation Bar at the end of the Match earn 30 points each. Robots Elevated on the Low Elevation Bar earn 15 points each. Robots must be Elevated at the end of the Match buzzer to receive points.' },
+  { id:'T1', title:'T1 — Match timing', section:'Tournament', tags:['gp'],
+    text:'Each Match consists of a 15-second Autonomous Period followed by a 1-minute 45-second Driver Controlled Period, for a total of 2 minutes. Teams should be at the field 30 seconds before their Match is scheduled to begin.' },
+  { id:'T2', title:'T2 — Alliance selection', section:'Tournament', tags:['gp'],
+    text:'For elimination rounds, the top 16 (or fewer) ranked Teams participate in Alliance Selection. The #1 seed selects first, then #2, down to the last qualifier, then back up in reverse order.' },
+  { id:'AWP1', title:'AWP — Autonomous Win Point conditions', section:'Scoring', tags:['sc'],
+    text:'In addition to winning the Autonomous Period, a Team may earn an Autonomous Win Point by also having at least one Robot touching their Elevation Bar or within the Elevation Zone at the end of the Autonomous Period.' },
+];
+
+function renderManual(filter) {
+  const q = filter.toLowerCase();
+  const filtered = q ? MANUAL.filter(r => r.id.toLowerCase().includes(q) || r.title.toLowerCase().includes(q) || r.text.toLowerCase().includes(q)) : MANUAL;
+
+  // Nav
+  const sections = [...new Set(MANUAL.map(r => r.section))];
+  document.getElementById('gmNav').innerHTML = sections.map(s => `
+    <div class="gm-section">
+      <div class="gm-section-hd" onclick="scrollToSection('${s}')">
+        <span class="gm-section-title">${s}</span>
+        <span style="font-size:11px;color:var(--t3);">${MANUAL.filter(r=>r.section===s).length}</span>
+      </div>
+    </div>`).join('');
+
+  // Content
+  const bySec = {};
+  filtered.forEach(r => { if (!bySec[r.section]) bySec[r.section]=[]; bySec[r.section].push(r); });
+  document.getElementById('gmContent').innerHTML = Object.entries(bySec).map(([sec, rules]) => `
+    <div id="gmsec-${sec.replace(/\s/g,'-')}" style="margin-bottom:20px;">
+      <div style="font-family:var(--fd);font-weight:900;font-size:18px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--b1);">${sec}</div>
+      ${rules.map(r => `
+        <div class="gm-rule">
+          <div class="gm-rule-id">${r.id}</div>
+          <div style="font-weight:600;font-size:13px;margin-bottom:3px;">${r.title.replace(r.id+' — ','')}</div>
+          <div class="gm-rule-text">${r.text}</div>
+          ${r.tags.map(t=>`<span class="gm-rule-tag tag-${t}">${{sg:'Safety/Gameplay',gp:'General',sp:'Robot Specs',sc:'Scoring'}[t]||t}</span>`).join('')}
+        </div>`).join('')}
+    </div>`).join('') || '<div class="empty"><p>No rules match your search.</p></div>';
+}
+
+function filterManual(q) { renderManual(q); }
+function scrollToSection(s) {
+  const el = document.getElementById('gmsec-'+s.replace(/\s/g,'-'));
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ─── EXPORT ──────────────────────────────────────────────────────────────────
+function exportPDF() {
+  const entry = NB.entries.find(e => e.id === NB.selEntry);
+  if (!entry) { alert('Please select an entry to export first, or export all from the Entries section.'); return; }
+  window.print();
+}
+
+function exportMarkdown() {
+  let md = `# ${NB.config.team || 'VEX Team'} Engineering Notebook\n`;
+  md += `**Season:** ${NB.config.season}\n**Program:** ${NB.config.program}\n\n---\n\n`;
+  NB.entries.forEach(e => {
+    md += `## ${e.title}\n*${e.date} · ${e.type} · ${e.author}*\n\n`;
+    (e.blocks||[]).forEach(b => {
+      if (b.type==='text') md += b.data.text+'\n\n';
+      else if (b.type==='title') md += `# ${b.data.text}\n\n`;
+      else if (b.type==='subtitle') md += `## ${b.data.text}\n\n`;
+      else if (b.type==='divider') md += '---\n\n';
+    });
+  });
+  NB.meetings.forEach(m => {
+    md += `## Meeting — ${m.date}\n*Duration: ${m.duration} · Attendees: ${m.attendees}*\n\n`;
+    if (m.agenda) md += `**Agenda:**\n${m.agenda}\n\n`;
+    if (m.notes) md += `**Notes:**\n${m.notes}\n\n`;
+    if (m.decisions) md += `**Decisions:**\n${m.decisions}\n\n`;
+    if (m.actions?.length) {
+      md += `**Action Items:**\n`;
+      m.actions.forEach(a => md += `- [${a.done?'x':' '}] ${a.text} (${a.owner})\n`);
+      md += '\n';
+    }
+  });
+  download('notebook.md', md, 'text/markdown');
+}
+
+function exportJSON() {
+  const data = { entries:NB.entries, designCycles:NB.designCycles, meetings:NB.meetings, config:NB.config, exported: new Date().toISOString() };
+  download('vadt_notebook_backup.json', JSON.stringify(data, null, 2), 'application/json');
+}
+
+function importJSON() { document.getElementById('importInput').click(); }
+function doImportJSON(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (d.entries) NB.entries = d.entries;
+      if (d.designCycles) NB.designCycles = d.designCycles;
+      if (d.meetings) NB.meetings = d.meetings;
+      if (d.config) Object.assign(NB.config, d.config);
+      save(); renderEntryList(); updateCounts();
+      alert('Notebook restored successfully!');
+    } catch { alert('Invalid backup file.'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function exportGoogleDocs() {
+  alert('To export to Google Docs:\n\n1. Use "Export as Markdown" to download the file\n2. Go to docs.google.com\n3. File → Open → Upload your .md file\n4. Google Docs will convert it automatically.\n\nDirect Google Docs API sync requires an OAuth token — coming soon!');
+}
+
+function download(filename, content, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = filename;
+  a.click();
+}
+
+// ─── SETTINGS / CONFIG ───────────────────────────────────────────────────────
+function saveConfig() {
+  NB.config.team = document.getElementById('cfgTeam')?.value || '';
+  NB.config.name = document.getElementById('cfgName')?.value || '';
+  NB.config.season = document.getElementById('cfgSeason')?.value || '';
+  NB.config.program = document.getElementById('cfgProgram')?.value || 'VRC';
+  document.getElementById('teamLabel').textContent = [NB.config.team, NB.config.name].filter(Boolean).join(' — ') || 'Engineering Notebook';
+  save();
+}
+
+function loadConfig() {
+  const t = document.getElementById('cfgTeam'); if (t) t.value = NB.config.team;
+  const n = document.getElementById('cfgName'); if (n) n.value = NB.config.name;
+  const s = document.getElementById('cfgSeason'); if (s) s.value = NB.config.season;
+  const p = document.getElementById('cfgProgram'); if (p) p.value = NB.config.program;
+  document.getElementById('teamLabel').textContent = [NB.config.team, NB.config.name].filter(Boolean).join(' — ') || 'Engineering Notebook';
+}
+
+function updateCounts() {
+  document.getElementById('entryCount').textContent = NB.entries.length;
+  document.getElementById('designCount').textContent = NB.designCycles.length;
+  document.getElementById('meetingCount').textContent = NB.meetings.length;
+}
+
+// ─── PRINT STYLES ────────────────────────────────────────────────────────────
+const printStyle = document.createElement('style');
+printStyle.textContent = `
+@media print {
+  body { background: white !important; overflow: auto !important; }
+  .topbar, .sidebar, .editor-toolbar, .block-handle, .block-del { display: none !important; }
+  .layout { height: auto !important; }
+  .main, .tab-content, #sec-entries { display: block !important; overflow: visible !important; height: auto !important; }
+  #editorArea { overflow: visible !important; height: auto !important; }
+  .page-canvas { padding: 0 !important; overflow: visible !important; background: white !important; }
+  .nb-page { box-shadow: none !important; margin: 0 !important; min-height: unset !important; }
+}`;
+document.head.appendChild(printStyle);
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+load();
+renderEntryList();
+updateCounts();
+loadConfig();
+// Click outside modal closes it
+document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if(e.target===m) m.classList.remove('open'); }));
+</script>
+</body>
+</html>
