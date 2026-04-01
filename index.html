@@ -472,12 +472,14 @@ input[type=range]{width:100%;accent-color:var(--gold);}
     </div>
     <div class="cvo-body">
       <div id="cvStepCapture">
-        <div class="cvo-instr">📹 Pause the video at a clear view of the field, then click <strong>Capture Frame</strong>. You can also upload a screenshot if the video is cross-origin.</div>
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+        <div class="cvo-instr">📹 Load a local video file, pause it at the desired frame, then click <strong>Capture Frame</strong>. Or upload a screenshot directly.</div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
+          <label class="btn-o" style="cursor:pointer;">🎬 Load Video File<input type="file" accept="video/*" style="display:none;" onchange="loadCVVideo(event)"/></label>
           <button class="btn-g" onclick="captureFrame()">📸 Capture Frame</button>
           <span style="font-size:12px;color:var(--t3);">or</span>
           <label class="btn-o" style="cursor:pointer;">Upload Screenshot<input type="file" accept="image/*" style="display:none;" onchange="loadScreenshot(event)"/></label>
         </div>
+        <video id="cvVideoPreview" style="display:none;max-width:100%;max-height:220px;border-radius:6px;background:#000;margin-bottom:6px;" controls></video>
         <div id="cvNoVideoMsg" style="font-size:12px;color:var(--gold);display:none;margin-top:6px;"></div>
       </div>
       <div id="cvStepDraw" style="display:none;">
