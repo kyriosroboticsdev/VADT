@@ -287,8 +287,7 @@ def analyze(video_path, red_teams, blue_teams, debug=False, output_path=None):
     duration_s   = total_frames / fps
     frame_step   = max(1, int(fps * (SAMPLE_INTERVAL_MS / 1000.0)))
 
-    print(f"
-Video: {os.path.basename(video_path)}")
+    print(f"\nVideo: {os.path.basename(video_path)}")
     print(f"  {total_frames} frames @ {fps:.1f}fps = {duration_s:.1f}s")
     print(f"  Sampling every {frame_step} frames (~{SAMPLE_INTERVAL_MS}ms)")
     print(f"  Red:  {' / '.join(red_teams)}")
@@ -306,18 +305,22 @@ Video: {os.path.basename(video_path)}")
     auton_winner    = 'tie'
     auton_checked   = False
 
+    # Rolling window for temporal smoothing (reduces single-frame noise)
+    SMOOTH_WINDOW = 3
+    red_block_hist  = []
+    blue_block_hist = []
+
     frame_num = 0
     processed = 0
     start_time = time.time()
 
-    while True:
+    while frame_num < total_frames:
+        # Seek directly to the target frame instead of reading every frame.
+        # This is faster and avoids codec stalls that cause the video to freeze.
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_num)
         ret, frame = cap.read()
         if not ret:
             break
-
-        if frame_num % frame_step != 0:
-            frame_num += 1
-            continue
 
         timestamp_s = frame_num / fps
         period = 'auton' if timestamp_s < AUTON_DURATION_S else 'driver'
@@ -341,8 +344,15 @@ Video: {os.path.basename(video_path)}")
         for i, bot in enumerate(blue_bots[:2]):
             blue_positions[i].append((bot[0], bot[1]))
 
-        # ── Count blocks in goal zones ──
-        red_blocks, blue_blocks = estimate_goal_blocks(hsv, fw, fh)
+        # ── Count blocks in goal zones (smoothed over last N frames) ──
+        raw_red, raw_blue = estimate_goal_blocks(hsv, fw, fh)
+        red_block_hist.append(raw_red)
+        blue_block_hist.append(raw_blue)
+        if len(red_block_hist)  > SMOOTH_WINDOW: red_block_hist.pop(0)
+        if len(blue_block_hist) > SMOOTH_WINDOW: blue_block_hist.pop(0)
+        # Use median of the window to suppress single-frame noise spikes
+        red_blocks  = int(np.median(red_block_hist))
+        blue_blocks = int(np.median(blue_block_hist))
 
         # ── Attribute new scores to robots ──
         if red_blocks > prev_red_blocks:
@@ -375,18 +385,23 @@ Video: {os.path.basename(video_path)}")
         if debug:
             vis = field_frame.copy()
             for (cx, cy, w, h) in red_bots:
-                cv2.rectangle(vis, (cx-w//2, cy-h//2), (cx+w//2, cy+h//2), (0,0,220), 2)
-                cv2.putText(vis, 'R', (cx-5, cy+5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,0,255), 2)
+                cv2.rectangle(vis, (cx-w//2, cy-h//2), (cx+w//2, cy+h//2), (0, 0, 220), 3)
+                cv2.putText(vis, 'R', (cx-8, cy+6), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
             for (cx, cy, w, h) in blue_bots:
-                cv2.rectangle(vis, (cx-w//2, cy-h//2), (cx+w//2, cy+h//2), (220,0,0), 2)
-                cv2.putText(vis, 'B', (cx-5, cy+5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255,0,0), 2)
-            overlay = f"t={timestamp_s:.1f}s  RED:{red_score}  BLUE:{blue_score}  [{period.upper()}]"
-            cv2.putText(vis, overlay, (10, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2)
-            cv2.putText(vis, overlay, (10, 28), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,0), 1)
+                cv2.rectangle(vis, (cx-w//2, cy-h//2), (cx+w//2, cy+h//2), (220, 0, 0), 3)
+                cv2.putText(vis, 'B', (cx-8, cy+6), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 0, 0), 2)
+            # Prominent score banner at the top
+            banner = f"t={timestamp_s:.1f}s  |  RED: {red_score}  |  BLUE: {blue_score}  |  {period.upper()}"
+            (bw, bh), _ = cv2.getTextSize(banner, cv2.FONT_HERSHEY_SIMPLEX, 0.85, 2)
+            cv2.rectangle(vis, (0, 0), (bw + 16, bh + 16), (0, 0, 0), -1)
+            cv2.putText(vis, banner, (8, bh + 6), cv2.FONT_HERSHEY_SIMPLEX, 0.85, (0, 255, 255), 2)
+            # Raw vs smoothed block counts (bottom-left corner)
+            detail = f"raw r={raw_red} b={raw_blue}  smooth r={red_blocks} b={blue_blocks}"
+            cv2.rectangle(vis, (0, fh - 28), (len(detail) * 9 + 10, fh), (0, 0, 0), -1)
+            cv2.putText(vis, detail, (6, fh - 8), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (180, 255, 180), 1)
             cv2.imshow('VADT CV Scorer — press Q to stop', vis)
             if cv2.waitKey(1) & 0xFF == ord('q'):
-                print("
-Stopped by user.")
+                print("\nStopped by user.")
                 break
 
         processed += 1
@@ -396,7 +411,7 @@ Stopped by user.")
             eta = (elapsed / max(processed, 1)) * ((total_frames - frame_num) / frame_step)
             print(f"  {pct:.0f}%  t={timestamp_s:.0f}s  RED:{red_score}  BLUE:{blue_score}  ETA:{eta:.0f}s")
 
-        frame_num += 1
+        frame_num += frame_step
 
     cap.release()
     if debug:
@@ -461,8 +476,7 @@ Stopped by user.")
 def export_json(data, path):
     with open(path, 'w') as f:
         json.dump(data, f, indent=2)
-    print(f"
-Exported: {path}")
+    print(f"\nExported: {path}")
     print(f"  Final score — Red: {data['final_red_score']}  Blue: {data['final_blue_score']}")
     print(f"  Winner: {data['winner'].upper()}  |  Auton: {data['auton_winner'].upper()}")
     print(f"  Timeline points: {len(data['timeline'])}")
@@ -483,37 +497,68 @@ def run_calibration(video_path):
     """
     Interactive HSV color picker. Click on robots/blocks in the frame
     to see their HSV values and tune COLOR_RANGES for your stream.
-    Press S to save a sample frame, Q to quit.
+    Left/Right arrow keys (or A/D) jump 5 seconds. Press S to save frame, Q to quit.
     """
     cap = cv2.VideoCapture(video_path)
-    ret, frame = cap.read()
-    cap.release()
-    if not ret:
-        print("Could not read frame for calibration")
+    if not cap.isOpened():
+        print("Could not open video for calibration")
         return
 
-    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    display = frame.copy()
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
+    pos = 0
+
+    def load_frame(p):
+        cap.set(cv2.CAP_PROP_POS_FRAMES, p)
+        ok, f = cap.read()
+        return (f, cv2.cvtColor(f, cv2.COLOR_BGR2HSV)) if ok else (None, None)
+
+    frame, hsv = load_frame(0)
+    if frame is None:
+        print("Could not read frame for calibration")
+        cap.release()
+        return
+
+    win = 'VADT Calibration — arrows/AD to navigate, S to save, Q to quit'
 
     def on_mouse(event, x, y, flags, param):
-        if event == cv2.EVENT_LBUTTONDOWN:
+        if event == cv2.EVENT_LBUTTONDOWN and hsv is not None:
             h, s, v = hsv[y, x]
             b, g, r = frame[y, x]
-            print(f"  Pixel ({x},{y}): HSV=({h},{s},{v})  BGR=({b},{g},{r})")
+            t = pos / fps
+            print(f"  t={t:.1f}s  Pixel ({x},{y}): HSV=({h},{s},{v})  BGR=({b},{g},{r})")
 
-    cv2.namedWindow('VADT Calibration — click to sample HSV, Q to quit')
-    cv2.setMouseCallback('VADT Calibration — click to sample HSV, Q to quit', on_mouse)
-    print("Calibration mode: click on robots and blocks to see HSV values")
-    print("Use these values to update COLOR_RANGES at the top of this file")
+    cv2.namedWindow(win)
+    cv2.setMouseCallback(win, on_mouse)
+    print("Calibration mode: click pixels to print HSV values.")
+    print("  Arrow keys / A-D: jump ±5 seconds    S: save frame    Q: quit")
+    print(f"  Video: {total_frames} frames @ {fps:.1f}fps")
 
+    jump = int(fps * 5)
     while True:
-        cv2.imshow('VADT Calibration — click to sample HSV, Q to quit', display)
+        if frame is not None:
+            display = frame.copy()
+            t = pos / fps
+            label = f"t={t:.1f}s  frame {pos}/{total_frames}  (arrows to navigate)"
+            cv2.rectangle(display, (0, 0), (len(label) * 9 + 10, 30), (0, 0, 0), -1)
+            cv2.putText(display, label, (6, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 1)
+            cv2.imshow(win, display)
+
         key = cv2.waitKey(20) & 0xFF
         if key == ord('q'):
             break
-        if key == ord('s'):
-            cv2.imwrite('vadt_calibration_frame.png', frame)
-            print("Saved: vadt_calibration_frame.png")
+        if key == ord('s') and frame is not None:
+            out = f'vadt_calibration_{pos}.png'
+            cv2.imwrite(out, frame)
+            print(f"Saved: {out}")
+        if key in (83, ord('d')):   # right arrow or D — forward 5 s
+            pos = min(pos + jump, total_frames - 1)
+            frame, hsv = load_frame(pos)
+        if key in (81, ord('a')):   # left arrow or A — back 5 s
+            pos = max(pos - jump, 0)
+            frame, hsv = load_frame(pos)
+
+    cap.release()
     cv2.destroyAllWindows()
 
 # ─── CLI ─────────────────────────────────────────────────────────────────────
